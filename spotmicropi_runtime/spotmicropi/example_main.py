@@ -15,3 +15,12 @@ class SpotMicroPi:
 
     def bark_in_english(self):
         return self._english_bark
+
+
+if __name__ == '__main__':
+    spotmicropi = SpotMicroPi()
+
+    print('Ladrar: ' + spotmicropi.bark_in_spanish())
+    print('樹皮: ' + spotmicropi.bark_in_japanese())
+    print('Bellen: ' + spotmicropi.bark_in_german())
+    print('To bark: ' + spotmicropi.bark_in_english())

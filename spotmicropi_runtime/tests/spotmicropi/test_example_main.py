@@ -1,6 +1,6 @@
 import unittest
 
-from spotmicropi.main import SpotMicroPi
+from spotmicropi.example_main import SpotMicroPi
 
 
 class SpotMicroPiTestCase(unittest.TestCase):

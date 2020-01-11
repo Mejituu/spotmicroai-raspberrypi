@@ -51,15 +51,15 @@ Run all tests in the project
 
 Specific tests in a file
 
-    python3 -m unittest tests/spotmicropi/test_main.py
+    python3 -m unittest tests/spotmicropi/test_example_main.py
 
 Specific tests in a test class
 
-    python3 -m unittest tests.spotmicropi.test_main.SpotMicroPiTestCase
+    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroPiTestCase
 
 Specific unit test
 
-    python3 -m unittest tests.spotmicropi.test_main.SpotMicroPiTestCase.test_barks_in_spanish
+    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroPiTestCase.test_barks_in_spanish
 
 #### Run the project tests from PyCharm
 
@@ -70,10 +70,21 @@ Specific unit test
 * Right click on the tests folders again
 * Run 'Unittests in tests' (**will succeed**)
 
-Run the project
+#### Run the example project to know you are all set
+
+    python3 raspberry-pi/spotmicropi_runtime/example_main.py
+
+Output
+
+    Ladrar: guau-guau
+    樹皮: wan-wan
+    Bellen: wuff-wuff
+    To bark: woof-woof
+
+#### Run the project
 
     python3 raspberry-pi/spotmicropi_runtime/main.py
-
+    
 To stop the project use Control+C combination, since is meant to be a service/daemon it will hold the console till you press Control+C to terminate it.
 
 ### Modifying the project
