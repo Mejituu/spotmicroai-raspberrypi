@@ -1,4 +1,3 @@
-
 from spotmicropi.output.screen_lcd16x2_i2c.screen_lcd16x2_i2c import ScreenLCD16x2I2c
 
 if __name__ == '__main__':
