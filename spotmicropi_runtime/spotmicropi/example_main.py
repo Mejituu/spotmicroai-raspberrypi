@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class SpotMicroPi:
     _spanish_bark = "guau-guau"
     _japanese_bark = "wan-wan"

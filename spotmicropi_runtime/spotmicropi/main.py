@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import spotmicropi.utilities.log as logger
 
 log = logger.get_default_logger()
