@@ -1,6 +1,12 @@
+import spotmicropi.utilities.log as logger
+
+log = logger.get_logger('Test_ScreenLCD16x2I2c')
+
+
 class ScreenLCD16x2I2c:
 
     def __init__(self, i2c_address=40):
+        log.info('Loading ScreenLCD16x2I2c')
         _i2c_address = i2c_address
         print(int(i2c_address))
 
