@@ -1,3 +1,5 @@
+######### Python
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +129,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+######### Apple OSX
+.DS_Store
+
+######### Windows
+Thumbs.db
+
+######### IntelliJ
+.idea/
+*.ipr
+*.iws
+*.iml
+
+######### eclipse
+.settings/
+.classpath
+.project

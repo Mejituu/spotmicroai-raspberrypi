@@ -18,3 +18,75 @@ This source code project has been created using the instructions here: https://g
 
 When you try to clone this project and build, in Windows Mac or Linux in x86 architecture, you may encounter than some python dependencies are not available to be build, like the RPi.GPIO. To solve this issue I have purchased a second Raspberry Pi 4 4GB and use the SD card to be the boot partition and an USB3 external SSD drive for the OS, with an external monitor, keyboard and mouse. Developing in that environment with JetBrains PyCharm is very ok.
 
+### Development
+
+Clone this repository using:
+
+    git clone https://gitlab.com/custom_robots/spotmicro/raspberry-pi
+    cd raspberry-pi/spotmicropi_runtime
+
+Prepare your python environment and activate it
+    
+    python3 -m venv venv --clear
+    source venv/bin/activate
+    
+Updating pip this way works always and fix deprecated versions problems
+ 
+    curl https://bootstrap.pypa.io/get-pip.py | python
+
+    pip install --upgrade pip
+    pip install --upgrade setuptools
+    
+Install all requirements to build the project (most likely not work in x86 platform)
+
+    pip install -r requirements.txt
+
+### Build and run
+
+#### Run the project tests from the console
+
+Run all tests in the project
+
+    python3 -m unittest discover
+
+Specific tests in a file
+
+    python3 -m unittest tests/spotmicropi/test_main.py
+
+Specific tests in a test class
+
+    python3 -m unittest tests.spotmicropi.test_main.SpotMicroPiTestCase
+
+Specific unit test
+
+    python3 -m unittest tests.spotmicropi.test_main.SpotMicroPiTestCase.test_barks_in_spanish
+
+#### Run the project tests from PyCharm
+
+* Open the project in Pycharm
+* Right click on the tests folders
+* Run 'Unittests in tests' (**will fail**)
+* Edit run configurations -> Working directory -> Remove the ending "/tests"
+* Right click on the tests folders again
+* Run 'Unittests in tests' (**will succeed**)
+
+Run the project
+
+    python3 raspberry-pi/spotmicropi_runtime/main.py
+
+To stop the project use Control+C combination, since is meant to be a service/daemon it will hold the console till you press Control+C to terminate it.
+
+### Modifying the project
+
+How to add a dependency to your project
+
+    source venv/bin/activate
+    pip install --upgrade pip
+    
+    pip install <dependency_name>
+    
+    pip show <dependency_name>
+    pip list
+    
+    pip freeze > requirements.txt
+
