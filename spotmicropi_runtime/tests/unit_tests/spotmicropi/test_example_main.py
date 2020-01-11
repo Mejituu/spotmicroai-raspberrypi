@@ -1,9 +1,11 @@
 import unittest
+import spotmicropi.utilities.log as logging
 
 from spotmicropi.example_main import SpotMicroPi
 
 
 class SpotMicroPiTestCase(unittest.TestCase):
+    log = logging.get_logger('UnitTest_SpotMicroPiTestCase')
 
     def test_barks_in_spanish(self):
         # given

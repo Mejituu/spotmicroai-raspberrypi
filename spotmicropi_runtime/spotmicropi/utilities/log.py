@@ -1,12 +1,18 @@
 import logging
 
+SPOTMICROPI = 'SpotMicroPi'
+
+
+def get_default_logger():
+    return get_logger(SPOTMICROPI)
+
 
 def get_logger(logger_name):
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
 
     # create file handler which logs even debug messages
-    logging_file_handler = logging.FileHandler('logs/'+logger_name + '.log')
+    logging_file_handler = logging.FileHandler('logs/' + logger_name + '.log')
     logging_file_handler.setLevel(logging.DEBUG)
 
     # create console handler with a higher log level

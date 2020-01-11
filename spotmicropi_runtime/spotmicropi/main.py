@@ -1,6 +1,6 @@
 import spotmicropi.utilities.log as logger
 
-log = logger.get_logger('SpotMicroPi')
+log = logger.get_default_logger()
 
 
 class SpotMicroPi:

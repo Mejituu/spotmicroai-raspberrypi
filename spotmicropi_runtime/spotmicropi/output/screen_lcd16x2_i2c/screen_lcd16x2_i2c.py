@@ -1,6 +1,6 @@
 import spotmicropi.utilities.log as logger
 
-log = logger.get_logger('Test_ScreenLCD16x2I2c')
+log = logger.get_default_logger()
 
 
 class ScreenLCD16x2I2c:
