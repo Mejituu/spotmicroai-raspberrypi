@@ -17,4 +17,5 @@ class RemoteController:
 
         while True:
             self._events_queue.put('key press A')
+            self._events_queue.put('screen jump!')
             time.sleep(1)
