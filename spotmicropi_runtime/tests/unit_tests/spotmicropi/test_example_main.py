@@ -5,9 +5,10 @@ import spotmicropi.utilities.log as logging
 
 from spotmicropi.example_main import SpotMicroPi
 
+log = logging.setup_logger('UnitTest_SpotMicroPiTestCase')
+
 
 class SpotMicroPiTestCase(unittest.TestCase):
-    log = logging.get_logger('UnitTest_SpotMicroPiTestCase')
 
     def test_barks_in_spanish(self):
         # given

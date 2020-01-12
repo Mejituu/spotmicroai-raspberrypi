@@ -9,6 +9,11 @@ def get_default_logger():
 
 def get_logger(logger_name):
     logger = logging.getLogger(logger_name)
+    return logger
+
+
+def setup_logger(logger_name=SPOTMICROPI):
+    logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
 
     # create file handler which logs even debug messages
