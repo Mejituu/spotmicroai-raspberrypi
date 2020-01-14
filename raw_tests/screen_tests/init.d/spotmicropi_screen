@@ -1,0 +1,38 @@
+#! /bin/sh
+# /etc/init.d/spotmicropi_screen
+
+### BEGIN INIT INFO
+# Provides:          spotmicro_screen
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start a program at boot
+# Description:       SpotMicroPi rear screen.
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting spotmicropi_screen"
+    # run application you want to start
+    while true; do
+        python3 /opt/screen_test/write_to_display.py $(vcgencmd measure_temp)
+        sleep 5
+    done
+    ;;
+  stop)
+    echo "Stopping spotmicropi_screen"
+    # kill application you want to stop
+    pkill -f write_to_display.py
+    python3 /opt/screen_test/write_to_display.py "I'll be back..."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/noip {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
