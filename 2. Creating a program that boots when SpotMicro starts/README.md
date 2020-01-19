@@ -188,6 +188,51 @@ Jan 19 20:35:18 spotmicro systemd[1]: spotmicro.service: Failed with result 'sta
 ![spotmicro-service-starting-on-boot](spotmicro-service-starting-on-boot.JPG)
 
 
-# Making the program a real Linux Deamon
+# Making the program a real linux service
+
+Raspbian uses systemd, which makes the old "daemonization" used by init.d obsolete.
 
 
+```
+cd /home/pi/spotmicro
+source venv/bin/activate
+
+nano spotmicro.py
+```
+
+This is the contents of your first service!
+Every 10 seconds we will write in the daemons log a text, so we can validate the service is alive.
+Also we can try to stop and start it while looking at the logs.
+
+```
+#!/usr/bin/python3 -u
+
+import time                                                  
+
+
+while True:
+    print('SpotMicro is alive!')
+    time.sleep(10)   
+```
+
+Save the file and reboot
+
+```
+sudo reboot
+```
+
+Open a second terminal and run the following command so you can see the logs appearing and stopping when we stop the daemon.
+You can press Control+C to cancel the watch of the logs
+
+```
+tail -f /var/log/daemon.log
+```
+
+In the first terminal you can run the following scripts to see how the daemon stops and start successfully
+
+```
+sudo systemctl stop spotmicro.service
+sudo systemctl start spotmicro.service
+```
+
+![spotmicro-service-stop-start](spotmicro-service-stop-start.JPG)
