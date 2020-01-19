@@ -20,3 +20,5 @@ In here you can find all the project repositories: **https://gitlab.com/custom_r
 
 # Raspberry Pi code repository of SpotMicro project
 
+Each of the folders in this repo contain a step by step process to have you up and running with your SpotMicro using RaspberryPi as fast as possible.
+
