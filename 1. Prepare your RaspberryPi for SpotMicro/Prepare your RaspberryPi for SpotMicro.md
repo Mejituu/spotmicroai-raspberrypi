@@ -40,7 +40,11 @@ Nothing else, nothing more. All set then, lets go!
 
 Raspbian is the official operating system for RaspberryPi. To simplify its installation and provide the user more options RaspberryPi fundation created NOOBS, which let you install other operating systems in the platform.
 
-We are going to use PINN, the reason is that brings more options to the table if needed. PINN is a version of the NOOBS Operating System Installer for Raspberry Pi.
+NOOBS is a small operating system that runs before your operating system (In this case before Raspbian) to let you install it in a very simple and convinient maner. But NOOBS has a problem, when you enable VNC for it, disables the external monitor.
+
+We are going to use PINN, the reason is that brings more options to the table, like a convinient VNC implementation and advanced options if needed. PINN is a version of the NOOBS Operating System Installer for Raspberry Pi.
+
+To summarize, we are going to use PINN to install RaspbianLite in our SD card without keyboard/mouse/screen attached to it.
 
 You can read all about it here: https://github.com/procount/pinn
 
@@ -83,3 +87,88 @@ The SD card must look like similar to the following image:
 ![unzip-pinns-in-sd-card](unzip-pinns-in-sd-card.JPG)
 
 
+## Step 4
+
+Is time to configure the PINN operating system to boot with VNC and SSH enabled, so we can access it using our network.
+
+Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not even during the installation. But we can have them of course.
+
+* Open the SD card
+* Open the file recovery.cmdline with a proper text editor like Sublime Text or nano
+* Add the following 2 words to the line present in the file:
+** vncshare
+** ssh
+
+It will result in something like:
+
+    runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 vncshare ssh
+
+* Save the file
+
+## Step 5
+
+Lets connect to the network!
+
+If you don't have a WIFI network just plug the cable in the RaspberryPi and skip this step, but mind SpotMicroPi will need this cable to be "programmed" every time.
+
+In order to enable the WIFI:
+
+* Open the SD card
+* Create a text file called wpa_supplicant.conf
+* Write in the file the following lines
+
+    country=us
+    update_config=1
+    ctrl_interface=/var/run/wpa_supplicant
+
+    network={
+     scan_ssid=1
+     ssid="YOUR_WIFI_SSID_NAME_HERE"
+     psk="SUPER_SECRET_PASSWORD"
+    }
+
+* Save the file
+
+## Step 6
+
+Lets boot the RaspberryPi
+
+* Insert the SD card in the RaspberryPi
+* Connect the power supply to the RaspberryPi
+* Boot it
+
+# Network access
+
+Connecto to your Router and identify which IP has been assigned to your RaspberryPi.
+
+For convenience you must add a IP Address reservation in your DCHP Server, so your RasberryPi IP will be always the same.
+
+Every router is different, I'm affraid I cant help you more here.
+
+The IP will look like something like 192.168.1.XX for an standard home router installation.
+
+![router-dhcp-server-configuration](router-dhcp-server-configuration.JPG)
+
+Once you know the IP ping to it to be sure you can reach it.
+
+* Connect to your router (most likely 192.168.1.1)
+* Identify the RaspberryPi in your list of WIFI clients
+* From a console try to ping the ip
+    
+    ping 192.168.1.XX
+
+* In your router homepage make the IP reservation to have it permanently assigned
+* Save configuration
+
+# Connect to the RaspberryPI via VNC
+
+In order to see the PINN "virtual screen" that VNC provides, you need to install the VNC Viewer. VNC Viewer is a free to use software.
+
+![router-dhcp-server-configuration](vnc-viewer-download.JPG)
+
+* Download VNC Viewer from https://www.realvnc.com/en/connect/download/viewer/
+* Install VNC Viewer
+
+PINN installing RasbianLite
+
+Select the language
