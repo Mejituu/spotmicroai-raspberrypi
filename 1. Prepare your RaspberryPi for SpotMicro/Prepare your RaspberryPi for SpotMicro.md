@@ -102,8 +102,10 @@ Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not
 It will result in something like:
 
 ```
-    runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 vncshare ssh
+runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 vncshare ssh
 ```
+
+* Create an empty text file in the sd card called "ssh" to enable ssh by default when RaspbianLite starts for the first time
 
 * Save the file
 
@@ -120,20 +122,29 @@ In order to enable the WIFI:
 * Write in the file the following lines
 
 ```
-    country=us
-    update_config=1
-    ctrl_interface=/var/run/wpa_supplicant
+country=us
+update_config=1
+ctrl_interface=/var/run/wpa_supplicant
 
-    network={
-     scan_ssid=1
-     ssid="YOUR_WIFI_SSID_NAME_HERE"
-     psk="SUPER_SECRET_PASSWORD"
-    }
+network={
+ scan_ssid=1
+ ssid="YOUR_WIFI_SSID_NAME_HERE"
+ psk="SUPER_SECRET_PASSWORD"
+}
 ```
 
 * Save the file
 
-## Step 6
+## Step 6 - Bonus Step - Offline installation
+
+If your WIFI network don't have access to internet, you can also load the Raspbian Lite image in the SD card.
+
+* In your SD card, go to the "os" folder create a folder called "raspbian_lite"
+* From the official online repository, put all "raspbian_lite" folder contents in your "raspbian_lite" folder on the SD card
+
+This makes PINN not having to download it when selected.
+
+## Step 7
 
 Lets boot the RaspberryPi
 
@@ -190,6 +201,32 @@ In order to see the PINN "virtual screen" that VNC provides, you need to install
 ![pinn](pinn.JPG)
 
 
-# PINN installing RasbianLite
+# PINN installing Headless RasbianLite
 
-Select the language
+* At the bottom of the screen select the language "English (US)" and the keyboard of your preference, for example Keyboard "us"
+
+* In the main window Navigate to the Minimal tab
+* Select Raspbian Lite from the list
+* Press Install
+
+![pinn-raspbian-lite-installation](pinn-raspbian-lite-installation.JPG)
+
+Since we have PINN with ssh also configured, it will enable ssh on the first boot of RaspbianLite and we will be able to access it from the terminal console.
+
+From now on there is no more graphical environment. After all, this RaspberryPi is going to be in the body of the SpotMicro reacting to events, so, will perform better without graphical environment.
+
+![pinn-raspbian-lite-installation-done](pinn-raspbian-lite-installation-done.JPG)
+
+After clicking OK when the installation is done, you will lose VNC connectivity.
+
+* Close VNC
+
+
+# RasbianLite
+
+* Open a terminal (Windows command prompt/PowerShell or Mac/Linux terminal) and execute the following command to access your RaspberryPi by ssh:
+
+```
+ssh pi@192.168.1.XX
+
+```
