@@ -176,7 +176,20 @@ In order to see the PINN "virtual screen" that VNC provides, you need to install
 
 * Download VNC Viewer from https://www.realvnc.com/en/connect/download/viewer/
 * Install VNC Viewer
+* Connect to the RaspberryPi
 
-#PINN installing RasbianLite
+![vnc-viewer](vnc-viewer.JPG)
+
+* A wild unencrypted notice will appear!
+
+![vnc-viewer-connect-certifi](vnc-viewer-connect-certificate.JPG)
+
+* Mark "Don't warm me about this again on this computer"
+* Press continue
+
+![pinn](pinn.JPG)
+
+
+# PINN installing RasbianLite
 
 Select the language
