@@ -163,6 +163,8 @@ Once you know the IP ping to it to be sure you can reach it.
 ping 192.168.1.XX
 ```
 
+![ping-raspberrypi-ip-address](ping-raspberrypi-ip-address.JPG)
+
 * In your router homepage make the IP reservation to have it permanently assigned
 * Save configuration
 
@@ -175,6 +177,6 @@ In order to see the PINN "virtual screen" that VNC provides, you need to install
 * Download VNC Viewer from https://www.realvnc.com/en/connect/download/viewer/
 * Install VNC Viewer
 
-PINN installing RasbianLite
+#PINN installing RasbianLite
 
 Select the language
