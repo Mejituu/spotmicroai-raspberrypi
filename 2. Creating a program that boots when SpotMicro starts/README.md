@@ -88,7 +88,6 @@ python3 hello_world.py
 ![hello-world-program](hello-world-program.JPG)
 
 
-
 # Running the program when the system boots
 
 Go to the home directory, we are going to create there the .service file needed to tell RaspberryPi that our program is a service
@@ -165,6 +164,30 @@ sudo systemctl enable spotmicro.service
 
 ![enable-spotmicro-service](enable-spotmicro-service.JPG)
 
+Lets reboot the RaspberryPi and check if it ran the spotmicro.py script in the logs. Mind than after reboot, it will kick us out from the console connection and we need to reconnect
 
+```
+sudo reboot
+```
+
+```
+ssh pi@192.168.1.XX
+cat /var/log/daemon.log | grep -i 'spotmicro'
+```
+
+If it shows the following lines with the times near to the minute that takes to reboot the RaspberryPi, all is working correctly.
+
+```
+Jan 19 20:35:17 spotmicro systemd[1]: spotmicro.service: Succeeded.
+Jan 19 20:35:17 spotmicro systemd[1]: spotmicro.service: Service RestartSec=100ms expired, scheduling restart.
+Jan 19 20:35:17 spotmicro systemd[1]: spotmicro.service: Scheduled restart job, restart counter is at 5.
+Jan 19 20:35:18 spotmicro systemd[1]: spotmicro.service: Start request repeated too quickly.
+Jan 19 20:35:18 spotmicro systemd[1]: spotmicro.service: Failed with result 'start-limit-hit'.
+```
+
+![spotmicro-service-starting-on-boot](spotmicro-service-starting-on-boot.JPG)
+
+
+# Making the program a real Linux Deamon
 
 
