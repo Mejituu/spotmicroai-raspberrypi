@@ -101,7 +101,9 @@ Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not
 
 It will result in something like:
 
+```
     runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 vncshare ssh
+```
 
 * Save the file
 
@@ -117,6 +119,7 @@ In order to enable the WIFI:
 * Create a text file called wpa_supplicant.conf
 * Write in the file the following lines
 
+```
     country=us
     update_config=1
     ctrl_interface=/var/run/wpa_supplicant
@@ -126,6 +129,7 @@ In order to enable the WIFI:
      ssid="YOUR_WIFI_SSID_NAME_HERE"
      psk="SUPER_SECRET_PASSWORD"
     }
+```
 
 * Save the file
 
@@ -155,7 +159,9 @@ Once you know the IP ping to it to be sure you can reach it.
 * Identify the RaspberryPi in your list of WIFI clients
 * From a console try to ping the ip
     
-    ping 192.168.1.XX
+```
+ping 192.168.1.XX
+```
 
 * In your router homepage make the IP reservation to have it permanently assigned
 * Save configuration
