@@ -236,3 +236,11 @@ sudo systemctl start spotmicro.service
 ```
 
 ![spotmicro-service-stop-start](spotmicro-service-stop-start.JPG)
+
+
+# SpotMicroPi
+
+**You are all set!**
+
+Your SpotMicroPi has a soul and brain.
+We need now a program to control the 12 servos, write lines to the screen and receives instructions from XBOX/PS4 Controller
