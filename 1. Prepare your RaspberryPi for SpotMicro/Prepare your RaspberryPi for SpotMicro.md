@@ -228,9 +228,87 @@ After clicking OK when the installation is done, you will lose VNC connectivity.
 
 # RasbianLite
 
+## Step 1
+
 * Open a terminal (Windows command prompt/PowerShell or Mac/Linux terminal) and execute the following command to access your RaspberryPi by ssh:
 
 ```
 ssh pi@192.168.1.XX
 
 ```
+
+Now you wil be ask to add the ssh key to your key store, just say yes.
+
+![raspbian-first-ssh](raspbian-first-ssh.JPG)
+
+Now it will prompt you about the password, type "raspbian"
+
+![raspbian-first-ssh-password](raspbian-first-ssh-password.JPG)
+
+You are logged in!
+
+![raspbian-first-ssh-login](raspbian-first-ssh-login.JPG)
+
+## Step 2
+
+Lets update the system, run the following commands:
+
+```
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get autoremove -y
+```
+
+While the update is happening, open a second terminal and monitor the temperatura
+
+```
+ssh pi@192.168.1.XX
+/opt/vc/bin/vcgencmd measure_temp
+```
+It will show you something like "temp=55.0'C"
+
+If you get beyond 60ºC you need a heatsink covering the chips of the board. RaspberryPi 4 needs it.
+
+## Step 3
+
+Is time to configure the SpotMicroPi system.
+
+Write the following command in any of the open windows:
+
+```
+sudo raspi-config
+```
+
+And from the options presented, do the following changes:
+
+* Change user password to "spotmicro"
+* Network options -> Hostname -> Change hostname to "spotmicro"
+* Localisation options
+** Change Locale, remove "en_GB.xxx" and select "en_US.UTF-8 UTF-8"
+*** It will prompt about "Default locale for the system environment", select "en_US.UTF-8"
+** Select your timezone, acording your real location
+** Change Wifi country, acording your real location
+* Interfacing options
+** Enable I2C
+
+* Select Finish and accept the reboot option
+
+Your terminal windows will lose connectivity.
+
+Reconnect to the SpotMicroPi, remember your password is now "spotmicro"
+
+```
+ssh pi@192.168.1.XX
+sudo raspi-config
+```
+
+And from the options presented, select:
+
+* Update
+
+
+# SpotMicroPi
+
+**You are all set!**
+
+Your SpotMicroPi has a soul now. You need a program now to control the servos, write in the screen and read from the controller and sensors.
