@@ -105,11 +105,15 @@ It will result in something like:
 runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 vncshare ssh
 ```
 
-* Create an empty text file in the sd card called "ssh" to enable ssh by default when RaspbianLite starts for the first time
-
 * Save the file
 
 ## Step 5
+
+Enable ssh by default when RaspbianLite starts for the first time
+
+* Create an empty text file in the sd card root, called "ssh"
+
+## Step 6
 
 Lets connect to the network!
 
@@ -135,7 +139,7 @@ network={
 
 * Save the file
 
-## Step 6 - Bonus Step - Offline installation
+## Step 7 - Bonus Step - Offline installation
 
 If your WIFI network don't have access to internet, you can also load the Raspbian Lite image in the SD card.
 
@@ -144,7 +148,7 @@ If your WIFI network don't have access to internet, you can also load the Raspbi
 
 This makes PINN not having to download it when selected.
 
-## Step 7
+## Step 8
 
 Lets boot the RaspberryPi
 
