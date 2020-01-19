@@ -88,3 +88,83 @@ python3 hello_world.py
 ![hello-world-program](hello-world-program.JPG)
 
 
+
+# Running the program when the system boots
+
+Go to the home directory, we are going to create there the .service file needed to tell RaspberryPi that our program is a service
+
+```
+cd /home/pi
+mv /home/pi/spotmicro/hello_world.py /home/pi/spotmicro/spotmicro.py
+```
+
+Create a text file called spotmicro.service with the following contents:
+
+```
+[Unit]
+Description=SpotMicro
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u spotmicro.py
+WorkingDirectory=/home/pi/spotmicro
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+You can use nano editor for this task
+
+```
+nano spotmicro.service
+```
+![spotmicro-service](spotmicro-service.JPG)
+
+![nano-spotmicro-service](nano-spotmicro-service.JPG)
+
+Now we need to copy the spotmicro.service file to the system directory
+
+```
+sudo cp spotmicro.service /etc/systemd/system/spotmicro.service
+```
+
+Now we can try to run it, this is necessary to see if there is something wrong in the script or configuration
+
+```
+sudo systemctl start spotmicro.service
+```
+
+We can see if it was ran checking the daemon.log logs
+
+```
+cat/var/log/daemon.log
+```
+
+Our program is not a "service/daemon" yet so it will "fail to start", but will be run. The following lines show it ran successfully.
+
+```
+Jan 19 20:27:46 spotmicro python3[9949]: SpotMicro Hello World
+Jan 19 20:27:46 spotmicro systemd[1]: spotmicro.service: Succeeded.
+Jan 19 20:27:46 spotmicro systemd[1]: spotmicro.service: Service RestartSec=100ms expired, scheduling restart.
+Jan 19 20:27:46 spotmicro systemd[1]: spotmicro.service: Scheduled restart job, restart counter is at 5.
+Jan 19 20:27:46 spotmicro systemd[1]: Stopped SpotMicro.
+Jan 19 20:27:46 spotmicro systemd[1]: spotmicro.service: Start request repeated too quickly.
+Jan 19 20:27:46 spotmicro systemd[1]: spotmicro.service: Failed with result 'start-limit-hit'.
+Jan 19 20:27:46 spotmicro systemd[1]: Failed to start SpotMicro.
+```
+
+Lets enable it so it will run every time the machine starts
+
+```
+sudo systemctl enable spotmicro.service
+```
+
+![enable-spotmicro-service](enable-spotmicro-service.JPG)
+
+
+
+
