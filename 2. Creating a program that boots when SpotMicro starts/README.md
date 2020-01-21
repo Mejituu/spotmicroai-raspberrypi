@@ -4,7 +4,7 @@ Hello, I'm Fran and i'm going to guide you in the steps needed for preparing you
 
 From now on, since you are going to use RaspBerryPi to power it, I will call it SpotMicroPi
 
-This part of the tutorial assume you already have the RaspberryPi ready for run a program.
+This part of the tutorial assume you already have the RaspberryPi ready to run a program.
 
 # Hardware requirements for this tutorial
 
@@ -225,6 +225,7 @@ Open a second terminal and run the following command so you can see the logs app
 You can press Control+C to cancel the watch of the logs
 
 ```
+ssh pi@192.168.1.XX
 tail -f /var/log/daemon.log
 ```
 

@@ -35,7 +35,7 @@ Remember the file spotmicro.py will be run as a service everytime the SpotMicro 
 
 # Update a file
 
-## Download the **spotmicro.py** file to your desktop:
+## Download the spotmicro.py file to your desktop:
 
 * In the left panel look for your Desktop folder, most likelly something like: C:\Users\USERNAME\Desktop\
 * Drag and drop the file **spotmicro.py** from the right panel to the left panel.
