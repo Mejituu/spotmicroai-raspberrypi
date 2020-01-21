@@ -111,7 +111,7 @@ runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1
 
 Enable ssh by default when RaspbianLite starts for the first time
 
-* Create an empty text file in the sd card root, called "ssh"
+* **Create an empty text file in the sd card root, called "ssh"**
 
 ## Step 6
 
@@ -144,7 +144,7 @@ network={
 If your WIFI network don't have access to internet, you can also load the Raspbian Lite image in the SD card.
 
 * In your SD card, go to the "os" folder create a folder called "raspbian_lite"
-* From the official online repository, put all "raspbian_lite" folder contents in your "raspbian_lite" folder on the SD card
+* From the official online repository (http://downloads.raspberrypi.org/raspbian_lite/), put all "raspbian_lite" folder contents in your "raspbian_lite" folder on the SD card
 
 This makes PINN not having to download it when selected.
 
