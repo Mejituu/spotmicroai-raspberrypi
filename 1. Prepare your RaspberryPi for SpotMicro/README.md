@@ -282,12 +282,15 @@ sudo raspi-config
 And from the options presented, do the following changes:
 
 * Change user password to "spotmicro"
+
 * Network options -> Hostname -> Change hostname to "spotmicro"
-* Localisation options
+
+* Localization options
   * Change Locale, remove "en_GB.xxx" and select "en_US.UTF-8 UTF-8"
     * It will prompt about "Default locale for the system environment", select "en_US.UTF-8"
   * Select your timezone, acording your real location
   * Change Wifi country, acording your real location
+
 * Interfacing options
   * Enable I2C
 

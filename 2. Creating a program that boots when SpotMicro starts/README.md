@@ -79,7 +79,7 @@ And thats about it!, we are ready to create our first hello world python applica
 
 ## Python 3 hello world
 
-Lets create fast just a hello_world.py file to print a message and see if all is working as expected.
+Lets create fast just a **hello_world.py** file to print a message and see if all is working as expected.
 
 ```
 echo "print('SpotMicro Hello World')" > hello_world.py
@@ -97,7 +97,7 @@ cd /home/pi
 mv /home/pi/spotmicro/hello_world.py /home/pi/spotmicro/spotmicro.py
 ```
 
-Create a text file called spotmicro.service with the following contents:
+Create a text file called **spotmicro.service** with the following contents:
 
 ```
 [Unit]
@@ -140,7 +140,7 @@ sudo systemctl start spotmicro.service
 We can see if it was ran checking the daemon.log logs
 
 ```
-cat/var/log/daemon.log
+cat /var/log/daemon.log
 ```
 
 Our program is not a "service/daemon" yet so it will "fail to start", but will be run. The following lines show it ran successfully.
