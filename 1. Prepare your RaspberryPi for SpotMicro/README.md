@@ -80,7 +80,7 @@ In the RaspberryPi website, during the official installation guide, they recomme
 
 We need to put all PINN files in the SD card, is that simple!
 
-* Unzip the pinn-lite.zip file you downloaded previously in the SD card
+* Unzip the **pinn-lite.zip** file you downloaded previously in the SD card
 
 The SD card must look like similar to the following image:
 
@@ -94,7 +94,7 @@ Is time to configure the PINN operating system to boot with VNC and SSH enabled,
 Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not even during the installation. But we can have them of course.
 
 * Open the SD card
-* Open the file recovery.cmdline with a proper text editor like Sublime Text or nano
+* Open the file **recovery.cmdline** with a proper text editor like Sublime Text or nano
 * Add the following 2 words to the line present in the file:
   * vncshare
   * ssh
@@ -111,7 +111,7 @@ runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1
 
 Enable ssh by default when RaspbianLite starts for the first time
 
-* Create an empty text file in the sd card root, called "**ssh**"
+* Create an empty text file in the sd card root, called **ssh**
 
 ## Step 6
 
@@ -122,7 +122,7 @@ If you don't have a WIFI network just plug the cable in the RaspberryPi and skip
 In order to enable the WIFI:
 
 * Open the SD card
-* Create a text file called wpa_supplicant.conf
+* Create a text file called **wpa_supplicant.conf**
 * Write in the file the following lines
 
 ```
@@ -284,12 +284,12 @@ And from the options presented, do the following changes:
 * Change user password to "spotmicro"
 * Network options -> Hostname -> Change hostname to "spotmicro"
 * Localisation options
-** Change Locale, remove "en_GB.xxx" and select "en_US.UTF-8 UTF-8"
-*** It will prompt about "Default locale for the system environment", select "en_US.UTF-8"
-** Select your timezone, acording your real location
-** Change Wifi country, acording your real location
+  * Change Locale, remove "en_GB.xxx" and select "en_US.UTF-8 UTF-8"
+    * It will prompt about "Default locale for the system environment", select "en_US.UTF-8"
+  * Select your timezone, acording your real location
+  * Change Wifi country, acording your real location
 * Interfacing options
-** Enable I2C
+  * Enable I2C
 
 * Select Finish and accept the reboot option
 
