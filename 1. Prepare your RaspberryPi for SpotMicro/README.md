@@ -96,8 +96,8 @@ Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not
 * Open the SD card
 * Open the file recovery.cmdline with a proper text editor like Sublime Text or nano
 * Add the following 2 words to the line present in the file:
-** vncshare
-** ssh
+  * vncshare
+  * ssh
 
 It will result in something like:
 
@@ -111,7 +111,7 @@ runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1
 
 Enable ssh by default when RaspbianLite starts for the first time
 
-* **Create an empty text file in the sd card root, called "ssh"**
+* Create an empty text file in the sd card root, called "**ssh**"
 
 ## Step 6
 
