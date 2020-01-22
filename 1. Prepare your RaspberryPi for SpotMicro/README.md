@@ -279,9 +279,6 @@ And from the options presented, do the following changes:
   * Select your timezone, acording your real location
   * Change Wifi country, acording your real location
 
-* Interfacing options
-  * Enable I2C
-
 * Select Finish and accept the reboot option
 
 Your terminal windows will lose connectivity.

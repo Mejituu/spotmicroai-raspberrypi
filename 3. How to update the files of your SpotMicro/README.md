@@ -2,7 +2,7 @@
 
 Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
 
-This part of the tutorial assume you already have the RaspberryPi with a running linux service created in python that starts when the SpotMicro starts
+This part of the tutorial assume you already have the RaspberryPi with a linux service, a simple python that starts when the SpotMicro starts
 
 # Transfering files in and out
 
