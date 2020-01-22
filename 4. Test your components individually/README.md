@@ -97,14 +97,30 @@ mkdir ps4controller
 
 # Testing the Screen
 
-TODO:
-* Following: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
-* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/screen_tests
+## Connecting the Screen to I2C
 
-
-Connecting an LCD with an I2C interface is very simple, connect the SDA pin on the screen to the SDA on the PI, and the SCL pin on the Pi to the SCL pin on the LCD. The ground and Vcc pins will also need to be connected. Most LCDs can operate with 3.3V, but they’re meant to be run on 5V, so connect it to the 5V pin of the Pi if possible.
+Connecting an LCD with an I2C interface is very simple:
+* Connect the SDA pin on the screen to the SDA on the PI <- I2C data
+* Connect the SCL pin on the screen to the SCL on the PI <- I2c clock signal
+* Connect the Vcc pin on the screen to the 5V on the PI
+* Connect the GND pin on the screen to the GND on the PI
 
 ![16x2-I2C-lcd](16x2-I2C-lcd.jpg)
+
+## QA
+
+We are going to use an improved version of a I2C library that was published first here: https://www.recantha.co.uk/blog/?p=4849.
+
+The library is located here: https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
+
+* Download the library file from github using the terminal with the following command:
+```
+curl -o /home/pi/spotmicro/qa_test/screen/I2C_LCD_driver.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/examples.py
+```
+
+* Or the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
+* Save it in a fille called **I2C_LCD_driver.py**
+* Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
 
 
 # Testing the Servos
