@@ -1,3 +1,6 @@
+- TOC
+{:toc}
+
 # SpotMicroAI
 
 Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
@@ -122,7 +125,7 @@ curl -o /home/pi/spotmicro/qa_test/screen/I2C_LCD_driver.py https://gist.githubu
   * Save it in a fille called **I2C_LCD_driver.py**
   * Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
 
-## QA
+## QA Test
 
 Some simple script examples can be found here: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
 
