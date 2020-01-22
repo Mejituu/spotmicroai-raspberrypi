@@ -107,7 +107,7 @@ Connecting an LCD with an I2C interface is very simple:
 
 ![16x2-I2C-lcd](16x2-I2C-lcd.jpg)
 
-## QA
+## Libraries
 
 We are going to use an improved version of a I2C library that was published first here: https://www.recantha.co.uk/blog/?p=4849.
 
@@ -119,9 +119,14 @@ curl -o /home/pi/spotmicro/qa_test/screen/I2C_LCD_driver.py https://gist.githubu
 ```
 
 * Or the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
-* Save it in a fille called **I2C_LCD_driver.py**
-* Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
+  * Save it in a fille called **I2C_LCD_driver.py**
+  * Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
 
+## QA
+
+Some simple script examples can be found here: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
+
+TODO: Script that shows the temp and IP like https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/raw_tests/screen_tests/write_to_display.py
 
 # Testing the Servos
 
