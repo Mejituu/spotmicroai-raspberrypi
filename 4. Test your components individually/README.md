@@ -48,9 +48,44 @@ And from the options presented, do the following changes:
 
 * Select Finish and accept the reboot option
 
+## Creating the QA tests
+
 Once the reboot finishes, login again, open a terminal and run the following commands
 ```
 ssh pi@192.168.1.XX
 cd spotmicro
+source venv/bin/activate
+
+mkdir qa_test
+cd qa_test/
+
+mkdir screen
+mkdir servos
+mkdir xboxcontroller
+mkdir ps4controller
 ```
 
+# Testing the Screen
+
+TODO:
+* Following: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
+* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/screen_tests
+
+# Testing the Servos
+
+TODO:
+* Following: https://github.com/adafruit/Adafruit_Python_PCA9685
+* PDF: https://cdn-learn.adafruit.com/downloads/pdf/adafruit-16-channel-servo-driver-with-raspberry-pi.pdf
+* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/servos_tests
+
+# Testing the XBox controller
+
+TODO:
+* https://pimylifeup.com/xbox-controllers-raspberry-pi/
+* https://gist.github.com/rdb/8864666
+* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/xboxcontroller
+
+# Testing the PS4 controller
+
+TODO:
+* DS4 driver
