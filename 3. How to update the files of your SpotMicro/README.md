@@ -1,4 +1,4 @@
-# SpotMicroPi
+# SpotMicroAI
 
 Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
 
@@ -71,9 +71,9 @@ ssh pi@192.168.1.XX
 tail -f /var/log/daemon.log
 ```
 
-# SpotMicroPi
+# SpotMicroAI
 
 **You are all set!**
 
-Your SpotMicroPi has a soul and brain.
-We need now a program to control the 12 servos, write lines to the screen and receives instructions from XBOX/PS4 Controller
+Your SpotMicroAI has a soul and brain.
+We need to test all output and motion devices connected to the RaspberryPi (Screen, servos), also we need to receive signals from our Bluetooth XBox/PS4 controller

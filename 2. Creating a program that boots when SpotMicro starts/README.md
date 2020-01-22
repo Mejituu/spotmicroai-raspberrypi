@@ -1,8 +1,6 @@
-# SpotMicroPi
+# SpotMicroAI
 
-Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
-
-From now on, since you are going to use RaspBerryPi to power it, I will call it SpotMicroPi
+Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicroAI.
 
 This part of the tutorial assume you already have the RaspberryPi ready to run a program.
 
@@ -34,7 +32,7 @@ pwd
 
 Lets start working on the program.
 
-The program wil run as a daemon/service in the RaspberryPi, will start every time the SpotMicro get powered.
+The program wil run as a daemon/service in the RaspberryPi, will start every time the SpotMicroAI get powered.
 
 I'm using Python 3, since is very accesible to everyone and very decent language.
 
@@ -239,9 +237,9 @@ sudo systemctl start spotmicro.service
 ![spotmicro-service-stop-start](spotmicro-service-stop-start.JPG)
 
 
-# SpotMicroPi
+# SpotMicroAI
 
 **You are all set!**
 
-Your SpotMicroPi has a soul and brain.
-We need now a program to control the 12 servos, write lines to the screen and receives instructions from XBOX/PS4 Controller
+Now your SpotMicroAI has a soul and brain.
+We need a convinient way of sending files to it, so, we can work our program fast.

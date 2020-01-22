@@ -1,10 +1,8 @@
-# SpotMicroPi
+# SpotMicroAI
 
 Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
 
-From now on, since you are going to use RaspBerryPi to power it, I will call it SpotMicroPi
-
-In order to have SpotMicroPi moving we need to prepare its operating system in a SD card.
+In order to have SpotMicroAI moving we need to prepare its operating system in a SD card.
 
 RaspberryPi fundation has written a very nice manual here: https://www.raspberrypi.org/documentation/installation/installing-images/ guiding you step by step.
 
@@ -13,16 +11,6 @@ But in this manual I'm going to do it a bit differently, I will drive you for an
 This kind of installation is called headless.
 
 The concept is very simple, in a nutshell, before we boot the RaspberryPi with our SD, the SD will have the network configuration (WIFI or nothing if you prefer to use network cable). Also will have the configuration needed to enable the services to access to it (VNC and SSH).
-
-# SpotMicroPi platform
-
-SpotMicroPi platform uses:
-* 12 servos
-* 2 PCA9685
-* DC to DC Buck Converter LM2596 (also known as step down votage regulator)
-* 2 7.4v batteries working in parallel
-* A rocket switch
-* 16x2 LCD Display Screen with I2C Module Interface Adapter
 
 # Hardware requirements
 
@@ -117,7 +105,7 @@ Enable ssh by default when RaspbianLite starts for the first time
 
 Lets connect to the network!
 
-If you don't have a WIFI network just plug the cable in the RaspberryPi and skip this step, but mind SpotMicroPi will need this cable to be "programmed" every time.
+If you don't have a WIFI network just plug the cable in the RaspberryPi and skip this step, but mind SpotMicroAI will need this cable to be "programmed" every time.
 
 In order to enable the WIFI:
 
@@ -217,7 +205,7 @@ In order to see the PINN "virtual screen" that VNC provides, you need to install
 
 Since we have PINN with ssh also configured, it will enable ssh on the first boot of RaspbianLite and we will be able to access it from the terminal console.
 
-From now on there is no more graphical environment. After all, this RaspberryPi is going to be in the body of the SpotMicro reacting to events, so, will perform better without graphical environment.
+From now on there is no more graphical environment. After all, this RaspberryPi is going to be in the body of the SpotMicroAI reacting to events, so, will perform better without graphical environment.
 
 ![pinn-raspbian-lite-installation-done](pinn-raspbian-lite-installation-done.JPG)
 
@@ -271,7 +259,7 @@ If you get beyond 60ºC you need a heatsink covering the chips of the board. Ras
 
 ## Step 3
 
-Is time to configure the SpotMicroPi system.
+Is time to configure the SpotMicroAI system.
 
 Write the following command in any of the open windows:
 
@@ -298,7 +286,7 @@ And from the options presented, do the following changes:
 
 Your terminal windows will lose connectivity.
 
-Reconnect to the SpotMicroPi, remember your password is now "spotmicro"
+Reconnect to the SpotMicroAI, remember your password is now "spotmicro"
 
 ```
 ssh pi@192.168.1.XX
@@ -310,8 +298,9 @@ And from the options presented, select:
 * Update
 
 
-# SpotMicroPi
+# SpotMicroAI
 
 **You are all set!**
 
-Your SpotMicroPi has a soul now. You need a program now to control the servos, write in the screen and read from the controller and sensors.
+Now your SpotMicroAI has a soul.
+You need a program now to wake it up when it boots, we need a program that will start when we power it up.
