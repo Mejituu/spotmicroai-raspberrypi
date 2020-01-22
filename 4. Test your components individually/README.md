@@ -1,4 +1,6 @@
 [[_TOC_]]
+[_TOC_]
+_TOC_
 
 # SpotMicroAI
 
