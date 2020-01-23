@@ -172,6 +172,24 @@ TODO:
 * PDF: https://cdn-learn.adafruit.com/downloads/pdf/adafruit-16-channel-servo-driver-with-raspberry-pi.pdf
 * https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/servos_tests
 
+
+sudo pip install adafruit-pca9685
+
+
+https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/examples/simpletest.py
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Testing the XBox controller
 
 TODO:
@@ -183,3 +201,7 @@ TODO:
 
 TODO:
 * DS4 driver
+
+
+https://github.com/RetroPie/RetroPie-Setup/wiki/PS4-Controller
+https://github.com/chrippa/ds4drv
