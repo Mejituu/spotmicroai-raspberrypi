@@ -1,7 +1,3 @@
-[[_TOC_]]
-[_TOC_]
-_TOC_
-
 # SpotMicroAI
 
 Hello, I'm Fran and i'm going to guide you in the steps needed for preparing your RaspberryPi to move your SpotMicro.
@@ -119,18 +115,55 @@ The library is located here: https://gist.github.com/DenisFromHR/cc863375a6e19dc
 
 * Download the library file from github using the terminal with the following command:
 ```
-curl -o /home/pi/spotmicro/qa_test/screen/I2C_LCD_driver.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/examples.py
+curl -o /home/pi/spotmicro/qa_test/screen/examples.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/examples.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/RPi_I2C_driver.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/RPi_I2C_driver.py
+
+sed -i 's/unichr/chr/g' examples.py
+
+
 ```
 
 * Or the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
   * Save it in a fille called **I2C_LCD_driver.py**
   * Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
 
+sudo apt install python-rpi.gpio python3-rpi.gpio
+NO NEEDED -> python3 -m pip install RPi.GPIO
+python3 -m pip install smbus
+
+python3 examples.py
+
+Save the needed library in our repo, link it to the source but keep the copy.
+
+
 ## QA Test
 
 Some simple script examples can be found here: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
 
 TODO: Script that shows the temp and IP like https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/raw_tests/screen_tests/write_to_display.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Testing the Servos
 
