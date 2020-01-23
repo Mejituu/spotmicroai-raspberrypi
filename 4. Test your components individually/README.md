@@ -91,7 +91,7 @@ cd qa_test/
 
 mkdir screen
 mkdir servos
-mkdir xboxcontroller
+mkdir xboxonecontroller
 mkdir ps4controller
 ```
 
@@ -113,28 +113,32 @@ We are going to use an improved version of a I2C library that was published firs
 
 The library is located here: https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
 
-* Download the library file from github using the terminal with the following command:
+* Download the library file from our repository and the example using the terminal with the following command:
+Save the needed library in our repo, link it to the source but keep the copy.
 ```
 curl -o /home/pi/spotmicro/qa_test/screen/examples.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/examples.py
 
 curl -o /home/pi/spotmicro/qa_test/screen/RPi_I2C_driver.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/RPi_I2C_driver.py
 
 sed -i 's/unichr/chr/g' examples.py
-
-
 ```
 
-* Or the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
+* Or use the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
   * Save it in a fille called **I2C_LCD_driver.py**
   * Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
 
-sudo apt install python-rpi.gpio python3-rpi.gpio
+NO NEEDED -> sudo apt install python-rpi.gpio python3-rpi.gpio
 NO NEEDED -> python3 -m pip install RPi.GPIO
+
+cd /home/pi/spotmicro
+source ../../venv/bin/activate
+cd qa_test/screen
+
 python3 -m pip install smbus
 
 python3 examples.py
 
-Save the needed library in our repo, link it to the source but keep the copy.
+
 
 
 ## QA Test
@@ -205,3 +209,85 @@ TODO:
 
 https://github.com/RetroPie/RetroPie-Setup/wiki/PS4-Controller
 https://github.com/chrippa/ds4drv
+
+
+
+# Booting SpotMicroAI with all data
+
+systemd with venv: https://stackoverflow.com/questions/37211115/how-to-enable-a-virtualenv-in-a-systemd-service-unit
+Remember to use: sudo systemctl daemon-reload
+when we change a service
+
+do something on shudown signal: https://stackoverflow.com/questions/39275948/python-detect-linux-shutdown-and-run-a-command-before-shutting-down
+
+https://medium.com/@kevalpatel2106/monitor-the-core-temperature-of-your-raspberry-pi-3ddfdf82989f
+
+
+
+sudo nano /etc/systemd/system/spotmicro.service
+```
+[Unit]
+Description=SpotMicro
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/spotmicro/spotmicro.py
+WorkingDirectory=/home/pi/spotmicro/venv
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+chmod +x spotmicro.py
+
+```
+#!/home/pi/spotmicro/venv/bin/python3 -u
+
+import LCD_I2C_driver
+import socket
+import fcntl
+import struct
+import os
+import time
+import signal
+
+mylcd = LCD_I2C_driver.lcd()
+
+def stop(sig, frame):
+    global stopped
+    stopped = True
+    mylcd.lcd_clear()
+    mylcd.lcd_display_string("GoodBye", 1)
+    mylcd.lcd_display_string("", 2)
+    time.sleep(3)
+
+signal.signal(signal.SIGTERM, stop)
+
+def get_ip_address(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,
+        struct.pack('256s'.encode('utf-8'), ifname[:15].encode('utf-8'))
+    )[20:24])
+
+def measure_temp():
+        temp = os.popen("vcgencmd measure_temp").readline()
+        return (temp.replace("temp=",""))
+
+mylcd = LCD_I2C_driver.lcd()
+
+while True:
+    print('SpotMicro updating LCD')
+    mylcd.lcd_clear()
+    mylcd.lcd_display_string('Temp: ' + measure_temp().rstrip(),1)
+    mylcd.lcd_display_string(get_ip_address('wlan0'), 2)
+    time.sleep(5)
+```
+
