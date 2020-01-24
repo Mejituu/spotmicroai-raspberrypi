@@ -9,7 +9,7 @@ def measure_temp():
         return (temp.replace("temp=",""))
 
 while True:
-        mylcd.lcd_display_string(measure_temp(), 1)
+        mylcd.lcd_display_string(measure_temp().rstrip(), 1)
         print()
         time.sleep(2)
 
