@@ -214,6 +214,9 @@ Connect the servo as the image shows:
 
 Download the following test to center the servo
 ```
+cd /home/pi/spotmicro
+source venv/bin/activate
+
 cd /home/pi/spotmicro/qa_test/servos
 
 python3 -m pip install RPi.GPIO
@@ -257,6 +260,9 @@ The 40 and 70 mean the module has been detected. You may have different address.
 
 Download the following test to center the servo
 ```
+cd /home/pi/spotmicro
+source venv/bin/activate
+
 cd /home/pi/spotmicro/qa_test/servos
 
 python3 -m pip install adafruit-pca9685
