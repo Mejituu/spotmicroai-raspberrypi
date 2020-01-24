@@ -62,3 +62,17 @@ while True:
     time.sleep(5)
 ```
 
+
+
+# Servos speed and specs
+
+    Giro 180º
+
+    Velocidad para
+        4.8v       0.17s for 60º
+        6v         0.14s for 60º
+
+    ChangeDutyCycle 2.5, 7.5 a 12.5
+
+    if the travel needs more than 60º, we need to send more than 1 pulse
+    p.ChangeDutyCycle(2.5)
