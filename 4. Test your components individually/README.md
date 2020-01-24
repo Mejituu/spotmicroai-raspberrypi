@@ -93,6 +93,11 @@ mkdir servos
 mkdir xboxonecontroller
 mkdir ps4controller
 ```
+# RaspberryPi GPIO
+
+![raspberrypi-gpio](raspberrypi-gpio.jpg)
+
+More on this here: https://www.raspberrypi.org/documentation/usage/gpio/
 
 # Testing the Screen
 
@@ -193,6 +198,10 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_multiple_custom_cha
 
 ## First, lets use just RaspberryPi to check them 
 
+Connect the servo as the image shows:
+
+![servo-direct-gpio-connection.jpg](servo-direct-gpio-connection.jpg)
+
 Download the following test to center the servo
 ```
 cd /home/pi/spotmicro/qa_test/servos
@@ -204,11 +213,18 @@ curl -o /home/pi/spotmicro/qa_test/servos/servo_test_all_positions.py https://gi
 curl -o /home/pi/spotmicro/qa_test/servos/servo_test_position_to_center.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/servo_test_position_to_center.py
 
 cp ../screen/RPi_LCD_16x2_I2C_driver.py .
-
-python3 servo_test_all_positions.py
+```
+Run with
 
 ```
-More date here: https://rpi.science.uoit.ca/lab/servo/
+python3 servo_test_all_positions.py
+```
+or
+```
+python3 servo_test_position_to_center.py
+```
+
+More details here: https://rpi.science.uoit.ca/lab/servo/
 
 ## Using Adafruit_Python_PCA9685
 
