@@ -160,6 +160,35 @@ Create your custom characters here: https://omerk.github.io/lcdchargen/
 * [screen_tests_print_single_custom_character.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_single_custom_character.py)
 * [screen_tests_print_multiple_custom_characters.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_multiple_custom_characters.py)
 
+You can use the following lines to download them and run them
+
+```
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_write_to_display.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_write_to_display.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_position_the_text.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_position_the_text.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_clear_the_screen.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_clear_the_screen.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_blinking_text.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_blinking_text.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_raspberrypi_temperature.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_raspberrypi_temperature.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_the_date_and_time.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_the_date_and_time.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_your_wifi_ip_address.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_your_wifi_ip_address.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_scroll_text_right_to_left_continously.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_right_to_left_continously.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_scroll_text_right_to_left_once.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_right_to_left_once.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_scroll_text_left_to_right_once.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_left_to_right_once.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_single_custom_character.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_single_custom_character.py
+
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_multiple_custom_characters.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_multiple_custom_characters.py
+
+
+```
 
 
 
