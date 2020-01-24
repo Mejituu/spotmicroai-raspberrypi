@@ -127,12 +127,13 @@ network={
 
 * Save the file
 
-## Step 7 - Bonus Step - Offline installation
+## Step 7 - (Optional step) - Offline installation
 
 If your WIFI network don't have access to internet, you can also load the Raspbian Lite image in the SD card.
 
 * In your SD card, go to the "os" folder create a folder called "raspbian_lite"
-* From the official online repository (http://downloads.raspberrypi.org/raspbian_lite/), put all "raspbian_lite" folder contents in your "raspbian_lite" folder on the SD card
+* From the official online repository (http://downloads.raspberrypi.org/raspbian_lite/), download all files to your "raspbian_lite" folder on the SD card (skip the folder archive and images).
+* There is a file called marketing.tar, uncompress it in the raspbian_lite folder of your SDcard, it will create a folder called slides_vga with a few images in
 
 This makes PINN not having to download it when selected.
 
@@ -197,7 +198,7 @@ In order to see the PINN "virtual screen" that VNC provides, you need to install
 
 * At the bottom of the screen select the language "English (US)" and the keyboard of your preference, for example Keyboard "us"
 
-* In the main window Navigate to the Minimal tab
+* In the main window Navigate to the **Minimal tab**
 * Select Raspbian Lite from the list
 * Press Install
 
@@ -247,7 +248,7 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 ```
 
-While the update is happening, open a second terminal and monitor the temperatura
+While the update is happening, open a second terminal and monitor the temperature
 
 ```
 ssh pi@192.168.1.XX

@@ -17,10 +17,9 @@ We are going to test 3 hardware parts using our program, to familiaryze ourselve
 * SD Card with Raspbian Lite
 * Wifi connection (or Ethernet)
 * A computer like the one you are probably using to read this document
-
 * The Servos connected to a PCA96xx board, and the PCA96xx board connected to the RaspberryPi using I2C
-* The Screen connected to the RaspberryPi using I2C
-* XBox/PS4 controller connected to the RaspberryPi using Bluetooth
+* The LCD 16x2 I2C Screen connected to the RaspberryPi
+* XBoxOne/PS4 controller connected to the RaspberryPi using Bluetooth
 
 Nothing else, nothing more. All set then, lets go!
 
@@ -224,24 +223,7 @@ https://medium.com/@kevalpatel2106/monitor-the-core-temperature-of-your-raspberr
 
 
 
-sudo nano /etc/systemd/system/spotmicro.service
-```
-[Unit]
-Description=SpotMicro
-After=network.target
 
-[Service]
-Type=simple
-ExecStart=/home/pi/spotmicro/spotmicro.py
-WorkingDirectory=/home/pi/spotmicro/venv
-StandardOutput=inherit
-StandardError=inherit
-Restart=always
-User=pi
-
-[Install]
-WantedBy=multi-user.target
-```
 
 
 chmod +x spotmicro.py

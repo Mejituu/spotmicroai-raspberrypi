@@ -7,7 +7,6 @@ This part of the tutorial assume you already have the RaspberryPi ready to run a
 # Hardware requirements for this tutorial
 
 * RaspberryPi 3 or better (4 requires heatsink)
-* 16x2 LCD Display Screen with I2C Module Interface Adapter
 
 # Software requirements
 
@@ -80,7 +79,9 @@ And thats about it!, we are ready to create our first hello world python applica
 Lets create fast just a **hello_world.py** file to print a message and see if all is working as expected.
 
 ```
-echo "print('SpotMicro Hello World')" > hello_world.py
+cd /home/pi/spotmicro
+echo '#!/home/pi/spotmicro/venv/bin/python3 -u' > hello_world.py
+echo 'print("SpotMicro Hello World")' >> hello_world.py
 python3 hello_world.py
 ```
 ![hello-world-program](hello-world-program.JPG)
@@ -93,6 +94,7 @@ Go to the home directory, we are going to create there the .service file needed 
 ```
 cd /home/pi
 mv /home/pi/spotmicro/hello_world.py /home/pi/spotmicro/spotmicro.py
+chmod +x /home/pi/spotmicro/spotmicro.py
 ```
 
 Create a text file called **spotmicro.service** with the following contents:
@@ -103,8 +105,9 @@ Description=SpotMicro
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u spotmicro.py
-WorkingDirectory=/home/pi/spotmicro
+Type=simple
+ExecStart=/home/pi/spotmicro/spotmicro.py
+WorkingDirectory=/home/pi/spotmicro/venv
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -121,12 +124,13 @@ nano spotmicro.service
 ```
 ![spotmicro-service](spotmicro-service.JPG)
 
+(the contents of the picture are just an example, use the content described and updated in the page, above)
 ![nano-spotmicro-service](nano-spotmicro-service.JPG)
 
-Now we need to copy the spotmicro.service file to the system directory
+Now we need to move the spotmicro.service file to the system directory (we use sudo because the system directory belongs to root)
 
 ```
-sudo cp spotmicro.service /etc/systemd/system/spotmicro.service
+sudo mv spotmicro.service /etc/systemd/system/spotmicro.service
 ```
 
 Now we can try to run it, this is necessary to see if there is something wrong in the script or configuration
@@ -203,7 +207,7 @@ Every 10 seconds we will write in the daemons log a text, so we can validate the
 Also we can try to stop and start it while looking at the logs.
 
 ```
-#!/usr/bin/python3 -u
+#!/home/pi/spotmicro/venv/bin/python3 -u
 
 import time                                                  
 
@@ -213,10 +217,10 @@ while True:
     time.sleep(10)   
 ```
 
-Save the file and reboot
+Restart the service
 
 ```
-sudo reboot
+sudo systemctl daemon-reload; sudo systemctl restart spotmicro.service
 ```
 
 Open a second terminal and run the following command so you can see the logs appearing and stopping when we stop the daemon.

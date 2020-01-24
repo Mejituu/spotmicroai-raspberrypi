@@ -45,7 +45,7 @@ Edit it with a proper text editor like Sublime Text (https://www.sublimetext.com
 Change its contents to:
 
 ```
-#!/usr/bin/python3 -u
+#!/home/pi/spotmicro/venv/bin/python3 -u
 
 import time
 
