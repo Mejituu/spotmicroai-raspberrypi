@@ -119,7 +119,7 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests.py https://gitlab.com/cus
 
 curl -o /home/pi/spotmicro/qa_test/screen/RPi_LCD_16x2_I2C_driver.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/RPi_LCD_16x2_I2C_driver.py
 
-sed -i 's/unichr/chr/g' examples.py
+sed -i 's/unichr/chr/g' screen_tests.py
 ```
 
 * Or use the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
