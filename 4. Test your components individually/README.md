@@ -115,9 +115,9 @@ The library is located here: https://gist.github.com/DenisFromHR/cc863375a6e19dc
 * Download the library file from our repository and the example using the terminal with the following command:
 Save the needed library in our repo, link it to the source but keep the copy.
 ```
-curl -o /home/pi/spotmicro/qa_test/screen/examples.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/examples.py
+curl -o /home/pi/spotmicro/qa_test/screen/screen_tests.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests.py
 
-curl -o /home/pi/spotmicro/qa_test/screen/RPi_I2C_driver.py https://gist.githubusercontent.com/DenisFromHR/cc863375a6e19dce359d/raw/36b82e787450d127f5019a40e0a55b08bd43435a/RPi_I2C_driver.py
+curl -o /home/pi/spotmicro/qa_test/screen/RPi_LCD_16x2_I2C_driver.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/RPi_LCD_16x2_I2C_driver.py
 
 sed -i 's/unichr/chr/g' examples.py
 ```
