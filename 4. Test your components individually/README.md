@@ -134,15 +134,13 @@ python3 screen_tests.py
 
 * Remember you can use FileZilla if you prefer a graphical environment
 
-NO NEEDED -> sudo apt install python-rpi.gpio python3-rpi.gpio
-NO NEEDED -> python3 -m pip install RPi.GPIO
+**Look at your screen!**
 
+If you mist the action run again while stearing at our screen!
 
-
+```
 python3 screen_tests.py
-
-
-
+```
 
 ## QA Test
 
