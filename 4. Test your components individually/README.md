@@ -241,10 +241,6 @@ More details here: https://rpi.science.uoit.ca/lab/servo/
 
 ## Now lest use the module Adafruit_Python_PCA9685
 
-Connect the servo as the image shows:
-
-![servo_using_pca9685_i2c_connection](servo_using_pca9685_i2c_connection.jpg)
-
 You can power the servo from the V+ pin, at 5V, or as the image shows, using the big side connector
 
  **Don't connect 5V to the Vcc which only accepts 3.3**, or your board will die.
@@ -266,14 +262,25 @@ source venv/bin/activate
 cd /home/pi/spotmicro/qa_test/servos
 
 python3 -m pip install adafruit-pca9685
+python3 -m pip install adafruit-circuitpython-servokit
+python3 -m pip install adafruit-circuitpython-pca9685
 
-curl -o /home/pi/spotmicro/qa_test/servos/XXXXXXXXXXXXXX.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/XXXXXXXXXXXXXX.py
+curl -o /home/pi/spotmicro/qa_test/servos/servo_test_pca9685.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Adafruit_Python_PCA9685/servo_test_pca9685.py
 ```
 Run with
 
 ```
-python3 XXXXXXXXXXXXXX.py
+python3 servo_test_pca9685.py
 ```
+
+## Connect your servo to the board
+
+Connect the servo as the image shows, in the channel 0:
+
+![servo_using_pca9685_i2c_connection](servo_using_pca9685_i2c_connection.jpg)
+
+
+
 
 
 More details here: https://learn.adafruit.com/adafruit-16-channel-servo-driver-with-raspberry-pi
