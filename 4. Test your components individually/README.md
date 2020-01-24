@@ -115,6 +115,8 @@ The library is located here: https://gist.github.com/DenisFromHR/cc863375a6e19dc
 * Download the library file from our repository and the example using the terminal with the following command:
 Save the needed library in our repo, link it to the source but keep the copy.
 ```
+cd /home/pi/spotmicro/qa_test/screen
+
 curl -o /home/pi/spotmicro/qa_test/screen/screen_tests.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests.py
 
 curl -o /home/pi/spotmicro/qa_test/screen/RPi_LCD_16x2_I2C_driver.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/RPi_LCD_16x2_I2C_driver.py
@@ -122,9 +124,7 @@ curl -o /home/pi/spotmicro/qa_test/screen/RPi_LCD_16x2_I2C_driver.py https://git
 sed -i 's/unichr/chr/g' screen_tests.py
 ```
 
-* Or use the browser and FileZilla from https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
-  * Save it in a fille called **I2C_LCD_driver.py**
-  * Upload the file **I2C_LCD_driver.py** to your folder **/home/pi/spotmicro/qa_test/screen**
+* Remember you can use FileZilla if you prefer a graphical environment
 
 NO NEEDED -> sudo apt install python-rpi.gpio python3-rpi.gpio
 NO NEEDED -> python3 -m pip install RPi.GPIO
