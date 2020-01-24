@@ -186,8 +186,6 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_scroll_text_left_to_right
 curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_single_custom_character.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_single_custom_character.py
 
 curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_multiple_custom_characters.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_multiple_custom_characters.py
-
-
 ```
 
 
