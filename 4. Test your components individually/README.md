@@ -111,6 +111,16 @@ Connecting an LCD with an I2C interface is very simple:
 
 ![16x2-I2C-lcd](16x2-I2C-lcd.jpg)
 
+And run the detection to see if is correctly connected and detected:
+
+```
+i2cdetect -y 1
+```
+
+![16x2-I2C-lcd-detected](16x2-I2C-lcd-detected.jpg)
+
+As you can see the I2C address is 27 in the table. You may have different address.
+
 ## Libraries
 
 We are going to use an improved version of a I2C library that was published first here: https://www.recantha.co.uk/blog/?p=4849.
@@ -240,6 +250,10 @@ After connecting it, check if the board has been detected properly
 ```
 sudo i2cdetect -y 1
 ```
+
+![pca9685-I2C-detected](pca9685-I2C-detected.jpg)
+
+The 40 and 70 mean the module has been detected. You may have different address.
 
 Download the following test to center the servo
 ```
