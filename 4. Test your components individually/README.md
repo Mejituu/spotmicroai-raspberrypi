@@ -201,9 +201,13 @@ python3 -m pip install RPi.GPIO
 
 curl -o /home/pi/spotmicro/qa_test/servos/servo_test_position_to_center.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/servo_test_position_to_center.py
 
+cp ../screen/RPi_LCD_16x2_I2C_driver.py .
+
 python3 servo_test_position_to_center.py
 
 ```
+
+More date here: https://rpi.science.uoit.ca/lab/servo/
 
 ## Using Adafruit_Python_PCA9685
 
