@@ -275,8 +275,7 @@ https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/examples/simplet
 
 
 
-
-# Testing the XBox controller
+# Testing the XBox One controller
 
 TODO:
 * https://pimylifeup.com/xbox-controllers-raspberry-pi/
