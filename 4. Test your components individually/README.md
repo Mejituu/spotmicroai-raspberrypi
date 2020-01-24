@@ -142,11 +142,24 @@ If you mist the action run again while stearing at our screen!
 python3 screen_tests.py
 ```
 
-## QA Test
+## Run some simple tests
 
-Some simple script examples can be found here: http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming/
+* [screen_tests_write_to_display.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_write_to_display.py)
+* [screen_tests_position_the_text.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_position_the_text.py)
+* [screen_tests_clear_the_screen.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_clear_the_screen.py)
+* [screen_tests_blinking_text.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_blinking_text.py)
+* [screen_tests_print_raspberrypi_temperature.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_raspberrypi_temperature.py)
+* [screen_tests_print_the_date_and_time.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_the_date_and_time.py)
+* [screen_tests_print_your_wifi_ip_address.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_your_wifi_ip_address.py)
+* [screen_tests_scroll_text_right_to_left_continously.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_right_to_left_continously.py)
+* [screen_tests_scroll_text_right_to_left_once.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_right_to_left_once.py)
+* [screen_tests_scroll_text_left_to_right_once.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_scroll_text_left_to_right_once.py)
 
-TODO: Script that shows the temp and IP like https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/raw_tests/screen_tests/write_to_display.py
+Create your custom characters here: https://omerk.github.io/lcdchargen/
+
+* [screen_tests_print_single_custom_character.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_single_custom_character.py)
+* [screen_tests_print_multiple_custom_characters.py](https://gitlab.com/custom_robots/spotmicro/raspberrypi/blob/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/screen_tests_print_multiple_custom_characters.py)
+
 
 
 
