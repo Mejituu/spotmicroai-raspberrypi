@@ -1,3 +1,5 @@
+#!/home/pi/spotmicro/venv/bin/python3 -u
+
 import RPi_LCD_16x2_I2C_driver
 import os
 import time
