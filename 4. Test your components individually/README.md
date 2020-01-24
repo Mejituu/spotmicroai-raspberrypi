@@ -196,7 +196,7 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_multiple_custom_cha
 
 # Testing the Servos
 
-## First, lets use just RaspberryPi to check them 
+## First, lets use just RaspberryPi GPIO to check them 
 
 Connect the servo as the image shows:
 
@@ -219,14 +219,46 @@ Run with
 ```
 python3 servo_test_all_positions.py
 ```
-or
+and
 ```
 python3 servo_test_position_to_center.py
 ```
 
 More details here: https://rpi.science.uoit.ca/lab/servo/
 
-## Using Adafruit_Python_PCA9685
+## Now lest use the module Adafruit_Python_PCA9685
+
+Connect the servo as the image shows:
+
+![servo_using_pca9685_i2c_connection](servo_using_pca9685_i2c_connection.jpg)
+
+You can power the servo from the V+ pin, at 5V, or as the image shows, using the big side connector
+
+ **Don't connect 5V to the Vcc which only accepts 3.3**, or your board will die.
+
+After connecting it, check if the board has been detected properly
+```
+sudo i2cdetect -y 1
+```
+
+Download the following test to center the servo
+```
+cd /home/pi/spotmicro/qa_test/servos
+
+python3 -m pip install adafruit-pca9685
+
+curl -o /home/pi/spotmicro/qa_test/servos/XXXXXXXXXXXXXX.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/XXXXXXXXXXXXXX.py
+```
+Run with
+
+```
+python3 XXXXXXXXXXXXXX.py
+```
+
+
+More details here: https://learn.adafruit.com/adafruit-16-channel-servo-driver-with-raspberry-pi
+
+
 
 TODO:
 * Following: https://github.com/adafruit/Adafruit_Python_PCA9685
@@ -234,7 +266,7 @@ TODO:
 * https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/servos_tests
 
 
-sudo pip install adafruit-pca9685
+
 
 
 https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/examples/simpletest.py
