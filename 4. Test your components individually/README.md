@@ -122,6 +122,14 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests.py https://gitlab.com/cus
 curl -o /home/pi/spotmicro/qa_test/screen/RPi_LCD_16x2_I2C_driver.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/LCD_16x2_I2C_Screen/RPi_LCD_16x2_I2C_driver.py
 
 sed -i 's/unichr/chr/g' screen_tests.py
+
+cd /home/pi/spotmicro
+source venv/bin/activate
+cd qa_test/screen
+
+python3 -m pip install smbus
+
+python3 screen_tests.py
 ```
 
 * Remember you can use FileZilla if you prefer a graphical environment
@@ -129,13 +137,9 @@ sed -i 's/unichr/chr/g' screen_tests.py
 NO NEEDED -> sudo apt install python-rpi.gpio python3-rpi.gpio
 NO NEEDED -> python3 -m pip install RPi.GPIO
 
-cd /home/pi/spotmicro
-source ../../venv/bin/activate
-cd qa_test/screen
 
-python3 -m pip install smbus
 
-python3 examples.py
+python3 screen_tests.py
 
 
 
