@@ -189,28 +189,23 @@ curl -o /home/pi/spotmicro/qa_test/screen/screen_tests_print_multiple_custom_cha
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Testing the Servos
+
+## First, lets use just RaspberryPi to check them 
+
+Download the following test to center the servo
+```
+cd /home/pi/spotmicro/qa_test/servos
+
+python3 -m pip install RPi.GPIO
+
+curl -o /home/pi/spotmicro/qa_test/servos/servo_test_position_to_center.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/servo_test_position_to_center.py
+
+python3 servo_test_position_to_center.py
+
+```
+
+## Using Adafruit_Python_PCA9685
 
 TODO:
 * Following: https://github.com/adafruit/Adafruit_Python_PCA9685
