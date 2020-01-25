@@ -90,8 +90,7 @@ cd qa_test/
 
 mkdir screen
 mkdir servos
-mkdir xboxonecontroller
-mkdir ps4controller
+mkdir remotecontroller
 ```
 # RaspberryPi GPIO
 
@@ -292,7 +291,9 @@ If you connect your servos to the channel used in the script you must see the se
 
 Depending of the servo you may have to adjust parameters in the example scripts.
 
-# Testing the XBox One controller
+# Remote controllers
+
+## XBox One controller
 
 To wake up the controller press the big central button.
 To force the controller to go to sleep, hold the big central button for 10 seconds. Once the light turns off, the controller is asleep.
@@ -367,8 +368,7 @@ You will see a screen with a bunch of numbers, those are the axis of the control
 
 Done! 
 
-
-# Testing the PS4 controller
+## PS4 controller
 
 To wake up the controller press the PS button.
 To force the controller to go to sleep, hold the PS button for 10 seconds. Once the light bar turns off, the controller is asleep.
@@ -388,3 +388,21 @@ sudo apt-get install xboxdrv
 
 TODO: Do we actually need the xbox driver? or the apt-get install joystick alone will do?
 
+## Testing the controllers from python
+
+Download the following test to center the servo
+```
+cd /home/pi/spotmicro
+source venv/bin/activate
+
+cd /home/pi/spotmicro/qa_test/remotecontroller
+
+python3 -m pip install inputs
+
+curl -o /home/pi/spotmicro/qa_test/remotecontroller/joystick-api.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Remote_controller/joystick-api.py
+```
+Run with
+
+```
+python3 joystick-api.py
+```
