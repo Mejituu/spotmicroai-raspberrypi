@@ -76,3 +76,9 @@ while True:
 
     if the travel needs more than 60º, we need to send more than 1 pulse
     p.ChangeDutyCycle(2.5)
+
+
+
+
+
+

@@ -32,11 +32,18 @@ pca.frequency = 50
 # servo7 = servo.Servo(pca.channels[7], min_pulse=600, max_pulse=2600)
 
 # The pulse range is 1000 - 2000 by default.
-servo = servo.Servo(pca.channels[0], min_pulse=600, max_pulse=2500)
+servo = servo.Servo(pca.channels[0], min_pulse=352, max_pulse=2664)
 
-for i in range(180):
-    servo.angle = i
-for i in range(180):
-    servo.angle = 180 - i
-pca.deinit()
+try:
+
+    for i in range(180):
+        print(i)
+        servo.angle = i
+    
+    for i in range(180):
+    	print(i)
+        servo.angle = 180 - i
+
+finally:
+    pca.deinit()
 
