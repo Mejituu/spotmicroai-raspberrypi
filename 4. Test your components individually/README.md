@@ -255,8 +255,6 @@ If you have 2 PCA9685 boards, you need to chang ethe I2C address of one of them,
 
 ![pca9685-i2c-address-change](pca9685-i2c-address-change.jpg)
 
-
-
 ## Connect your servo to the board
 
 Connect the servo as the image shows, in the channel 0:
@@ -299,6 +297,9 @@ Depending of the servo you may have to adjust parameters in the example scripts.
 To wake up the controller press the big central button.
 
 XBox one controller supports bluetooth, to put your XBOX One controller in bluetooth in paring mode you must enable it with the big XBox One button and then, in the front, press the share button a few seconds till the light blinking pace changes.
+
+
+![xbox-one-controller-sharing](xbox-one-controller-sharing.jpg)
 
 Then all we need to do is to pair it in our RasberryPi.
 
@@ -345,7 +346,12 @@ Shutting down your Pi will also turn the controller off.
 trust B8:27:XX:XX:XX:XX
 ```
 
+![xbox-one-controller-bluetooth-paring](xbox-one-controller-bluetooth-paring.JPG)
+
 We need now to test it!
+
+![xbox-one-controller-validation](xbox-one-controller-validation.JPG)
+
 
 ```
 sudo apt-get install joystick
@@ -370,6 +376,7 @@ The controller is now in pairing mode.
 
 The rest is exactly like for the XBoxOne controller above instructions.
 
+The MAC address for PS4 controller will start with something like A4:xxx
 
 TODO: Do we actually need the xbox driver? or the apt-get install joystick alone will do?
 
