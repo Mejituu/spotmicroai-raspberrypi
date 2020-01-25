@@ -223,8 +223,6 @@ python3 -m pip install RPi.GPIO
 
 curl -o /home/pi/spotmicro/qa_test/servos/servo_test_all_positions.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/servo_test_all_positions.py
 
-curl -o /home/pi/spotmicro/qa_test/servos/servo_test_position_to_center.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/RPi.GPIO_Servos/servo_test_position_to_center.py
-
 cp ../screen/RPi_LCD_16x2_I2C_driver.py .
 ```
 Run with
@@ -232,20 +230,19 @@ Run with
 ```
 python3 servo_test_all_positions.py
 ```
-and
-```
-python3 servo_test_position_to_center.py
-```
 
-More details here: https://rpi.science.uoit.ca/lab/servo/
+Note, this script requires the LCD I2C screen but if ok if you don't have it connected.
+
+**The GPIO pin you need to connect for PWD is 17**
 
 ## Now lest use the module Adafruit_Python_PCA9685
 
-You can power the servo from the V+ pin, at 5V, or as the image shows, using the big side connector
+The PCA9685 board has a V+ and a Vcc connectiors. **Don't connect 5V to the Vcc which only accepts 3.3**, or your board will die.
 
- **Don't connect 5V to the Vcc which only accepts 3.3**, or your board will die.
+You can power the servos for testing from the V+ pin, at 5V, or as the image a few paragraphs below shows, using the big side connector.
 
-After connecting it, check if the board has been detected properly
+After connecting the PCA9685 to the RaspberryPi I2C ports, check if the board has been detected properly
+
 ```
 sudo i2cdetect -y 1
 ```
@@ -253,6 +250,20 @@ sudo i2cdetect -y 1
 ![pca9685-I2C-detected](pca9685-I2C-detected.jpg)
 
 The 40 and 70 mean the module has been detected. You may have different address.
+
+If you have 2 PCA9685 boards, you need to chang ethe I2C address of one of them, there is a set of ports on the board that you can sold for this matter.
+
+![pca9685-i2c-address-change](pca9685-i2c-address-change.jpg)
+
+
+
+## Connect your servo to the board
+
+Connect the servo as the image shows, in the channel 0:
+
+![servo_using_pca9685_i2c_connection](servo_using_pca9685_i2c_connection.jpg)
+
+## Lets move the servo
 
 Download the following test to center the servo
 ```
@@ -262,59 +273,103 @@ source venv/bin/activate
 cd /home/pi/spotmicro/qa_test/servos
 
 python3 -m pip install adafruit-pca9685
-python3 -m pip install adafruit-circuitpython-servokit
-python3 -m pip install adafruit-circuitpython-pca9685
 
-curl -o /home/pi/spotmicro/qa_test/servos/servo_test_pca9685.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Adafruit_Python_PCA9685/servo_test_pca9685.py
+curl -o /home/pi/spotmicro/qa_test/servos/servo_test_pca9685_with_min_max.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Adafruit_Python_PCA9685/servo_test_pca9685_with_min_max.py
+
+curl -o /home/pi/spotmicro/qa_test/servos/servo_test_all_positions.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Adafruit_Python_PCA9685/servo_test_all_positions.py
+
+
 ```
 Run with
 
 ```
-python3 servo_test_pca9685.py
+python3 servo_test_pca9685_with_min_max.py
+```
+and 
+```
+python3 servo_test_all_positions.py
 ```
 
-## Connect your servo to the board
+If you connect your servos to the channel used in the script you must see the servo moving when they get executed.
 
-Connect the servo as the image shows, in the channel 0:
-
-![servo_using_pca9685_i2c_connection](servo_using_pca9685_i2c_connection.jpg)
-
-
-
-
-
-More details here: https://learn.adafruit.com/adafruit-16-channel-servo-driver-with-raspberry-pi
-
-
-
-TODO:
-* Following: https://github.com/adafruit/Adafruit_Python_PCA9685
-* PDF: https://cdn-learn.adafruit.com/downloads/pdf/adafruit-16-channel-servo-driver-with-raspberry-pi.pdf
-* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/servos_tests
-
-
-
-
-
-https://github.com/adafruit/Adafruit_Python_PCA9685/blob/master/examples/simpletest.py
-
-
-
-
+Depending of the servo you may have to adjust parameters in the example scripts.
 
 # Testing the XBox One controller
 
-TODO:
-* https://pimylifeup.com/xbox-controllers-raspberry-pi/
-* https://gist.github.com/rdb/8864666
-* https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/4.%20Test%20your%20components%20individually/raw_tests/xboxcontroller
+To wake up the controller press the big central button.
+
+XBox one controller supports bluetooth, to put your XBOX One controller in bluetooth in paring mode you must enable it with the big XBox One button and then, in the front, press the share button a few seconds till the light blinking pace changes.
+
+Then all we need to do is to pair it in our RasberryPi.
+
+```
+ssh pi@192.168.1.XX
+
+sudo apt-get install xboxdrv
+echo 'options bluetooth disable_ertm=Y' | sudo tee -a /etc/modprobe.d/bluetooth.conf
+sudo reboot
+```
+
+After the reboot the RaspberryPi is ready to accept the controller
+
+```
+ssh pi@192.168.1.XX
+cd /home/pi/spotmicro
+source venv/bin/activate
+
+sudo bluetoothctl
+```
+The terminal will change, no worries just write:
+
+```
+agent on
+default-agent
+scan on
+```
+Some bluetooth addresses will start poping up, the one you are looking for matches Microsoft Mac address for the controllers (B8:27:XX:XX:XX:XX), something similar to:
+
+* [NEW] Device B8:27:XX:XX:XX:XX Wireless Controller
+
+Write down your mac address and while the controller is in pair mode just connect to it:
+
+```
+connect B8:27:XX:XX:XX:XX
+```
+
+You will see that there is an attempt to connect and finally it gets paired.
+
+Next step is to make the RaspberryPi to remember that controller, so everytime you switch it on, will connect to it.
+The controller will automatically re-connect to anything it's already been paired to.
+Shutting down your Pi will also turn the controller off.
+```
+trust B8:27:XX:XX:XX:XX
+```
+
+We need now to test it!
+
+```
+sudo apt-get install joystick
+sudo jstest /dev/input/js0
+```
+
+You will see a screen with a bunch of numbers, those are the axis of the controler and buttons, press them to see how they are detected.
+
+Done! 
+
+
+
 
 # Testing the PS4 controller
 
-TODO:
-* DS4 driver
+To wake up the controller press the PS button.
+To force the controller to go to sleep, hold the PS button for 10 seconds. Once the light bar turns off, the controller is asleep.
+
+PS4 controller supports bluetooth, to put your PS4 controller in bluetooth in paring mode press and hold the Share button then the PS button.
+After a few seconds, the light bar will strobe rapidly and brightly.
+The controller is now in pairing mode.
+
+The rest is exactly like for the XBoxOne controller above instructions.
 
 
-https://github.com/RetroPie/RetroPie-Setup/wiki/PS4-Controller
-https://github.com/chrippa/ds4drv
+TODO: Do we actually need the xbox driver? or the apt-get install joystick alone will do?
 
