@@ -295,6 +295,7 @@ Depending of the servo you may have to adjust parameters in the example scripts.
 # Testing the XBox One controller
 
 To wake up the controller press the big central button.
+To force the controller to go to sleep, hold the big central button for 10 seconds. Once the light turns off, the controller is asleep.
 
 XBox one controller supports bluetooth, to put your XBOX One controller in bluetooth in paring mode you must enable it with the big XBox One button and then, in the front, press the share button a few seconds till the light blinking pace changes.
 
@@ -306,6 +307,7 @@ Then all we need to do is to pair it in our RasberryPi.
 ```
 ssh pi@192.168.1.XX
 
+sudo apt-get install joystick
 sudo apt-get install xboxdrv
 echo 'options bluetooth disable_ertm=Y' | sudo tee -a /etc/modprobe.d/bluetooth.conf
 sudo reboot
@@ -315,8 +317,6 @@ After the reboot the RaspberryPi is ready to accept the controller
 
 ```
 ssh pi@192.168.1.XX
-cd /home/pi/spotmicro
-source venv/bin/activate
 
 sudo bluetoothctl
 ```
@@ -350,19 +350,22 @@ trust B8:27:XX:XX:XX:XX
 
 We need now to test it!
 
+```
+cat /proc/bus/input/devices
+ls /dev/input/js*
+```
+
 ![xbox-one-controller-validation](xbox-one-controller-validation.JPG)
 
-
 ```
-sudo apt-get install joystick
 sudo jstest /dev/input/js0
 ```
 
 You will see a screen with a bunch of numbers, those are the axis of the controler and buttons, press them to see how they are detected.
 
+![ps4-controller-capture-keys](ps4-controller-capture-keys.JPG)
+
 Done! 
-
-
 
 
 # Testing the PS4 controller
@@ -374,9 +377,14 @@ PS4 controller supports bluetooth, to put your PS4 controller in bluetooth in pa
 After a few seconds, the light bar will strobe rapidly and brightly.
 The controller is now in pairing mode.
 
-The rest is exactly like for the XBoxOne controller above instructions.
+The rest is like for the XBoxOne controller above instructions but:
 
-The MAC address for PS4 controller will start with something like A4:xxx
+* You don't need to install the xboxdrv, skip the following line:
+```
+sudo apt-get install xboxdrv
+```
+
+* The MAC address for PS4 controller will start with something like A4:53:XX:XX:XX:XX
 
 TODO: Do we actually need the xbox driver? or the apt-get install joystick alone will do?
 
