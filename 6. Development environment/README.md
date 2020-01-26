@@ -185,6 +185,12 @@ And it will be created and visible under the menu
 
 ![pycharm-desktop-menu](pycharm-desktop-menu.JPG)
 
+## Fonts
+
+TODO:
+* To pic the ones used in windows/macos and pair them
+* Disable antialias to check if the text experience improves
+
 # Projects folder and repositories
 
 To get familiar with Python and needed dependencies, follow the instructions and comments here that suit your needs: https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/2.%20Creating%20a%20program%20that%20boots%20when%20SpotMicro%20starts
