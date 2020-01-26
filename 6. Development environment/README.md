@@ -1,4 +1,4 @@
-# Development environment
+# Development environment with RaspberryPi
 
 I decided to have a second RaspberryPi 4 4GB with an external SSD USB3 as a development environment.
 
@@ -144,3 +144,76 @@ sudo hdparm -Tt /dev/sda
 ```
 dd if=/dev/zero of=/tmp/output bs=8k count=10k; rm -f /tmp/output
 ```
+
+# PyCharm
+
+Download PyCharm from JetBrains website
+
+Open a terminal and run the following commands
+
+```
+sudo apt install default-jdk -y
+
+cd /opt
+
+tar xvzf /home/pi/Downloads/pycharm-professional-XXXX.X.X.tar.gz
+rm -rf /home/pi/Downloads/pycharm-professional-XXXX.X.X.tar.gz
+
+cd /opt/pycharm-2019.3.2/bin
+./pycharm.sh 
+```
+
+Some warnings will appear depending of your java version and configuration.
+
+During the first start, PyCharm will ask you to activate plugins, I did select Markdown only
+
+![pycharm-markdown-plugin](pycharm-markdown-plugin.JPG)
+
+Create a first dummy project in your Desktop folder
+
+![pycharm-first-dummy-project](pycharm-first-dummy-project.JPG)
+
+Wait till the environment finishes loading
+
+## PyCharm desktop menu entry
+
+Once the enviroment is loaded, go to Tools -> Create Desktop Entry...
+
+![pycharm-create-desktop-menu](pycharm-create-desktop-menu.JPG)
+
+And it will be created and visible under the menu
+
+![pycharm-desktop-menu](pycharm-desktop-menu.JPG)
+
+## Watcher
+
+
+During this time, the console in background, will show the following error (amoung others):
+
+```
+2020-01-26 02:32:09,122 [ 161331]   WARN - api.vfs.impl.local.FileWatcher - Unfortunately, JetBrains does not officially support native file watcher for this architecture. Please follow <a href="https://confluence.jetbrains.com/display/IDEADEV/Compiling+File+Watcher">these instructions</a> to compile it yourself. 
+```
+
+The reason is that JetBrains provides builds of fsnotifier binary only for x86 and x86-64 architectures. RaspberryPi is an ARM platform.
+
+
+
+
+
+
+
+
+
+
+# Projects folder and repositories
+
+```
+mkdir /home/pi/projects
+cd /home/pi/projects
+
+git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi
+```
+
+# Final notes
+
+Remember you can use FileZilla to pass files between your host pc and the SpotMicro development environment
