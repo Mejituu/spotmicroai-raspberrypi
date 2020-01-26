@@ -122,7 +122,6 @@ it ends like the following image:
 
 ![vnc-gparted-select-sda-extended](vnc-gparted-select-sda-extended.JPG)
 
-
 ## USB3 Performance
 
 ```
