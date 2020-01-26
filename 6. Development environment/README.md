@@ -12,7 +12,11 @@ At the time of writing this, RaspberryPi 4 don't have support to boot from USB3,
 
 Disable UASP for that unit.
 
-Altho I'm not using an ssd enclosure, I want to note her than another problem of RaspberryPi 4, with some USB enclosures without UASP support will not work if they are connected to USB3, you can do the installation to the USB2 and then modify the /boot partition to accomodate them. How to solve it here: https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=245931.
+Altho I'm not using an ssd enclosure, I want to note her than another problem of RaspberryPi 4, with some USB enclosures without UASP support will not work if they are connected to USB3, you can do the installation to the USB2 and then modify the /boot partition to accomodate them.
+How to solve it here:
+* https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=245931
+* https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=245323
+* https://www.raspberrypi.org/forums/viewtopic.php?t=245767
 
 In a nutsheel:
 * Boot your ssd from USB2 port
@@ -60,4 +64,40 @@ Select:
 * Language is not important, Raspbian will come with en_GB no matter what you select.
 
 ![pinn-raspbian-desktop](pinn-raspbian-desktop.JPG)
+
+
+### Enable VNC and first boot
+
+```
+ssh pi@192.168.1.XX
+sudo raspi-config
+```
+
+* Advanced options -> Resolution -> Pick one (1920x1080 60Hz in my case)
+* Boot Options -> Desktop / CLI -> Desktop Autologin
+* Interfacing options -> VNC
+* Network Options -> Hostname -> "spotmicrodev" (to avoid collision with spotmicro used in the RaspberryPi located in the printed SpotMicro)
+* Localization options -> Change locale
+  * Remove en_GB.UTF-8 UTF-8
+  * Select en_US.UTF-8 UTF-8
+    * Default locale for system environment: en_US.UTF-8
+
+Select Finish -> Reboot
+
+### Updates
+
+```
+ssh pi@192.168.1.XX
+sudo raspi-config
+```
+
+* Update
+
+```
+sudo apt install gparted
+sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y
+sudo reboot
+```
+
+## Connect to your desktop using VNC
 
