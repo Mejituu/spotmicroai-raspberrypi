@@ -42,11 +42,22 @@ If you are using PINN, when you create the SD card, just add the "usb-storage.qu
 runinstaller quiet ramdisk_size=32768 root=/dev/ram0 init=/init vt.cur_default=1 elevator=deadline repo_list=http://raw.githubusercontent.com/procount/pinn-os/master/os/repo_list.json loglevel=2 sdhci.debug_quirks2=4 usb-storage.quirks=357d:7788:u vncshare ssh
 ```
 
-## Installing the development environment
+## Installing the development environment (Headless)
 
-Follow the instructions in the followin link, but instead of RaspbianLite, install Raspbian Desktop (not the full version): https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/1.%20Prepare%20your%20RaspberryPi%20for%20SpotMicro
+Get familiar with the instructions in the followin link, then keep reading, but instead of RaspbianLite, install Raspbian Desktop (not the full version): https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/1.%20Prepare%20your%20RaspberryPi%20for%20SpotMicro
 
 Make sure your SSD is also formatted, and free of partitions.
 
+![ssd-partitions](ssd-partitions.JPG)
+
 Raspbian installer will not expand the SSD partition automatically, since is not a SD card, so, we will have to do it manually after installing Raspbian on it.
+
+Select:
+
+* Tab General -> Raspbian
+* Destination drive -> sda
+* Your keyboard layout
+* Language is not important, Raspbian will come with en_GB no matter what you select.
+
+![pinn-raspbian-desktop](pinn-raspbian-desktop.JPG)
 
