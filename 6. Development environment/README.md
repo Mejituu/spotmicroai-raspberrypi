@@ -185,27 +185,9 @@ And it will be created and visible under the menu
 
 ![pycharm-desktop-menu](pycharm-desktop-menu.JPG)
 
-## Watcher
-
-
-During this time, the console in background, will show the following error (amoung others):
-
-```
-2020-01-26 02:32:09,122 [ 161331]   WARN - api.vfs.impl.local.FileWatcher - Unfortunately, JetBrains does not officially support native file watcher for this architecture. Please follow <a href="https://confluence.jetbrains.com/display/IDEADEV/Compiling+File+Watcher">these instructions</a> to compile it yourself. 
-```
-
-The reason is that JetBrains provides builds of fsnotifier binary only for x86 and x86-64 architectures. RaspberryPi is an ARM platform.
-
-
-
-
-
-
-
-
-
-
 # Projects folder and repositories
+
+To get familiar with Python and needed dependencies, follow the instructions and comments here that suit your needs: https://gitlab.com/custom_robots/spotmicro/raspberrypi/tree/master/2.%20Creating%20a%20program%20that%20boots%20when%20SpotMicro%20starts
 
 ```
 mkdir /home/pi/projects
@@ -217,3 +199,5 @@ git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi
 # Final notes
 
 Remember you can use FileZilla to pass files between your host pc and the SpotMicro development environment
+
+Or you can just ssh to the box and run the terminal from your local desktop for convenience.
