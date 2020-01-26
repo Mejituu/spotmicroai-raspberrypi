@@ -109,6 +109,12 @@ Welcome to your desktop
 
 ![vnc-first-login](vnc-first-login.JPG)
 
+Remove the boot wizard
+
+```
+sudo rm /etc/xdg/autostart/piwiz.desktop
+```
+
 Open GParted
 
 ![vnc-gparted](vnc-gparted.JPG)
@@ -144,6 +150,24 @@ sudo hdparm -Tt /dev/sda
 ```
 dd if=/dev/zero of=/tmp/output bs=8k count=10k; rm -f /tmp/output
 ```
+
+# Overclock
+
+```
+sudo apt update
+sudo apt dist-upgrade
+sudo rpi-update
+```
+
+**Don't use sudo rpi-update as the update normal process**, it reflashes the firmware
+
+```
+sudo nano /boot/config.txt
+```
+under the [pi4] section in the file add
+* over_voltage=6
+* arm_freq=2140
+* gpu_freq=750
 
 # PyCharm
 
@@ -201,6 +225,21 @@ cd /home/pi/projects
 
 git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi
 ```
+
+# Overclock
+
+Monitor the temperature in the external screen on boot or the desktop menu bar
+
+```
+sudo apt update -y
+sudo apt dist-upgrade -y
+
+sudo rpi-update -y
+
+sudo nano /boot/config.txt
+
+```
+
 
 # Final notes
 
