@@ -99,7 +99,7 @@ sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y
 sudo reboot
 ```
 
-## Connect to your desktop using VNC
+## VNC first login
 
 Log in
 
@@ -121,3 +121,27 @@ If the partition is not expanded already, make sure you expand it and
 it ends like the following image:
 
 ![vnc-gparted-select-sda-extended](vnc-gparted-select-sda-extended.JPG)
+
+
+## USB3 Performance
+
+```
+sudo apt install hdparm
+```
+
+We want to check read and write speeds.
+
+First my results for your reference:
+
+![ssd-usb3-performance](ssd-usb3-performance.JPG)
+
+### Read speeds
+
+```
+sudo hdparm -Tt /dev/sda
+```
+### Write speeds
+
+```
+dd if=/dev/zero of=/tmp/output bs=8k count=10k; rm -f /tmp/output
+```
