@@ -101,3 +101,23 @@ sudo reboot
 
 ## Connect to your desktop using VNC
 
+Log in
+
+![vnc-login](vnc-login.JPG)
+
+Welcome to your desktop
+
+![vnc-first-login](vnc-first-login.JPG)
+
+Open GParted
+
+![vnc-gparted](vnc-gparted.JPG)
+
+Select /dev/sda instead of /dev/mmcblk0
+
+![vnc-gparted-select-sda](vnc-gparted-select-sda.JPG)
+
+If the partition is not expanded already, make sure you expand it and 
+it ends like the following image:
+
+![vnc-gparted-select-sda-extended](vnc-gparted-select-sda-extended.JPG)
