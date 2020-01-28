@@ -1,4 +1,31 @@
 
+# Pull the runtime in your development environment
+
+```
+cd ~
+
+mkdir projects
+cd projects
+
+git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi.git
+
+cd "raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
+
+python3 -m venv venv --clear
+
+source venv/bin/activate
+
+curl https://bootstrap.pypa.io/get-pip.py | python
+
+pip install --upgrade pip
+pip install --upgrade setuptools
+
+```
+
+```
+rsync -avz --exclude venv --exclude .idea 'franferri@192.168.1.107:/Users/franferri/projects/raspberrypi/5. Configure and activate your SpotMicro' '/home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime'
+```
+
 
 # Booting SpotMicroAI with all data
 

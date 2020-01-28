@@ -46,3 +46,21 @@ Some of the community videos: https://www.youtube.com/playlist?list=PLp5v7U2tXHs
 Join our Slack and show us if you are able to make it dance!
 
 * https://www.youtube.com/watch?v=kHBcVlqpvZ8&list=PLp5v7U2tXHs3BYfe93GZwuUZLGsisapic&index=2
+
+
+# Todo
+
+Arrange the repos like:
+
+	Electornics/RaspberryPi
+	Electornics/NVidiaJetsonNano
+
+	Assembly/midleg/servo_size_xxx/horns
+	Assembly/top_cover/plain
+	Assembly/top_cover/lidar
+
+	JetsonNano/RL
+	JetsonNano/XXX <- No idea here I need your machine learning and frameworks input here
+
+	RaspberryPi/How to install
+	RaspberryPi/runtime_code
