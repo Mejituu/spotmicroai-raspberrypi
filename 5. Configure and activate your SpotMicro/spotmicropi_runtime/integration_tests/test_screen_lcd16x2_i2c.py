@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from spotmicropi.output.screen_lcd16x2_i2c import ScreenLCD16x2I2c
+from spotmicropi.output.screen_lcd_16x2_i2c import ScreenLCD16x2I2c
 import spotmicropi.utilities.log as logger
 
 log = logger.setup_logger('IntegrationTest_ScreenLCD16x2I2c')

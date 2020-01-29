@@ -11,6 +11,8 @@ git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi.git
 
 cd "raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
 
+chmod +x run_spotmicropi.sh
+
 python3 -m venv venv --clear
 
 source venv/bin/activate

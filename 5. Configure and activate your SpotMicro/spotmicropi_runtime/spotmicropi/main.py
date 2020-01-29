@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import spotmicropi.utilities.log as logger
 import multiprocessing
 
-from spotmicropi.motion.motion import Motion
-from spotmicropi.remote_controllers.remote_controller import RemoteController
+import spotmicropi.utilities.log as logger
 from spotmicropi.input_sensors.ultrasonic import UltrasonicSensor
-from spotmicropi.output.screen_lcd16x2_i2c import ScreenLCD16x2I2c
+from spotmicropi.motion.motion import Motion
+from spotmicropi.output.screen_lcd_16x2_i2c.screen_lcd_16x2_i2c import ScreenLCD16x2I2C
+from spotmicropi.remote_controllers.remote_controller import RemoteController
 
 log = logger.setup_logger()
 
@@ -26,9 +26,9 @@ def process_ultrasonic_sensor(events_queue):
     ultrasonic_sensor = UltrasonicSensor(events_queue)
 
 
-def process_output_screenlcd16x2i2c(events_queue):
-    log.info('Ultrasonic ScreenLCD16x2I2c')
-    screenlcd16x2i2c = ScreenLCD16x2I2c(events_queue)
+def process_output_screen_lcd_16x2_i2c(events_queue):
+    log.info('Ultrasonic ScreenLCD16x2I2C')
+    screen = ScreenLCD16x2I2C(events_queue)
 
 
 if __name__ == '__main__':
@@ -58,20 +58,20 @@ if __name__ == '__main__':
     # Activate Screen
     # Show communication on it about the status
 
-    screenlcd16x2i2c = multiprocessing.Process(target=process_output_screenlcd16x2i2c, args=(_events_queue,))
-    screenlcd16x2i2c.daemon = True
+    screen_lcd_16x2_i2c = multiprocessing.Process(target=process_output_screen_lcd_16x2_i2c, args=(_events_queue,))
+    screen_lcd_16x2_i2c.daemon = True
 
 
     # Start the threads queue processing
     motion_controller.start()
     remote_controller.start()
     ultrasonic_sensor.start()
-    screenlcd16x2i2c.start()
+    screen_lcd_16x2_i2c.start()
 
     motion_controller.join()  # make sure the thread ends
     remote_controller.join()  # make sure the thread ends
     ultrasonic_sensor.join()
-    screenlcd16x2i2c.join()
+    screen_lcd_16x2_i2c.join()
 
     _events_queue.close()
     _events_queue.join_thread()
