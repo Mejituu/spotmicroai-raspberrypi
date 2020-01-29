@@ -23,7 +23,7 @@ pip install --upgrade setuptools
 ```
 
 ```
-rsync -avz --exclude venv --exclude .idea 'franferri@192.168.1.107:/Users/franferri/projects/raspberrypi/5. Configure and activate your SpotMicro' '/home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime'
+rsync -avz --delete --exclude-from .gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi/5.\ Configure\ and\ activate\ your\ SpotMicro/*" /home/pi/projects/raspberrypi/5.\ Configure\ and\ activate\ your\ SpotMicro/
 ```
 
 
