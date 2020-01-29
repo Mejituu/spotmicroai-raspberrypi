@@ -270,6 +270,8 @@ source venv/bin/activate
 cd /home/pi/spotmicro/qa_test/servos
 
 python3 -m pip install adafruit-pca9685
+python3 -m pip install adafruit-circuitpython-pca9685
+python3 -m pip install adafruit-circuitpython-motor 
 
 curl -o /home/pi/spotmicro/qa_test/servos/servo_test_pca9685_with_min_max.py https://gitlab.com/custom_robots/spotmicro/raspberrypi/raw/master/4.%20Test%20your%20components%20individually/Adafruit_Python_PCA9685/servo_test_pca9685_with_min_max.py
 
@@ -290,6 +292,11 @@ python3 servo_test_all_positions.py
 If you connect your servos to the channel used in the script you must see the servo moving when they get executed.
 
 Depending of the servo you may have to adjust parameters in the example scripts.
+
+More info:
+* https://github.com/adafruit/Adafruit_CircuitPython_PCA9685
+* https://github.com/adafruit/Adafruit_Python_PCA9685
+* https://github.com/adafruit/Adafruit_CircuitPython_Motor
 
 # Remote controllers
 

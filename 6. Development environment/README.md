@@ -166,8 +166,7 @@ sudo nano /boot/config.txt
 ```
 under the [pi4] section in the file add
 * over_voltage=6
-* arm_freq=2140
-* gpu_freq=750
+* arm_freq=2000
 
 # PyCharm
 
@@ -238,6 +237,13 @@ sudo rpi-update -y
 
 sudo nano /boot/config.txt
 
+```
+
+# Enable I2C if you need it
+
+Make sure you have the I2C interface connected in raspberry, in the Interfacing Options
+```
+sudo raspi-config
 ```
 
 

@@ -230,7 +230,7 @@ Now you wil be ask to add the ssh key to your key store, just say yes.
 
 ![raspbian-first-ssh](raspbian-first-ssh.JPG)
 
-Now it will prompt you about the password, type "raspbian"
+Now it will prompt you about the password, type "raspberry"
 
 ![raspbian-first-ssh-password](raspbian-first-ssh-password.JPG)
 
