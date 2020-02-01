@@ -29,6 +29,11 @@ sudo apt-get install sshpass -y
 sshpass -p "*******" rsync -avz --delete --exclude '.git' --exclude-from /home/pi/projects/raspberrypi/.gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi" /home/pi/projects/
 ```
 
+```
+cd /home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime
+./run_spotmicropi.sh
+```
+
 
 # Booting SpotMicroAI with all data
 

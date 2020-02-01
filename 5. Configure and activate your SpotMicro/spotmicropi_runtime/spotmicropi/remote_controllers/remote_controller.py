@@ -3,6 +3,7 @@ import os
 import struct
 import array
 from fcntl import ioctl
+import signal
 
 import spotmicropi.utilities.log as logger
 
@@ -14,55 +15,71 @@ class RemoteController:
     def __init__(self, events_queue):
         log.info('Loading Remote Controller')
 
-        # We'll store the states here.
-        self.connected_device = False
-        self.axis_states = {}
-        self.button_states = {}
-        self.button_map = []
-        self.axis_map = []
-        self.jsdev = None
+        try:
 
-        self._events_queue = events_queue
+            signal.signal(signal.SIGINT, self.exit_gracefully)
+            signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-        self.do_process_events_from_queue()
+            # We'll store the states here.
+            self.connected_device = False
+            self.axis_states = {}
+            self.button_states = {}
+            self.button_map = []
+            self.axis_map = []
+            self.jsdev = None
+
+            self._events_queue = events_queue
+            self.do_process_events_from_queue()
+
+        except Exception as e:
+            print("OS error: {0}".format(e) + ': No Remote Controller detected')
+
+    def exit_gracefully(self, signum, frame):
+        print('Remote Controller terminating')
+        exit(0)
 
     def do_process_events_from_queue(self):
         log.info('RemoteController do_something')
 
-        while True:
+        try:
 
-            if not self.connected_device:
-                self.check_for_connected_devices()
-                sleep(2)
-                continue
-
-            self._events_queue.put('screen jump! write_first_line')
-
-            # Main event loop
             while True:
-                evbuf = self.jsdev.read(8)
-                if evbuf:
-                    time, value, type, number = struct.unpack('IhBB', evbuf)
 
-                    if type & 0x80:
-                        #print("(initial)")
-                        pass
+                if not self.connected_device:
+                    self.check_for_connected_devices()
+                    sleep(2)
+                    continue
 
-                    if type & 0x01:
-                        button = self.button_map[number]
-                        if button:
-                            self.button_states[button] = value
-                            if value:
-                                self._events_queue.put(("key press %s" % button))
-                            else:
-                                self._events_queue.put(("key press %s no more" % button))
+                self._events_queue.put('screen jump! write_first_line')
 
-                    if type & 0x02:
-                        axis = self.axis_map[number]
-                        if axis:
-                            fvalue = value / 32767.0
-                            self.axis_states[axis] = fvalue
-                            self._events_queue.put(("key press %s axis: %.3f" % (axis, fvalue)))
+                # Main event loop
+                while True:
+                    evbuf = self.jsdev.read(8)
+                    if evbuf:
+                        time, value, type, number = struct.unpack('IhBB', evbuf)
+
+                        if type & 0x80:
+                            # print("(initial)")
+                            pass
+
+                        if type & 0x01:
+                            button = self.button_map[number]
+                            if button:
+                                self.button_states[button] = value
+                                if value:
+                                    self._events_queue.put(("key press %s" % button))
+                                else:
+                                    self._events_queue.put(("key press %s no more" % button))
+
+                        if type & 0x02:
+                            axis = self.axis_map[number]
+                            if axis:
+                                fvalue = value / 32767.0
+                                self.axis_states[axis] = fvalue
+                                self._events_queue.put(("key press %s axis: %.3f" % (axis, fvalue)))
+
+        except Exception as e:
+            print('Unknown problem with the Remote Controller detected')
 
     def check_for_connected_devices(self):
         log.info('Remote controller, looking for connected devices')

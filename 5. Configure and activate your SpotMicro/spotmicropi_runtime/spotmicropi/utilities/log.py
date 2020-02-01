@@ -1,10 +1,11 @@
 import logging
+from pathlib import Path
 
-SPOTMICROPI = 'SpotMicroPi'
+SPOTMICRO = 'SpotMicro'
 
 
 def get_default_logger():
-    return get_logger(SPOTMICROPI)
+    return get_logger(SPOTMICRO)
 
 
 def get_logger(logger_name):
@@ -12,12 +13,16 @@ def get_logger(logger_name):
     return logger
 
 
-def setup_logger(logger_name=SPOTMICROPI):
+def setup_logger(logger_name=SPOTMICRO):
+
+    logs_folder = 'logs/'
+    Path(logs_folder).mkdir(parents=True, exist_ok=True)
+
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
 
     # create file handler which logs even debug messages
-    logging_file_handler = logging.FileHandler('logs/' + logger_name + '.log')
+    logging_file_handler = logging.FileHandler(logs_folder + logger_name + '.log')
     logging_file_handler.setLevel(logging.DEBUG)
 
     # create console handler with a higher log level

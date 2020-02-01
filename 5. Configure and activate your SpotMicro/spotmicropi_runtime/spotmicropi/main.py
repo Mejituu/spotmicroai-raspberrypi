@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import multiprocessing
-
+import signal
 import spotmicropi.utilities.log as logger
 from spotmicropi.input_sensors.ultrasonic import UltrasonicSensor
 from spotmicropi.motion.motion import Motion
@@ -32,46 +32,55 @@ def process_output_screen_lcd_16x2_i2c(events_queue):
 
 
 if __name__ == '__main__':
-    log.info('SpotMicroPi')
 
-    _events_queue = multiprocessing.Queue(10)
+    try:
 
-    # Start the motion controller
-    # 0E port from PCA9685 must be HIGH
-    # Process/Thread, listening the events QUEUE for orders
+        log.info('SpotMicroPi')
 
-    motion_controller = multiprocessing.Process(target=process_motion_controller, args=(_events_queue,))
-    motion_controller.daemon = True
+        _events_queue = multiprocessing.Queue(10)
 
-    # Activate Bluetooth controller
-    # Capture the buttons from the controller and generate events for the QUEUE
+        # Start the motion controller
+        # 0E port from PCA9685 must be HIGH
+        # Process/Thread, listening the events QUEUE for orders
 
-    remote_controller = multiprocessing.Process(target=process_remote_controller, args=(_events_queue,))
-    remote_controller.daemon = True
+        motion_controller = multiprocessing.Process(target=process_motion_controller, args=(_events_queue,))
+        motion_controller.daemon = True
 
-    # Activate Example sensor controller
-    # Adding a sensor example, lets say ultrasonic module
+        # Activate Bluetooth controller
+        # Capture the buttons from the controller and generate events for the QUEUE
 
-    ultrasonic_sensor = multiprocessing.Process(target=process_ultrasonic_sensor, args=(_events_queue,))
-    ultrasonic_sensor.daemon = True
+        remote_controller = multiprocessing.Process(target=process_remote_controller, args=(_events_queue,))
+        remote_controller.daemon = True
 
-    # Activate Screen
-    # Show communication on it about the status
+        # Activate Example sensor controller
+        # Adding a sensor example, lets say ultrasonic module
 
-    screen_lcd_16x2_i2c = multiprocessing.Process(target=process_output_screen_lcd_16x2_i2c, args=(_events_queue,))
-    screen_lcd_16x2_i2c.daemon = True
+        ultrasonic_sensor = multiprocessing.Process(target=process_ultrasonic_sensor, args=(_events_queue,))
+        ultrasonic_sensor.daemon = True
 
+        # Activate Screen
+        # Show communication on it about the status
 
-    # Start the threads queue processing
-    motion_controller.start()
-    remote_controller.start()
-    ultrasonic_sensor.start()
-    screen_lcd_16x2_i2c.start()
+        screen_lcd_16x2_i2c = multiprocessing.Process(target=process_output_screen_lcd_16x2_i2c, args=(_events_queue,))
+        screen_lcd_16x2_i2c.daemon = True
 
-    motion_controller.join()  # make sure the thread ends
-    remote_controller.join()  # make sure the thread ends
-    ultrasonic_sensor.join()
-    screen_lcd_16x2_i2c.join()
+        # Start the threads queue processing
+        motion_controller.start()
+        remote_controller.start()
+        ultrasonic_sensor.start()
+        screen_lcd_16x2_i2c.start()
 
-    _events_queue.close()
-    _events_queue.join_thread()
+        motion_controller.join()  # make sure the thread ends
+        remote_controller.join()  # make sure the thread ends
+        ultrasonic_sensor.join()
+        screen_lcd_16x2_i2c.join()
+
+        _events_queue.close()
+        _events_queue.join_thread()
+
+    except KeyboardInterrupt:
+        print('')
+        print('Control+C abort happened')
+
+    else:
+        print('Normal termination')
