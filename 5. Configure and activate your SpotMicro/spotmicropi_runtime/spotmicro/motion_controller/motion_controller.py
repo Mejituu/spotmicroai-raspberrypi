@@ -1,18 +1,20 @@
-import spotmicropi.utilities.log as logger
-import time
-import RPi.GPIO as GPIO
-from board import SCL, SDA
-import busio
-from adafruit_pca9685 import PCA9685
-from adafruit_motor import servo
 import signal
+import time
+
+import RPi.GPIO as GPIO
+import busio
+from adafruit_motor import servo
+from adafruit_pca9685 import PCA9685
+from board import SCL, SDA
+
+import spotmicro.utilities.log as logger
 
 log = logger.get_default_logger()
 
 
-class Motion:
+class MotionController:
 
-    def __init__(self, events_queue):
+    def __init__(self, communication_queues):
         log.info('Loading Motion')
 
         try:
@@ -53,7 +55,7 @@ class Motion:
             GPIO.setup(17, GPIO.OUT)  # set GPIO24 as an output
             GPIO.output(17, 0)  # set port/pin value to 0/GPIO.LOW/False
 
-            self._events_queue = events_queue
+            self._queue = communication_queues['motion_controller']
             self.do_process_events_from_queue()
 
         except Exception as e:
@@ -69,7 +71,9 @@ class Motion:
         try:
 
             while True:
-                event = self._events_queue.get()
+                # TODO we can enable .get(Block=true, timeout=60 secs), if there is a timeout we shutdown the 0E port
+                #  and remote controller, if there is no activity we unconnect the remote controller
+                event = self._queue.get()
 
                 try:
 

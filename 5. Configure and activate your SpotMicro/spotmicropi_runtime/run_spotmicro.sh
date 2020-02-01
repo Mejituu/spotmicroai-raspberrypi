@@ -2,4 +2,4 @@
 
 export PYTHONPATH=.
 
-python3 spotmicropi/main.py
+python3 spotmicro/main.py

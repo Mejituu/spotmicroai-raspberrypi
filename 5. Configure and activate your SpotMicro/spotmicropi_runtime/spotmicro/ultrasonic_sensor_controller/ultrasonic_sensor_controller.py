@@ -1,14 +1,14 @@
-import spotmicropi.utilities.log as logger
+import spotmicro.utilities.log as logger
 import time
 
 log = logger.get_default_logger()
 
 
-class UltrasonicSensor:
+class UltrasonicSensorController:
 
-    def __init__(self, events_queue):
+    def __init__(self, communication_queues):
         log.info('Loading Ultrasonic Sensor')
-        self._events_queue = events_queue
+        self._queue = communication_queues['motion_controller']
 
         self.do_someting()
 
@@ -16,5 +16,5 @@ class UltrasonicSensor:
         log.info('UltrasonicSensor do_something')
 
         while True:
-            self._events_queue.put('Obstacle at 10cm')
+            self._queue.put('Obstacle at 10cm')
             time.sleep(1)

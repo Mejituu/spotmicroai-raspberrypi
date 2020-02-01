@@ -1,16 +1,16 @@
 import time
 import signal
 
-import spotmicropi.utilities.log as logger
-from spotmicropi.output.screen_lcd_16x2_i2c import LCD_16x2_I2C_driver
+import spotmicro.utilities.log as logger
+from spotmicro.lcd_screen_controller import LCD_16x2_I2C_driver
 
 log = logger.get_default_logger()
 
 
-class ScreenLCD16x2I2C:
+class LCDScreenController:
 
-    def __init__(self, events_queue):
-        log.info('Activating screen LCD_16x2_I2C at the default i2c address: ' + str(LCD_16x2_I2C_driver.ADDRESS))
+    def __init__(self, communication_queues):
+        log.info('Activating screen LCD Screen at the i2c address: ' + str(LCD_16x2_I2C_driver.ADDRESS))
 
         try:
 
@@ -19,7 +19,7 @@ class ScreenLCD16x2I2C:
 
             self.screen = LCD_16x2_I2C_driver.lcd()
 
-            self._events_queue = events_queue
+            self._queue = communication_queues['lcd_screen_controller']
             self.do_process_events_from_queue()
 
         except Exception as e:
@@ -33,7 +33,7 @@ class ScreenLCD16x2I2C:
 
         try:
             while True:
-                event = self._events_queue.get()
+                event = self._queue.get()
 
                 if event.startswith('screen'):
                     if event.endswith('clear'):

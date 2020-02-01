@@ -1,10 +1,10 @@
-This is the SpotMicroPi runtime source code that you can run in the Raspberry Pi inside your SpotMicroPi
+This is the SpotMicro runtime source code that you can run in the Raspberry Pi inside your SpotMicro
 
-SpotMicroPi uses Raspberry Pi, for Jetson Nano there is another repository https://gitlab.com/custom_robots/spotmicro
+SpotMicro uses Raspberry Pi, for Jetson Nano there is another repository https://gitlab.com/custom_robots/spotmicro
 
 Depending of your wiring you must configure in the code some I2C addresses and pins. Also if you are using less sensors you can just remove or comments those parts from the code.
 
-This code is meant to be located in /opt/spotmicro_runtime in your SpotMicroPi Raspberry Pi board.
+This code is meant to be located in /opt/spotmicro_runtime in your SpotMicro Raspberry Pi board.
 
 For simplicity I use Raspbian Lite in a SanDisk Extreme 32 GB microSDHC Memory Card. This card has the same specifications than the SanDisk Ultra 32GB Class 10 micro SD for big files copy and read, but the Extreme has far more I/O for small files operations.
 
@@ -55,11 +55,11 @@ Specific tests in a file
 
 Specific tests in a test class
 
-    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroPiTestCase
+    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroTestCase
 
 Specific unit test
 
-    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroPiTestCase.test_barks_in_spanish
+    python3 -m unittest tests.spotmicropi.test_example_main.SpotMicroTestCase.test_barks_in_spanish
 
 #### Run the project tests from PyCharm
 

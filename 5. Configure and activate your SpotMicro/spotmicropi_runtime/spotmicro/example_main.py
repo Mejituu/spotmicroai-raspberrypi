@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-class SpotMicroPi:
+
+class SpotMicro:
     _spanish_bark = "guau-guau"
     _japanese_bark = "wan-wan"
     _german_bark = "wuff-wuff"
@@ -20,9 +21,9 @@ class SpotMicroPi:
 
 
 if __name__ == '__main__':
-    spotmicropi = SpotMicroPi()
+    spotmicro = SpotMicro()
 
-    print('Ladrar: ' + spotmicropi.bark_in_spanish())
-    print('樹皮: ' + spotmicropi.bark_in_japanese())
-    print('Bellen: ' + spotmicropi.bark_in_german())
-    print('To bark: ' + spotmicropi.bark_in_english())
+    print('Ladrar: ' + spotmicro.bark_in_spanish())
+    print('樹皮: ' + spotmicro.bark_in_japanese())
+    print('Bellen: ' + spotmicro.bark_in_german())
+    print('To bark: ' + spotmicro.bark_in_english())

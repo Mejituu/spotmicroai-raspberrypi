@@ -5,14 +5,14 @@ import array
 from fcntl import ioctl
 import signal
 
-import spotmicropi.utilities.log as logger
+import spotmicro.utilities.log as logger
 
 log = logger.get_default_logger()
 
 
-class RemoteController:
+class RemoteControllerController:
 
-    def __init__(self, events_queue):
+    def __init__(self, communication_queues):
         log.info('Loading Remote Controller')
 
         try:
@@ -28,7 +28,7 @@ class RemoteController:
             self.axis_map = []
             self.jsdev = None
 
-            self._events_queue = events_queue
+            self._queue = communication_queues['motion_controller']
             self.do_process_events_from_queue()
 
         except Exception as e:
@@ -50,7 +50,7 @@ class RemoteController:
                     sleep(2)
                     continue
 
-                self._events_queue.put('screen jump! write_first_line')
+                self._queue.put('screen jump! write_first_line')
 
                 # Main event loop
                 while True:
@@ -67,16 +67,16 @@ class RemoteController:
                             if button:
                                 self.button_states[button] = value
                                 if value:
-                                    self._events_queue.put(("key press %s" % button))
+                                    self._queue.put(("key press %s" % button))
                                 else:
-                                    self._events_queue.put(("key press %s no more" % button))
+                                    self._queue.put(("key press %s no more" % button))
 
                         if type & 0x02:
                             axis = self.axis_map[number]
                             if axis:
                                 fvalue = value / 32767.0
                                 self.axis_states[axis] = fvalue
-                                self._events_queue.put(("key press %s axis: %.3f" % (axis, fvalue)))
+                                self._queue.put(("key press %s axis: %.3f" % (axis, fvalue)))
 
         except Exception as e:
             print('Unknown problem with the Remote Controller detected')
