@@ -25,7 +25,8 @@ pip install --upgrade setuptools
 ```
 
 ```
-rsync -avz --delete --exclude-from .gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi/5.\ Configure\ and\ activate\ your\ SpotMicro/*" /home/pi/projects/raspberrypi/5.\ Configure\ and\ activate\ your\ SpotMicro/
+sudo apt-get install sshpass -y
+sshpass -p "*******" rsync -avz --delete --exclude '.git' --exclude-from /home/pi/projects/raspberrypi/.gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi" /home/pi/projects/
 ```
 
 
