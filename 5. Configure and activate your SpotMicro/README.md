@@ -7,11 +7,12 @@ cd ~
 mkdir projects
 cd projects
 
+sudo apt-get install git -y
 git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi.git
 
 cd "raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
 
-chmod +x run_spotmicropi.sh
+chmod +x *.sh
 
 python3 -m venv venv --clear
 
@@ -37,7 +38,7 @@ sshpass -p "*******" rsync -avz --delete --exclude '.git' --exclude-from /home/p
 ```
 
 ```
-cd /home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime
+cd "/home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
 ./run_spotmicropi.sh
 ```
 
