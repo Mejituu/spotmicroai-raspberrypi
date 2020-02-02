@@ -7,7 +7,7 @@ log = logger.get_default_logger()
 class UltrasonicSensorController:
 
     def __init__(self, communication_queues):
-        log.info('Loading Ultrasonic Sensor')
+        log.info('Loading Ultrasonic Sensor Controller')
         self._queue = communication_queues['motion_controller']
 
         self.do_someting()

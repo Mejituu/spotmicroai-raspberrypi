@@ -10,7 +10,7 @@ log = logger.get_default_logger()
 class LCDScreenController:
 
     def __init__(self, communication_queues):
-        log.info('Activating screen LCD Screen at the i2c address: ' + str(LCD_16x2_I2C_driver.ADDRESS))
+        log.info('Activating screen LCD Screen, i2c address: ' + str(LCD_16x2_I2C_driver.ADDRESS))
 
         try:
 

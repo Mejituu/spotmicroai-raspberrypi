@@ -1,4 +1,4 @@
-from time import sleep
+import time
 import os
 import struct
 import array
@@ -28,8 +28,11 @@ class RemoteControllerController:
             self.axis_map = []
             self.jsdev = None
 
-            self._queue = communication_queues['motion_controller']
-            self.do_process_events_from_queue()
+            self.states = {}
+
+            self._abort_queue = communication_queues['abort_controller']
+            self._motion_queue = communication_queues['motion_controller']
+            self.do_process_events_from_queues()
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No Remote Controller detected')
@@ -38,48 +41,61 @@ class RemoteControllerController:
         print('Remote Controller terminating')
         exit(0)
 
-    def do_process_events_from_queue(self):
+    def do_process_events_from_queues(self):
         log.info('RemoteController do_something')
 
-        try:
+        remote_controller_connected_already = False
 
-            while True:
+        while True:
 
-                if not self.connected_device:
+            try:
+
+                if self.connected_device and not remote_controller_connected_already:
+                    self._abort_queue.put('activate_servos')
+                    remote_controller_connected_already = True
+                else:
+                    print('Looking for Remote controllers')
+                    self._abort_queue.put('abort')
                     self.check_for_connected_devices()
-                    sleep(2)
+                    remote_controller_connected_already = False
+                    time.sleep(2)
                     continue
 
-                self._queue.put('screen jump! write_first_line')
+                self._motion_queue.put('screen jump! write_first_line')
 
                 # Main event loop
                 while True:
+
                     evbuf = self.jsdev.read(8)
                     if evbuf:
-                        time, value, type, number = struct.unpack('IhBB', evbuf)
+                        buftime, value, type, number = struct.unpack('IhBB', evbuf)
 
                         if type & 0x80:
-                            # print("(initial)")
                             pass
 
                         if type & 0x01:
                             button = self.button_map[number]
                             if button:
                                 self.button_states[button] = value
-                                if value:
-                                    self._queue.put(("key press %s" % button))
-                                else:
-                                    self._queue.put(("key press %s no more" % button))
 
                         if type & 0x02:
                             axis = self.axis_map[number]
                             if axis:
                                 fvalue = value / 32767.0
                                 self.axis_states[axis] = fvalue
-                                self._queue.put(("key press %s axis: %.3f" % (axis, fvalue)))
 
-        except Exception as e:
-            print('Unknown problem with the Remote Controller detected')
+                    self.states.update(self.button_states)
+                    self.states.update(self.axis_states)
+
+                    # print(self.states)
+                    self._motion_queue.put(self.states, block=True, timeout=None)
+                    print('button press')
+
+            except Exception as e:
+                print('Unknown problem with the Remote Controller detected')
+                self._abort_queue.put('abort')
+                remote_controller_connected_already = False
+                self.check_for_connected_devices()
 
     def check_for_connected_devices(self):
         log.info('Remote controller, looking for connected devices')

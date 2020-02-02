@@ -1,7 +1,5 @@
 import signal
-import time
-
-import RPi.GPIO as GPIO
+from multiprocessing.queues import Queue
 import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
@@ -15,7 +13,7 @@ log = logger.get_default_logger()
 class MotionController:
 
     def __init__(self, communication_queues):
-        log.info('Loading Motion')
+        log.info('Loading Motion Controller')
 
         try:
 
@@ -50,13 +48,9 @@ class MotionController:
 
             self.rest_position()
 
-            # Abort mechanism
-            GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
-            GPIO.setup(17, GPIO.OUT)  # set GPIO24 as an output
-            GPIO.output(17, 0)  # set port/pin value to 0/GPIO.LOW/False
-
-            self._queue = communication_queues['motion_controller']
-            self.do_process_events_from_queue()
+            self._abort_queue = communication_queues['abort_controller']
+            self._motion_queue = communication_queues['motion_controller']
+            self.do_process_events_from_queues()
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No PCA9685 detected')
@@ -65,17 +59,23 @@ class MotionController:
         print('PCA9685 terminating')
         exit(0)
 
-    def do_process_events_from_queue(self):
+    def do_process_events_from_queues(self):
         log.info('Motion do_something')
-
+        print('get')
         try:
 
             while True:
-                # TODO we can enable .get(Block=true, timeout=60 secs), if there is a timeout we shutdown the 0E port
-                #  and remote controller, if there is no activity we unconnect the remote controller
-                event = self._queue.get()
-
+                print('get-get')
                 try:
+
+                    # If we don't get an order in 60 seconds we disable the robot.
+                    event = self._motion_queue.get(block=True, timeout=60)
+
+                    print(event)
+
+                    if event.startswith('activate'):
+                        print(event)
+                        self.activate()
 
                     if event.startswith('key press'):
                         print(event)
@@ -84,14 +84,22 @@ class MotionController:
                     if event.startswith('Obstacle at 10cm'):
                         print(event)
 
+                except Queue.Empty as e:
+                    # This will happen after 60 seconds of inactivity
+                    # If we don't get an order in 60 seconds we disable the robot.
+                    log.info('Inactivity lasted 60 seconds, shutting down the servos, press start to reactivate')
+                    self._abort_queue.put('abort')
+
                 finally:
                     self.pca_rear.deinit()
                     self.pca_front.deinit()
 
-                time.sleep(1 / 3)
 
         except Exception as e:
             print('Unknown problem with the PCA9685 detected')
+
+    def activate(self):
+        self._abort_queue.put('activate_servos')
 
     def rest_position(self):
 
@@ -110,10 +118,6 @@ class MotionController:
         self.servo_front_shoulder_right.angle = 105
         self.servo_front_leg_right.angle = 140
         self.servo_front_feet_right.angle = 165
-
-    def abort(self):
-
-        GPIO.output(17, 1)  # set port/pin value to 1/GPIO.HIGH/True
 
     def move_to_position_xxx(self):
         pass

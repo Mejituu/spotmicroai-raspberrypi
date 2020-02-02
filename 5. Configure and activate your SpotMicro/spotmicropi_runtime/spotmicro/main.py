@@ -5,10 +5,16 @@ import multiprocessing
 import spotmicro.utilities.log as logger
 from spotmicro.ultrasonic_sensor_controller.ultrasonic_sensor_controller import UltrasonicSensorController
 from spotmicro.motion_controller.motion_controller import MotionController
+from spotmicro.abort_controller.abort_controller import AbortController
 from spotmicro.lcd_screen_controller.lcd_screen_controller import LCDScreenController
 from spotmicro.remote_controller.remote_controller import RemoteControllerController
 
 log = logger.setup_logger()
+
+
+def process_abort_controller(communication_queues):
+    log.info('Firing up Abort controller')
+    abort = AbortController(communication_queues)
 
 
 def process_motion_controller(communication_queues):
@@ -42,7 +48,10 @@ def create_controllers_queues():
     # makes the high frequency update controllers to wipe out the slow ones messages.
     # Get and Put methods handle the locks via optional parameter block=True
 
-    communication_queues = {'motion_controller': multiprocessing.Queue(10),
+    # Queues must be 10ish, controller will flood with orders, we use .get(block true) to avoid
+    # this we read as we can process
+    communication_queues = {'abort_controller': multiprocessing.Queue(10),
+                            'motion_controller': multiprocessing.Queue(10),
                             'lcd_screen_controller': multiprocessing.Queue(10)}
 
     return communication_queues
@@ -59,8 +68,13 @@ def close_controllers_queues(communication_queues):
 def main():
     communication_queues = create_controllers_queues()
 
-    # Start the motion controller
+    # Start the abort controller
     # 0E port from PCA9685 must be HIGH
+    abort_controller = multiprocessing.Process(target=process_abort_controller, args=(communication_queues,))
+    abort_controller.daemon = True  # The daemon process will continue to run as long as the main process is executing
+    # and it will terminate after finishing its execution or when the main program would be killed.
+
+    # Start the motion controller
     # Process/Thread, listening the events QUEUE for orders
     motion_controller = multiprocessing.Process(target=process_motion_controller, args=(communication_queues,))
     motion_controller.daemon = True  # The daemon process will continue to run as long as the main process is executing
@@ -85,12 +99,14 @@ def main():
     lcd_screen_controller.daemon = True
 
     # Start the threads queue processing
+    abort_controller.start()
     motion_controller.start()
     remote_controller_controller.start()
     ultrasonic_sensor_controller.start()
     lcd_screen_controller.start()
 
     # make sure the thread/process ends
+    abort_controller.join()
     motion_controller.join()
     remote_controller_controller.join()
     ultrasonic_sensor_controller.join()
