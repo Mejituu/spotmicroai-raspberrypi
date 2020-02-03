@@ -123,5 +123,53 @@ while True:
 
 
 
+# SpotMicro build
+
+## To reboot the service on changes
+
+```
+
+deactivate
+
+ln -s ~/projects/raspberrypi/5.\ Configure\ and\ activate\ your\ SpotMicro/spotmicropi_runtime spotmicro
+
+sudo systemctl daemon-reload; sudo systemctl restart spotmicro.service
+
+```
+
+## Service file
+
+```
+nano /etc/systemd/system/spotmicro.service
+
+[Unit]
+Description=SpotMicro
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/spotmicro/run_spotmicro.sh
+WorkingDirectory=/home/pi/spotmicro/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+## Bash script
+
+```
+nano run_spotmicro.sh
 
 
+#!/bin/bash
+
+export PYTHONPATH=.
+
+~/spotmicro/venv/bin/python3 spotmicro/main.py
+
+```
