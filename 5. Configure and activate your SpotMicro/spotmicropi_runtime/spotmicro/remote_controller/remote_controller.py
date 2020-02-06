@@ -4,7 +4,7 @@ import struct
 import array
 from fcntl import ioctl
 import signal
-
+import queue
 import spotmicro.utilities.log as logger
 
 log = logger.get_default_logger()
@@ -13,9 +13,10 @@ log = logger.get_default_logger()
 class RemoteControllerController:
 
     def __init__(self, communication_queues):
-        log.info('Loading Remote Controller')
 
         try:
+
+            log.info('STARTING CONTROLLER: Remote Controller')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -32,17 +33,17 @@ class RemoteControllerController:
 
             self._abort_queue = communication_queues['abort_controller']
             self._motion_queue = communication_queues['motion_controller']
-            self.do_process_events_from_queues()
+
+            log.info('STARTED: Remote Controller controller')
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No Remote Controller detected')
 
     def exit_gracefully(self, signum, frame):
-        print('Remote Controller terminating')
+        log.info('Remote Controller terminating')
         exit(0)
 
     def do_process_events_from_queues(self):
-        log.info('RemoteController do_something')
 
         remote_controller_connected_already = False
 
@@ -54,7 +55,6 @@ class RemoteControllerController:
                     self._abort_queue.put('activate_servos')
                     remote_controller_connected_already = True
                 else:
-                    print('Looking for Remote controllers')
                     self._abort_queue.put('abort')
                     self.check_for_connected_devices()
                     remote_controller_connected_already = False
@@ -92,7 +92,7 @@ class RemoteControllerController:
                     print('button press')
 
             except Exception as e:
-                print('Unknown problem with the Remote Controller detected')
+                print('Unknown problem with the Remote Controller detected', e)
                 self._abort_queue.put('abort')
                 remote_controller_connected_already = False
                 self.check_for_connected_devices()

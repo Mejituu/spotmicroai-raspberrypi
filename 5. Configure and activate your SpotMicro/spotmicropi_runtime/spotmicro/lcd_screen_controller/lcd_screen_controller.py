@@ -1,6 +1,6 @@
 import time
 import signal
-
+import queue
 import spotmicro.utilities.log as logger
 from spotmicro.lcd_screen_controller import LCD_16x2_I2C_driver
 
@@ -10,9 +10,9 @@ log = logger.get_default_logger()
 class LCDScreenController:
 
     def __init__(self, communication_queues):
-        log.info('Activating screen LCD Screen, i2c address: ' + str(LCD_16x2_I2C_driver.ADDRESS))
-
         try:
+
+            log.info('STARTING CONTROLLER: LCD Screen, draw and print messages in the LCD')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -20,7 +20,11 @@ class LCDScreenController:
             self.screen = LCD_16x2_I2C_driver.lcd()
 
             self._queue = communication_queues['lcd_screen_controller']
-            self.do_process_events_from_queue()
+
+            self.screen.lcd_clear()
+            self.screen.lcd_display_string('SpotMicro', 1)
+
+            log.info('STARTED: LCD Screen controller')
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No LCD Screen detected')
@@ -35,7 +39,7 @@ class LCDScreenController:
             while True:
                 event = self._queue.get()
 
-                if event.startswith('screen'):
+                if event.startswith('Ascreen'):
                     if event.endswith('clear'):
                         self.clear()
                     if event.endswith('write_first_line'):
@@ -50,7 +54,7 @@ class LCDScreenController:
                 time.sleep(1 / 3)
 
         except Exception as e:
-            print('Unknown problem with the LCD_16x2_I2C detected')
+            print('Unknown problem with the LCD_16x2_I2C detected', e)
 
     def clear(self):
         self.screen.lcd_clear()

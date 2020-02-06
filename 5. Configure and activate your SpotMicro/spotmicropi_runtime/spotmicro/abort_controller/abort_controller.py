@@ -1,5 +1,5 @@
 import signal
-
+import queue
 import RPi.GPIO as GPIO
 
 import spotmicro.utilities.log as logger
@@ -10,9 +10,10 @@ log = logger.get_default_logger()
 class AbortController:
 
     def __init__(self, communication_queues):
-        log.info('Loading Abort Controller')
 
         try:
+
+            log.info('STARTING CONTROLLER: Abort controller, cuts the power to the servos if needed')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -22,7 +23,8 @@ class AbortController:
             GPIO.setup(17, GPIO.OUT)  # set GPIO24 as an output
 
             self._queue = communication_queues['abort_controller']
-            self.do_process_events_from_queue()
+
+            log.info('STARTED: Abort controller')
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No PCA9685 detected')
@@ -32,7 +34,6 @@ class AbortController:
         exit(0)
 
     def do_process_events_from_queue(self):
-        log.info('Abort do_something')
 
         try:
 
@@ -41,11 +42,9 @@ class AbortController:
                 # event = self._queue.get()
 
                 if event == 'activate_servos':
-                    print(event)
                     self.activate_servos()
 
                 if event == 'abort':
-                    print(event)
                     self.abort()
 
         except Exception as e:

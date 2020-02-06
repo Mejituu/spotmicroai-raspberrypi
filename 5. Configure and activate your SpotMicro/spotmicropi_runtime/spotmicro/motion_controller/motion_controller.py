@@ -1,5 +1,5 @@
 import signal
-from multiprocessing.queues import Queue
+import queue
 import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
@@ -13,9 +13,9 @@ log = logger.get_default_logger()
 class MotionController:
 
     def __init__(self, communication_queues):
-        log.info('Loading Motion Controller')
-
         try:
+
+            log.info('STARTING CONTROLLER: Motion, controls servos')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -50,7 +50,8 @@ class MotionController:
 
             self._abort_queue = communication_queues['abort_controller']
             self._motion_queue = communication_queues['motion_controller']
-            self.do_process_events_from_queues()
+
+            log.info('STARTED: Motion controller')
 
         except Exception as e:
             print("OS error: {0}".format(e) + ': No PCA9685 detected')
@@ -60,31 +61,26 @@ class MotionController:
         exit(0)
 
     def do_process_events_from_queues(self):
-        log.info('Motion do_something')
-        print('get')
+
         try:
 
             while True:
-                print('get-get')
+
                 try:
 
                     # If we don't get an order in 60 seconds we disable the robot.
                     event = self._motion_queue.get(block=True, timeout=60)
 
-                    print(event)
-
                     if event.startswith('activate'):
-                        print(event)
                         self.activate()
 
                     if event.startswith('key press'):
-                        print(event)
                         self.move_to_position_xxx()
 
-                    if event.startswith('Obstacle at 10cm'):
-                        print(event)
+                    if event.startswith('_Obstacle at 10cm'):
+                        pass
 
-                except Queue.Empty as e:
+                except queue.Empty as e:
                     # This will happen after 60 seconds of inactivity
                     # If we don't get an order in 60 seconds we disable the robot.
                     log.info('Inactivity lasted 60 seconds, shutting down the servos, press start to reactivate')
@@ -96,7 +92,7 @@ class MotionController:
 
 
         except Exception as e:
-            print('Unknown problem with the PCA9685 detected')
+            print('Unknown problem with the PCA9685 detected', e)
 
     def activate(self):
         self._abort_queue.put('activate_servos')

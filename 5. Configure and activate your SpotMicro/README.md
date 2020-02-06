@@ -2,12 +2,13 @@
 # Pull the runtime in your development environment
 
 ```
+sudo apt-get install python3-venv git sshpass -y
+
 cd ~
 
 mkdir projects
 cd projects
 
-sudo apt-get install git -y
 git clone https://gitlab.com/custom_robots/spotmicro/raspberrypi.git
 
 cd "raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
@@ -33,13 +34,12 @@ python3 -m pip install inputs
 ```
 
 ```
-sudo apt-get install sshpass -y
 sshpass -p "*******" rsync -avz --delete --exclude '.git' --exclude-from /home/pi/projects/raspberrypi/.gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi" /home/pi/projects/
 ```
 
 ```
 cd "/home/pi/projects/raspberrypi/5. Configure and activate your SpotMicro/spotmicropi_runtime"
-./run_spotmicropi.sh
+./run_spotmicro.sh
 ```
 
 

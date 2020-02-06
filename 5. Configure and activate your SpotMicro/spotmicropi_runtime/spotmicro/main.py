@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import multiprocessing
+import queue
 
 import spotmicro.utilities.log as logger
 from spotmicro.ultrasonic_sensor_controller.ultrasonic_sensor_controller import UltrasonicSensorController
@@ -13,34 +14,33 @@ log = logger.setup_logger()
 
 
 def process_abort_controller(communication_queues):
-    log.info('Firing up Abort controller')
     abort = AbortController(communication_queues)
+    abort.do_process_events_from_queue()
 
 
 def process_motion_controller(communication_queues):
-    log.info('Firing up Motion controller')
     motion = MotionController(communication_queues)
+    motion.do_process_events_from_queues()
 
 
 def process_remote_controller_controller(communication_queues):
-    log.info('Firing up Remote Controller controller')
     remote_controller = RemoteControllerController(communication_queues)
+    remote_controller.do_process_events_from_queues()
 
 
 # Optional
 def process_output_lcd_screen_controller(communication_queues):
-    log.info('Firing up LCD Screen controller')
     screen = LCDScreenController(communication_queues)
+    screen.do_process_events_from_queue()
 
 
 # Optional, not used, just as an example
 def process_ultrasonic_sensor_controller(communication_queues):
-    log.info('Firing up Ultrasonic Sensor controller')
     ultrasonic_sensor = UltrasonicSensorController(communication_queues)
+    ultrasonic_sensor.do_someting()
 
 
 def create_controllers_queues():
-    log.info('Creating controller queues for communication')
     # https://docs.python.org/3/library/queue.html
     # The reason we use queues for inter process communication is because simplicity
     # Why we use multiple queues? Because we limit the number of messages on them and
@@ -50,9 +50,12 @@ def create_controllers_queues():
 
     # Queues must be 10ish, controller will flood with orders, we use .get(block true) to avoid
     # this we read as we can process
+
     communication_queues = {'abort_controller': multiprocessing.Queue(10),
                             'motion_controller': multiprocessing.Queue(10),
                             'lcd_screen_controller': multiprocessing.Queue(10)}
+
+    log.info('Created the communication queues: ' + ', '.join(communication_queues.keys()))
 
     return communication_queues
 
@@ -116,7 +119,7 @@ def main():
 
 
 if __name__ == '__main__':
-    log.info('SpotMicro starting')
+    log.info('SpotMicro starting...')
 
     try:
         main()
