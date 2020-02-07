@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import multiprocessing
-import queue
+from multiprocessing.managers import BaseManager
+
+from queue import LifoQueue
 
 from spotmicro.utilities.log import Logger
 from spotmicro.motion_controller.motion_controller import MotionController
@@ -33,6 +35,11 @@ def process_output_lcd_screen_controller(communication_queues):
     screen.do_process_events_from_queue()
 
 
+# create manager that knows how to create and manage LifoQueues
+#class MyManager(BaseManager):
+#    pass
+
+
 def create_controllers_queues():
     # https://docs.python.org/3/library/queue.html
     # The reason we use queues for inter process communication is because simplicity
@@ -44,8 +51,13 @@ def create_controllers_queues():
     # Queues must be 10ish, controller will flood with orders, we use .get(block true) to avoid
     # this we read as we can process
 
+    #MyManager.register('LifoQueue', LifoQueue)
+    #manager = MyManager()
+    #manager.start()
+
     communication_queues = {'abort_controller': multiprocessing.Queue(10),
-                            'motion_controller': multiprocessing.Queue(10),
+                            #'motion_controller': manager.LifoQueue(),
+                            'motion_controller': multiprocessing.Queue(1),
                             'lcd_screen_controller': multiprocessing.Queue(10)}
 
     log.info('Created the communication queues: ' + ', '.join(communication_queues.keys()))

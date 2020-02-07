@@ -21,9 +21,15 @@ class LCDScreenController:
 
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            self.screen.lcd_clear()
-            self.screen.backlight(1)
-            self.screen.lcd_display_string('SpotMicro', 1)
+            self.line_1 = 'SpotMicro'
+            self.line_2 = ''
+
+            self.previous_line_1 = ''
+            self.previous_line_2 = ''
+
+            self.clear()
+            self.turn_on()
+            self.write_lines()
 
             log.info('Started')
 
@@ -31,8 +37,8 @@ class LCDScreenController:
             log.error('LCD Screen problem detected', e)
 
     def exit_gracefully(self, signum, frame):
-        self.screen.lcd_clear()
-        self.screen.backlight(0)
+        self.clear()
+        self.turn_off()
         log.info('Terminated')
         exit(0)
 
@@ -43,30 +49,39 @@ class LCDScreenController:
                 event = self._lcd_screen_queue.get()
 
                 if event.startswith('Line1 '):
-                    self.write_first_line(event[6:])
+                    self.line_1 = event[6:]
 
                 if event.startswith('Line2 '):
-                    self.write_second_line(event[6:])
+                    self.line_2 = event[6:]
 
-                time.sleep(1 / 3)
+                self.write_lines()
 
         except Exception as e:
             log.error('Unknown problem with the LCD_16x2_I2C detected', e)
 
     def clear(self):
         self.screen.lcd_clear()
-        log.info('clear')
+        log.debug('clear')
 
-    def write_first_line(self, line_text):
-        self.screen.lcd_display_string(line_text, 1)
-        log.info('Line 1 value = ' + line_text)
+    def write_lines(self):
 
-    def write_second_line(self, line_text):
-        self.screen.lcd_display_string(line_text, 2)
-        log.info('Line 2 value = ' + line_text)
+        if self.previous_line_1 != self.line_1:
+            self.previous_line_1 = self.line_1
+            self.screen.lcd_display_string('                ', 1)
+            self.screen.lcd_display_string(self.line_1, 1)
+
+        if self.previous_line_2 != self.line_2:
+            self.previous_line_2 = self.line_2
+            self.screen.lcd_display_string('                ', 2)
+            self.screen.lcd_display_string(self.line_2, 2)
+
+        log.debug('Line 1 value = ' + self.line_1)
+        log.debug('Line 2 value = ' + self.line_2)
 
     def turn_off(self):
-        log.info('turn_off')
+        self.screen.backlight(0)
+        log.info('turn off backlight')
 
     def turn_on(self):
-        log.info('turn_on')
+        self.screen.backlight(1)
+        log.info('turn on backlight')

@@ -4,7 +4,7 @@ import busio
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
 from board import SCL, SDA
-
+import time
 from spotmicro.utilities.log import Logger
 
 log = Logger().setup_logger('Motion controller')
@@ -52,6 +52,8 @@ class MotionController:
             self._motion_queue = communication_queues['motion_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
+            self._previous_event = {}
+
             log.info('Started')
 
         except Exception as e:
@@ -70,9 +72,23 @@ class MotionController:
                 try:
 
                     # If we don't get an order in 60 seconds we disable the robot.
-                    event = self._motion_queue.get()
+                    event = self._motion_queue.get(block=True, timeout=30)
 
                     log.debug(event)
+
+                    event_diff = {}
+                    if self._previous_event:
+                        for key in event:
+                            if event[key] != self._previous_event[key]:
+                                event_diff[key] = event[key]
+
+                    # screen is very low and un responsive, not good to print the buttons
+                    # log.debug(', '.join(event_diff))
+                    #if not event_diff:
+                    #    self._lcd_screen_queue.put('Line2 Inactive')
+                    #else:
+                    #    self._lcd_screen_queue.put('Line2 ' + str(event_diff)[1:-1].replace("'", ''))
+
                     # if event.startswith('activate'):
                     #    self.activate()
 
@@ -82,11 +98,15 @@ class MotionController:
                     # if event.startswith('_Obstacle at 10cm'):
                     #    pass
 
+
+
+                    self._previous_event = event
+
                 except queue.Empty as e:
                     # This will happen after 60 seconds of inactivity
                     # If we don't get an order in 60 seconds we disable the robot.
-                    log.info('Inactivity lasted 60 seconds, shutting down the servos, '
-                                          'press start to reactivate')
+                    log.info('Inactivity lasted 30 seconds, shutting down the servos, '
+                             'press start to reactivate')
                     self._abort_queue.put('abort')
 
                 finally:

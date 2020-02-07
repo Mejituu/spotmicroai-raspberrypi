@@ -29,7 +29,7 @@ class RemoteControllerController:
             self.axis_map = []
             self.jsdev = None
 
-            self.states = {}
+            self.previous_fvalue = 0
 
             self._abort_queue = communication_queues['abort_controller']
             self._motion_queue = communication_queues['motion_controller']
@@ -57,8 +57,8 @@ class RemoteControllerController:
             else:
                 self._abort_queue.put('abort')
                 self._lcd_screen_queue.put('Line2 No controller')
-                self.check_for_connected_devices()
                 remote_controller_connected_already = False
+                self.check_for_connected_devices()
                 time.sleep(3)
                 continue
 
@@ -81,14 +81,19 @@ class RemoteControllerController:
                         if type & 0x02:
                             axis = self.axis_map[number]
                             if axis:
-                                fvalue = value / 32767.0
+                                fvalue = round(value / 32767.0, 1)
+                                if self.previous_fvalue == fvalue:
+                                    continue
+
                                 self.axis_states[axis] = fvalue
+                                self.previous_fvalue = fvalue
 
-                    self.states.update(self.button_states)
-                    self.states.update(self.axis_states)
+                    states = {}
+                    states.update(self.button_states)
+                    states.update(self.axis_states)
 
-                    # print(self.states)
-                    self._motion_queue.put(self.states)
+                    # log.debug(self.states)
+                    self._motion_queue.put(states)
 
                 except Exception as e:
                     log.error('Problem with the remote controller, seems we lost connection with it')
@@ -107,9 +112,9 @@ class RemoteControllerController:
 
                 # These constants were borrowed from linux/input.h
                 axis_names = {
-                    0x00: 'x',
-                    0x01: 'y',
-                    0x02: 'z',
+                    0x00: 'lx',
+                    0x01: 'ly',
+                    0x02: 'lz',
                     0x03: 'rx',
                     0x04: 'ry',
                     0x05: 'rz',
