@@ -5,9 +5,9 @@ from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
 from board import SCL, SDA
 
-import spotmicro.utilities.log as logger
+from spotmicro.utilities.log import Logger
 
-log = logger.get_default_logger()
+log = Logger().setup_logger('Motion controller')
 
 
 class MotionController:
@@ -15,7 +15,7 @@ class MotionController:
     def __init__(self, communication_queues):
         try:
 
-            log.info('STARTING CONTROLLER: Motion, controls servos')
+            log.info('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -50,14 +50,15 @@ class MotionController:
 
             self._abort_queue = communication_queues['abort_controller']
             self._motion_queue = communication_queues['motion_controller']
+            self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            log.info('STARTED: Motion controller')
+            log.info('Started')
 
         except Exception as e:
-            print("OS error: {0}".format(e) + ': No PCA9685 detected')
+            log.error('No PCA9685 detected', e)
 
     def exit_gracefully(self, signum, frame):
-        print('PCA9685 terminating')
+        log.info('Terminated')
         exit(0)
 
     def do_process_events_from_queues(self):
@@ -69,21 +70,23 @@ class MotionController:
                 try:
 
                     # If we don't get an order in 60 seconds we disable the robot.
-                    event = self._motion_queue.get(block=True, timeout=60)
+                    event = self._motion_queue.get()
 
-                    if event.startswith('activate'):
-                        self.activate()
+                    log.debug(event)
+                    # if event.startswith('activate'):
+                    #    self.activate()
 
-                    if event.startswith('key press'):
-                        self.move_to_position_xxx()
+                    # if event.startswith('key press'):
+                    #    self.move_to_position_xxx()
 
-                    if event.startswith('_Obstacle at 10cm'):
-                        pass
+                    # if event.startswith('_Obstacle at 10cm'):
+                    #    pass
 
                 except queue.Empty as e:
                     # This will happen after 60 seconds of inactivity
                     # If we don't get an order in 60 seconds we disable the robot.
-                    log.info('Inactivity lasted 60 seconds, shutting down the servos, press start to reactivate')
+                    log.info('Inactivity lasted 60 seconds, shutting down the servos, '
+                                          'press start to reactivate')
                     self._abort_queue.put('abort')
 
                 finally:
@@ -92,7 +95,7 @@ class MotionController:
 
 
         except Exception as e:
-            print('Unknown problem with the PCA9685 detected', e)
+            log.error('Unknown problem with the PCA9685 detected', e)
 
     def activate(self):
         self._abort_queue.put('activate_servos')

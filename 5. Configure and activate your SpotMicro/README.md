@@ -34,6 +34,7 @@ python3 -m pip install inputs
 ```
 
 ```
+ssh-keyscan 192.168.1.107 >> ~/.ssh/known_hosts
 sshpass -p "*******" rsync -avz --delete --exclude '.git' --exclude-from /home/pi/projects/raspberrypi/.gitignore "franferri@192.168.1.107:/Users/franferri/projects/raspberrypi" /home/pi/projects/
 ```
 

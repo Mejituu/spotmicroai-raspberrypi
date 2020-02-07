@@ -2,9 +2,9 @@ import signal
 import queue
 import RPi.GPIO as GPIO
 
-import spotmicro.utilities.log as logger
+from spotmicro.utilities.log import Logger
 
-log = logger.get_default_logger()
+log = Logger().setup_logger('Abort controller')
 
 
 class AbortController:
@@ -13,7 +13,7 @@ class AbortController:
 
         try:
 
-            log.info('STARTING CONTROLLER: Abort controller, cuts the power to the servos if needed')
+            log.info('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -22,15 +22,16 @@ class AbortController:
             GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
             GPIO.setup(17, GPIO.OUT)  # set GPIO24 as an output
 
-            self._queue = communication_queues['abort_controller']
+            self._abort_queue = communication_queues['abort_controller']
+            self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            log.info('STARTED: Abort controller')
+            log.info('Started')
 
         except Exception as e:
-            print("OS error: {0}".format(e) + ': No PCA9685 detected')
+            log.error('GPIO problem detected', e)
 
     def exit_gracefully(self, signum, frame):
-        print('GPIO terminating')
+        log.info('Terminated')
         exit(0)
 
     def do_process_events_from_queue(self):
@@ -38,7 +39,7 @@ class AbortController:
         try:
 
             while True:
-                event = self._queue.get(block=True, timeout=None)
+                event = self._abort_queue.get()
                 # event = self._queue.get()
 
                 if event == 'activate_servos':
@@ -52,8 +53,8 @@ class AbortController:
 
     def activate_servos(self):
 
-        GPIO.output(17, 1)  # set port/pin value to 1/GPIO.HIGH/True
+        GPIO.output(17, 1)  # Set GPIO pin value to 1/GPIO.HIGH/True
 
     def abort(self):
 
-        GPIO.output(17, 0)  # set port/pin value to 0/GPIO.LOW/False
+        GPIO.output(17, 0)  # set GPIO pin value to 0/GPIO.LOW/False

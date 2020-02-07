@@ -3,14 +3,13 @@
 import multiprocessing
 import queue
 
-import spotmicro.utilities.log as logger
-from spotmicro.ultrasonic_sensor_controller.ultrasonic_sensor_controller import UltrasonicSensorController
+from spotmicro.utilities.log import Logger
 from spotmicro.motion_controller.motion_controller import MotionController
 from spotmicro.abort_controller.abort_controller import AbortController
 from spotmicro.lcd_screen_controller.lcd_screen_controller import LCDScreenController
 from spotmicro.remote_controller.remote_controller import RemoteControllerController
 
-log = logger.setup_logger()
+log = Logger().setup_logger()
 
 
 def process_abort_controller(communication_queues):
@@ -32,12 +31,6 @@ def process_remote_controller_controller(communication_queues):
 def process_output_lcd_screen_controller(communication_queues):
     screen = LCDScreenController(communication_queues)
     screen.do_process_events_from_queue()
-
-
-# Optional, not used, just as an example
-def process_ultrasonic_sensor_controller(communication_queues):
-    ultrasonic_sensor = UltrasonicSensorController(communication_queues)
-    ultrasonic_sensor.do_someting()
 
 
 def create_controllers_queues():
@@ -89,12 +82,6 @@ def main():
                                                            args=(communication_queues,))
     remote_controller_controller.daemon = True
 
-    # Activate Example sensor controller
-    # Adding a sensor example, lets say ultrasonic module
-    ultrasonic_sensor_controller = multiprocessing.Process(target=process_ultrasonic_sensor_controller,
-                                                           args=(communication_queues,))
-    ultrasonic_sensor_controller.daemon = True
-
     # Activate Screen
     # Show communication on it about the status
     lcd_screen_controller = multiprocessing.Process(target=process_output_lcd_screen_controller,
@@ -105,14 +92,12 @@ def main():
     abort_controller.start()
     motion_controller.start()
     remote_controller_controller.start()
-    ultrasonic_sensor_controller.start()
     lcd_screen_controller.start()
 
     # make sure the thread/process ends
     abort_controller.join()
     motion_controller.join()
     remote_controller_controller.join()
-    ultrasonic_sensor_controller.join()
     lcd_screen_controller.join()
 
     close_controllers_queues(communication_queues)
@@ -125,7 +110,7 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        log.info('Aborted manually with Control+C')
+        log.info('Terminated because Control+C was press')
 
     else:
         log.info('Normal termination')

@@ -5,9 +5,9 @@ import array
 from fcntl import ioctl
 import signal
 import queue
-import spotmicro.utilities.log as logger
+from spotmicro.utilities.log import Logger
 
-log = logger.get_default_logger()
+log = Logger().setup_logger('Remote controller')
 
 
 class RemoteControllerController:
@@ -16,7 +16,7 @@ class RemoteControllerController:
 
         try:
 
-            log.info('STARTING CONTROLLER: Remote Controller')
+            log.info('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -33,14 +33,15 @@ class RemoteControllerController:
 
             self._abort_queue = communication_queues['abort_controller']
             self._motion_queue = communication_queues['motion_controller']
+            self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            log.info('STARTED: Remote Controller controller')
+            log.info('Started')
 
         except Exception as e:
-            print("OS error: {0}".format(e) + ': No Remote Controller detected')
+            log.error('No Remote Controller detected', e)
 
     def exit_gracefully(self, signum, frame):
-        log.info('Remote Controller terminating')
+        log.info('Terminated')
         exit(0)
 
     def do_process_events_from_queues(self):
@@ -49,29 +50,28 @@ class RemoteControllerController:
 
         while True:
 
-            try:
+            if self.connected_device and not remote_controller_connected_already:
+                self._abort_queue.put('activate_servos')
+                self._lcd_screen_queue.put('Line2 Controller ON')
+                remote_controller_connected_already = True
+            else:
+                self._abort_queue.put('abort')
+                self._lcd_screen_queue.put('Line2 No controller')
+                self.check_for_connected_devices()
+                remote_controller_connected_already = False
+                time.sleep(3)
+                continue
 
-                if self.connected_device and not remote_controller_connected_already:
-                    self._abort_queue.put('activate_servos')
-                    remote_controller_connected_already = True
-                else:
-                    self._abort_queue.put('abort')
-                    self.check_for_connected_devices()
-                    remote_controller_connected_already = False
-                    time.sleep(2)
-                    continue
+            # Main event loop
+            while True:
 
-                self._motion_queue.put('screen jump! write_first_line')
-
-                # Main event loop
-                while True:
-
+                try:
                     evbuf = self.jsdev.read(8)
                     if evbuf:
                         buftime, value, type, number = struct.unpack('IhBB', evbuf)
 
                         if type & 0x80:
-                            pass
+                            continue
 
                         if type & 0x01:
                             button = self.button_map[number]
@@ -88,17 +88,18 @@ class RemoteControllerController:
                     self.states.update(self.axis_states)
 
                     # print(self.states)
-                    self._motion_queue.put(self.states, block=True, timeout=None)
-                    print('button press')
+                    self._motion_queue.put(self.states)
 
-            except Exception as e:
-                print('Unknown problem with the Remote Controller detected', e)
-                self._abort_queue.put('abort')
-                remote_controller_connected_already = False
-                self.check_for_connected_devices()
+                except Exception as e:
+                    log.error('Problem with the remote controller, seems we lost connection with it')
+                    self._lcd_screen_queue.put('Line2 No controller')
+                    self._abort_queue.put('abort')
+                    remote_controller_connected_already = False
+                    self.check_for_connected_devices()
+                    break
 
     def check_for_connected_devices(self):
-        log.info('Remote controller, looking for connected devices')
+        log.info('Looking for connected devices')
         self.connected_device = False
         for fn in os.listdir('/dev/input'):
             if fn.startswith('js'):
@@ -178,7 +179,7 @@ class RemoteControllerController:
 
                 # Open the joystick device.
                 fn = '/dev/input/js0'
-                print(('Opening %s...' % fn))
+                log.info(('Opening %s...' % fn))
                 self.jsdev = open(fn, 'rb')
 
                 # Get the device name.
@@ -186,7 +187,7 @@ class RemoteControllerController:
                 buf = array.array('B', [0] * 64)
                 ioctl(self.jsdev, 0x80006a13 + (0x10000 * len(buf)), buf)  # JSIOCGNAME(len)
                 js_name = buf.tostring().rstrip(b'\x00').decode('utf-8')
-                print(('Device name: %s' % js_name))
+                log.info(('Device name: %s' % js_name))
 
                 # Get number of axes and buttons.
                 buf = array.array('B', [0])
@@ -215,7 +216,7 @@ class RemoteControllerController:
                     self.button_map.append(btn_name)
                     self.button_states[btn_name] = 0
 
-                print(('%d axes found: %s' % (num_axes, ', '.join(self.axis_map))))
-                print(('%d buttons found: %s' % (num_buttons, ', '.join(self.button_map))))
+                log.info(('%d axes found: %s' % (num_axes, ', '.join(self.axis_map))))
+                log.info(('%d buttons found: %s' % (num_buttons, ', '.join(self.button_map))))
 
                 break
