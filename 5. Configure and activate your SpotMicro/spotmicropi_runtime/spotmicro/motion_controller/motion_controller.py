@@ -23,10 +23,10 @@ class MotionController:
             # Setup I2C PCA9685
             self.i2c = busio.I2C(SCL, SDA)
 
-            self.pca_rear = PCA9685(self.i2c, address=0x40)
+            self.pca_rear = PCA9685(self.i2c, address=0x40, reference_clock_speed=25000000)
             self.pca_rear.frequency = 50
 
-            self.pca_front = PCA9685(self.i2c, address=0x42)
+            self.pca_front = PCA9685(self.i2c, address=0x42, reference_clock_speed=25000000)
             self.pca_front.frequency = 50
 
             # Setup servos
