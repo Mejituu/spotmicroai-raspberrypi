@@ -1,10 +1,12 @@
 import signal
+
 import queue
+
 import busio
-from adafruit_motor import servo
-from adafruit_pca9685 import PCA9685
 from board import SCL, SDA
-import time
+from adafruit_pca9685 import PCA9685
+from adafruit_motor import servo
+
 from spotmicro.utilities.log import Logger
 
 log = Logger().setup_logger('Motion controller')
@@ -30,21 +32,41 @@ class MotionController:
             self.pca_front.frequency = 50
 
             # Setup servos
-            self.servo_rear_shoulder_left = servo.Servo(self.pca_rear.channels[0], min_pulse=352, max_pulse=2664)
-            self.servo_rear_leg_left = servo.Servo(self.pca_rear.channels[1], min_pulse=352, max_pulse=2664)
-            self.servo_rear_feet_left = servo.Servo(self.pca_rear.channels[3], min_pulse=352, max_pulse=2664)
+            self.servo_rear_shoulder_left = servo.Servo(self.pca_rear.channels[0])
+            self.servo_rear_shoulder_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
 
-            self.servo_rear_shoulder_right = servo.Servo(self.pca_rear.channels[15], min_pulse=352, max_pulse=2664)
-            self.servo_rear_leg_right = servo.Servo(self.pca_rear.channels[14], min_pulse=352, max_pulse=2664)
-            self.servo_rear_feet_right = servo.Servo(self.pca_rear.channels[8], min_pulse=352, max_pulse=2664)
+            self.servo_rear_leg_left = servo.Servo(self.pca_rear.channels[1])
+            self.servo_rear_leg_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
 
-            self.servo_front_shoulder_left = servo.Servo(self.pca_front.channels[11], min_pulse=352, max_pulse=2664)
-            self.servo_front_leg_left = servo.Servo(self.pca_front.channels[9], min_pulse=352, max_pulse=2664)
-            self.servo_front_feet_left = servo.Servo(self.pca_front.channels[8], min_pulse=352, max_pulse=2664)
+            self.servo_rear_feet_left = servo.Servo(self.pca_rear.channels[3])
+            self.servo_rear_feet_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
 
-            self.servo_front_shoulder_right = servo.Servo(self.pca_front.channels[7], min_pulse=352, max_pulse=2664)
-            self.servo_front_leg_right = servo.Servo(self.pca_front.channels[6], min_pulse=352, max_pulse=2664)
-            self.servo_front_feet_right = servo.Servo(self.pca_front.channels[4], min_pulse=352, max_pulse=2664)
+            self.servo_rear_shoulder_right = servo.Servo(self.pca_rear.channels[15])
+            self.servo_rear_shoulder_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_rear_leg_right = servo.Servo(self.pca_rear.channels[14])
+            self.servo_rear_leg_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_rear_feet_right = servo.Servo(self.pca_rear.channels[8])
+            self.servo_rear_feet_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_shoulder_left = servo.Servo(self.pca_front.channels[11])
+            self.servo_front_shoulder_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_leg_left = servo.Servo(self.pca_front.channels[9])
+            self.servo_front_leg_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_feet_left = servo.Servo(self.pca_front.channels[8])
+            self.servo_front_feet_left.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_shoulder_right = servo.Servo(self.pca_front.channels[7])
+            self.servo_front_shoulder_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_leg_right = servo.Servo(self.pca_front.channels[6])
+            self.servo_front_leg_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
+
+            self.servo_front_feet_right = servo.Servo(self.pca_front.channels[4])
+            self.servo_front_feet_right.set_pulse_width_range(min_pulse=500, max_pulse=2500)
 
             self.rest_position()
 
@@ -84,9 +106,9 @@ class MotionController:
 
                     # screen is very low and un responsive, not good to print the buttons
                     # log.debug(', '.join(event_diff))
-                    #if not event_diff:
+                    # if not event_diff:
                     #    self._lcd_screen_queue.put('Line2 Inactive')
-                    #else:
+                    # else:
                     #    self._lcd_screen_queue.put('Line2 ' + str(event_diff)[1:-1].replace("'", ''))
 
                     # if event.startswith('activate'):
@@ -97,8 +119,6 @@ class MotionController:
 
                     # if event.startswith('_Obstacle at 10cm'):
                     #    pass
-
-
 
                     self._previous_event = event
 
