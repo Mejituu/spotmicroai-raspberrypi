@@ -83,6 +83,7 @@ class LCDScreenController:
             log.error('Unknown problem with the LCD_16x2_I2C detected', e)
 
     def turn_off(self):
+        self.screen.lcd_clear()
         self.screen.backlight(0)
         log.debug('turn off backlight')
 
