@@ -171,8 +171,6 @@ class lcd:
             for line in char:
                 self.lcd_write_char(line)
 
-                # define precise positioning (addition from the forum)
-
     def lcd_display_string_pos(self, string, line, pos):
         if line == 1:
             pos_new = pos

@@ -15,6 +15,7 @@ log = Logger().setup_logger('Motion controller')
 
 
 class MotionController:
+    boards = 1
 
     def __init__(self, communication_queues):
 
@@ -51,6 +52,7 @@ class MotionController:
                                          reference_clock_speed=pca9685_2_reference_clock_speed)
                 self.pca9685_2.frequency = pca9685_2_frequency
 
+                self.boards = 2
                 log.info("2 PCA9685 board detected")
             else:
                 log.info("1 PCA9685 board detected")
@@ -335,7 +337,8 @@ class MotionController:
 
                 finally:
                     self.pca9685_1.deinit()
-                    self.pca9685_2.deinit()
+                    if self.boards == 2:
+                        self.pca9685_2.deinit()
 
         except Exception as e:
             log.error('Unknown problem with the PCA9685 detected', e)
