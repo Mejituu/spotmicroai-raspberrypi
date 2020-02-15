@@ -24,7 +24,6 @@ class AbortController:
             # Abort mechanism
             GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
             GPIO.setup(self.gpio_port, GPIO.OUT)
-
             self._abort_queue = communication_queues['abort_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
@@ -44,10 +43,10 @@ class AbortController:
     def do_process_events_from_queue(self):
 
         try:
+            self.activate_servos()
 
             while True:
                 event = self._abort_queue.get()
-                # event = self._queue.get()
 
                 if event == 'activate_servos':
                     self.activate_servos()
@@ -59,9 +58,9 @@ class AbortController:
             log.error('Unknown problem with the GPIO detected', e)
 
     def activate_servos(self):
-
-        GPIO.output(self.gpio_port, 1)  # Set GPIO pin value to 1/GPIO.HIGH/True
+        # GPIO.output(self.gpio_port, 1)  # Set GPIO pin value to 1/GPIO.HIGH/True
+        pass
 
     def abort(self):
-
-        GPIO.output(self.gpio_port, 0)  # set GPIO pin value to 0/GPIO.LOW/False
+        # GPIO.output(self.gpio_port, 0)  # set GPIO pin value to 0/GPIO.LOW/False
+        pass
