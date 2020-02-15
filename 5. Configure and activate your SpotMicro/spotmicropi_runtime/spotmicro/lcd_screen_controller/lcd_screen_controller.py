@@ -1,15 +1,24 @@
+# https://www.quinapalus.com/hd44780udg.html
 import signal
 import sys
 import time
+import queue
+
 from spotmicro.utilities.log import Logger
 from spotmicro.lcd_screen_controller import LCD_16x2_I2C_driver
 from spotmicro.utilities.config import Config
+from spotmicro.utilities.system import System
 
 log = Logger().setup_logger('LCD Screen controller')
 
 
 class LCDScreenController:
     is_alive = False
+
+    abort_controller = None
+    remote_controller_controller = None
+    motion_controller_1 = None
+    motion_controller_2 = None
 
     def __init__(self, communication_queues):
         try:
@@ -25,32 +34,24 @@ class LCDScreenController:
 
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            self.line_1 = 'SpotMicro'
-            self.line_2 = ''
+            self.screen.lcd_clear()
 
-            self.previous_line_1 = ''
-            self.previous_line_2 = ''
-
-            self.clear()
+            self.update_lcd_creen()
             self.turn_on()
-            self.write_lines()
 
             self.is_alive = True
             log.info('Controller started')
 
         except Exception as e:
             self.is_alive = False
-            log.error('LCD Screen problem detected, skipping module')
+            log.error('LCD Screen problem detected, skipping module', e)
 
     def exit_gracefully(self, signum, frame):
-        self.clear()
         self.turn_off()
         log.info('Terminated')
         sys.exit(0)
 
     def do_process_events_from_queue(self):
-
-        self.status_icons()
 
         if not self.is_alive:
             log.error("SpotMicro can work without lcd_screen, continuing")
@@ -58,51 +59,40 @@ class LCDScreenController:
 
         try:
             while True:
-                event = self._lcd_screen_queue.get()
 
-                if event.startswith('Line1 '):
-                    self.line_1 = event[6:]
+                try:
+                    event = self._lcd_screen_queue.get(block=True, timeout=1)
 
-                if event.startswith('Line2 '):
-                    self.line_2 = event[6:]
+                    if event.startswith('abort_controller '):
+                        self.abort_controller = event[len('abort_controller '):]
 
-                self.write_lines()
+                    if event.startswith('remote_controller_connected '):
+                        self.remote_controller_controller = event[len('remote_controller_connected '):]
 
-                time.sleep(2)
+                    if event.startswith('motion_controller_1 '):
+                        self.motion_controller_1 = event[len('motion_controller_1 '):]
+
+                    if event.startswith('motion_controller_2 '):
+                        self.motion_controller_2 = event[len('motion_controller_2 '):]
+
+                except queue.Empty as e:
+                    self.update_lcd_creen()
+                    time.sleep(1)
 
         except Exception as e:
             log.error('Unknown problem with the LCD_16x2_I2C detected', e)
 
-    def clear(self):
-        self.screen.lcd_clear()
-        log.debug('clear')
-
-    def write_lines(self):
-
-        if self.previous_line_1 != self.line_1:
-            self.previous_line_1 = self.line_1
-            self.screen.lcd_display_string('                ', 1)
-            self.screen.lcd_display_string(self.line_1, 1)
-
-        if self.previous_line_2 != self.line_2:
-            self.previous_line_2 = self.line_2
-            self.screen.lcd_display_string('                ', 2)
-            self.screen.lcd_display_string(self.line_2, 2)
-
-        log.debug('Line 1 value = ' + self.line_1)
-        log.debug('Line 2 value = ' + self.line_2)
-
     def turn_off(self):
         self.screen.backlight(0)
-        log.info('turn off backlight')
+        log.debug('turn off backlight')
 
     def turn_on(self):
         self.screen.backlight(1)
-        log.info('turn on backlight')
+        log.debug('turn on backlight')
 
-    def status_icons(self):
+    def update_lcd_creen(self):
 
-        self.screen.lcd_clear()
+        temperature = System().temperature()
 
         custom_icons = []
 
@@ -113,7 +103,9 @@ class LCDScreenController:
         icon_remote_controller = [0x11, 0xa, 0xe, 0xa, 0xa, 0xe, 0xa, 0x11]
         icon_temperature = [0x18, 0x18, 0x3, 0x4, 0x4, 0x4, 0x3, 0x0]
         icon_problem = [0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0, 0x0]
+        icon_success_reverse = [0x1f, 0x1e, 0x1c, 0x9, 0x3, 0x17, 0x1f]
 
+        # There is only memory for 7
         custom_icons.insert(0, icon_empty)
         custom_icons.insert(1, icon_success)
         custom_icons.insert(2, icon_pca9685)
@@ -121,7 +113,9 @@ class LCDScreenController:
         custom_icons.insert(4, icon_remote_controller)
         custom_icons.insert(5, icon_temperature)
         custom_icons.insert(6, icon_problem)
-        #  custom_icons.insert(7,XXX)
+        custom_icons.insert(7, icon_success_reverse)
+
+        remote_controller_connected_keep_blinking = False
 
         self.screen.lcd_load_custom_chars(custom_icons)
 
@@ -146,15 +140,41 @@ class LCDScreenController:
         self.screen.lcd_write_char(0)
         self.screen.lcd_write_char(0)
         self.screen.lcd_write_char(0)
-        self.screen.lcd_write_char(0)
-        for char in '45':
-            self.screen.lcd_write(ord(char), 0b00000001)
 
-        self.screen.lcd_write_char(5)
+        if temperature:
+            for char in temperature.rjust(3, ' '):
+                self.screen.lcd_write(ord(char), 0b00000001)
+            self.screen.lcd_write_char(5)
+        else:
+            self.screen.lcd_write_char(0)
+            self.screen.lcd_write_char(0)
+            self.screen.lcd_write_char(0)
+            self.screen.lcd_write_char(0)
+
         self.screen.lcd_write_char(0)
-        self.screen.lcd_write_char(6)
+
+        if self.remote_controller_controller == 'OK':
+            self.screen.lcd_write_char(1)
+        elif self.remote_controller_controller == 'SEARCHING':
+            self.screen.lcd_write_char(7)
+        else:
+            self.screen.lcd_write_char(6)
+
         self.screen.lcd_write_char(0)
-        self.screen.lcd_write_char(1)
+
+        if self.abort_controller == 'OK':
+            self.screen.lcd_write_char(1)
+        else:
+            self.screen.lcd_write_char(6)
+
         self.screen.lcd_write_char(0)
-        self.screen.lcd_write_char(1)
-        self.screen.lcd_write_char(1)
+
+        if self.motion_controller_1 == 'OK':
+            self.screen.lcd_write_char(1)
+        else:
+            self.screen.lcd_write_char(6)
+
+        if self.motion_controller_2 == 'OK':
+            self.screen.lcd_write_char(1)
+        else:
+            self.screen.lcd_write_char(6)

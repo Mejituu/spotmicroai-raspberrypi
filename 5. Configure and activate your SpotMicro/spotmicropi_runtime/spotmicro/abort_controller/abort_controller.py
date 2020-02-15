@@ -28,10 +28,13 @@ class AbortController:
             self._abort_queue = communication_queues['abort_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
+            self._lcd_screen_queue.put('abort_controller OK')
+
             log.info('Controller started')
 
         except Exception as e:
             log.error('GPIO problem detected')
+            self._lcd_screen_queue.put('abort_controller NOK')
             sys.exit(1)
 
     def exit_gracefully(self, signum, frame):

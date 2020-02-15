@@ -261,12 +261,21 @@ class MotionController:
             self._motion_queue = communication_queues['motion_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
+            if pca9685_2_address:
+                self._lcd_screen_queue.put('motion_controller_1 OK')
+                self._lcd_screen_queue.put('motion_controller_2 OK')
+            else:
+                self._lcd_screen_queue.put('motion_controller_1 OK')
+                self._lcd_screen_queue.put('motion_controller_2 NOK')
+
             self._previous_event = {}
 
             log.info('Controller started')
 
         except Exception as e:
             log.error('No PCA9685 detected', e)
+            self._lcd_screen_queue.put('motion_controller_1 NOK')
+            self._lcd_screen_queue.put('motion_controller_2 NOK')
             sys.exit(1)
 
     def exit_gracefully(self, signum, frame):

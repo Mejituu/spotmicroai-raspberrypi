@@ -35,10 +35,13 @@ class RemoteControllerController:
             self._motion_queue = communication_queues['motion_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
+            self._lcd_screen_queue.put('remote_controller_connected SEARCHING')
+
             log.info('Controller started')
 
         except Exception as e:
             log.error('No Remote Controller detected')
+            self._lcd_screen_queue.put('remote_controller_connected NOK')
             sys.exit(1)
 
     def exit_gracefully(self, signum, frame):
@@ -53,11 +56,11 @@ class RemoteControllerController:
 
             if self.connected_device and not remote_controller_connected_already:
                 self._abort_queue.put('activate_servos')
-                # self._lcd_screen_queue.put('Line2 Controller ON')
+                self._lcd_screen_queue.put('remote_controller_connected OK')
                 remote_controller_connected_already = True
             else:
                 self._abort_queue.put('abort')
-                # self._lcd_screen_queue.put('Line2 No controller')
+                self._lcd_screen_queue.put('remote_controller_connected SEARCHING')
                 remote_controller_connected_already = False
                 self.check_for_connected_devices()
                 time.sleep(3)
