@@ -50,6 +50,8 @@ class LCDScreenController:
 
     def do_process_events_from_queue(self):
 
+        # self.status_icons()
+
         if not self.is_alive:
             log.error("SpotMicro can work without lcd_screen, continuing")
             return

@@ -50,4 +50,5 @@ class Config(metaclass=Singleton):
             log.error("Problem saving the configuration file", e)
 
     def get(self, search_pattern):
+        log.debug(search_pattern + ': ' + str(jmespath.search(search_pattern, self.values)))
         return jmespath.search(search_pattern, self.values)

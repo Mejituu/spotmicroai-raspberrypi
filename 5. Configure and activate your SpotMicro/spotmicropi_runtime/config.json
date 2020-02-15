@@ -6,16 +6,16 @@
     ],
     "motion_controller": [
         {
-            "pca9685": [
+            "boards": [
                 {
-                    "1": [
+                    "pca9685_1": [
                         {
                             "address": "0x40",
                             "reference_clock_speed": 25000000,
                             "frequency": 50
                         }
                     ],
-                    "2": [
+                    "pca9685_2": [
                         {
                             "address": "0x42",
                             "reference_clock_speed": 25000000,
