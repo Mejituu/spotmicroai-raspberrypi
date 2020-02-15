@@ -12,11 +12,11 @@ class Logger:
 
         # create file handler which logs even debug messages
         self.logging_file_handler = logging.FileHandler(logs_folder + SPOTMICRO + '.log')
-        self.logging_file_handler.setLevel(logging.INFO)
+        # self.logging_file_handler.setLevel(logging.INFO)
 
         # create console handler with a higher log level
         self.logging_stream_handler = logging.StreamHandler()
-        self.logging_stream_handler.setLevel(logging.INFO)
+        # self.logging_stream_handler.setLevel(logging.DEBUG)
 
         # create formatter and add it to the handlers
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

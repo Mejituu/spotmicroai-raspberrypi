@@ -1,4 +1,5 @@
 import signal
+import sys
 
 import queue
 
@@ -13,7 +14,6 @@ log = Logger().setup_logger('Motion controller')
 
 
 class MotionController:
-    status = False
 
     def __init__(self, communication_queues):
         try:
@@ -77,20 +77,17 @@ class MotionController:
 
             self._previous_event = {}
 
-            self.status = True
             log.info('Controller started')
 
         except Exception as e:
-            log.error('No PCA9685 detected', e)
+            log.error('No PCA9685 detected')
+            sys.exit(1)
 
     def exit_gracefully(self, signum, frame):
         log.info('Terminated')
-        exit(0)
+        sys.exit(0)
 
     def do_process_events_from_queues(self):
-
-        if not self.status:
-            return
 
         try:
 
@@ -109,7 +106,7 @@ class MotionController:
                             if event[key] != self._previous_event[key]:
                                 event_diff[key] = event[key]
 
-                    # screen is very low and un responsive, not good to print the buttons
+                    # screen is very low and un responsive, not good to print the buttons pushes
                     # log.debug(', '.join(event_diff))
                     # if not event_diff:
                     #    self._lcd_screen_queue.put('Line2 Inactive')
@@ -124,6 +121,24 @@ class MotionController:
 
                     # if event.startswith('_Obstacle at 10cm'):
                     #    pass
+
+                    if event['a']:
+                        print('You did press A, SpotMicro Jump!')
+
+                    if event['b']:
+                        print('You did press B, SpotMicro Stop!')
+
+                    if event['ly'] < 0 or event['hat0y'] < 0:
+                        print('Moving forward ' + str(event['ly']))
+
+                    if event['ly'] > 0 or event['hat0y'] > 0:
+                        print('Moving backwards ' + str(event['ly']))
+
+                    if event['lx'] > 0 or event['hat0x'] > 0:
+                        print('Spinning to the right ' + str(event['lx']))
+
+                    if event['lx'] < 0 or event['hat0x'] < 0:
+                        print('Spinning to the left ' + str(event['lx']))
 
                     self._previous_event = event
 

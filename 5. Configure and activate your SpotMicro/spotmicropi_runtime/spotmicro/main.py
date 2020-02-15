@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys, os, signal
+
 from spotmicro.utilities.log import Logger
 from spotmicro.utilities.config import Config
 
@@ -33,8 +35,8 @@ def process_remote_controller_controller(communication_queues):
 
 # Optional
 def process_output_lcd_screen_controller(communication_queues):
-    screen = LCDScreenController(communication_queues)
-    screen.do_process_events_from_queue()
+    lcd_screen = LCDScreenController(communication_queues)
+    lcd_screen.do_process_events_from_queue()
 
 
 # create manager that knows how to create and manage LifoQueues
@@ -110,6 +112,18 @@ def main():
     remote_controller_controller.start()
     lcd_screen_controller.start()
 
+    if not abort_controller.is_alive():
+        log.error("SpotMicro can't work without abort_controller")
+        sys.exit(1)
+
+    if not motion_controller.is_alive():
+        log.error("SpotMicro can't work without motion_controller")
+        sys.exit(1)
+
+    if not remote_controller_controller:
+        log.error("SpotMicro can't work without remote_controller_controller")
+        sys.exit(1)
+
     # make sure the thread/process ends
     abort_controller.join()
     motion_controller.join()
@@ -124,6 +138,9 @@ if __name__ == '__main__':
 
     try:
         main()
+
+    # except Exception as e:
+    #    log.error('Terminated due error')
 
     except KeyboardInterrupt:
         log.info('Terminated due Control+C was pressed')

@@ -1,7 +1,7 @@
 import signal
-import queue
+import sys
 import RPi.GPIO as GPIO
-
+import sys
 from spotmicro.utilities.log import Logger
 from spotmicro.utilities.config import Config
 
@@ -9,7 +9,7 @@ log = Logger().setup_logger('Abort controller')
 
 
 class AbortController:
-    status = False
+    gpio_port = None
 
     def __init__(self, communication_queues):
 
@@ -20,27 +20,26 @@ class AbortController:
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
 
+            self.gpio_port = Config.values['abort_controller']['gpio_port']
+
             # Abort mechanism
             GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
-            GPIO.setup(17, GPIO.OUT)
+            GPIO.setup(self.gpio_port, GPIO.OUT)
 
             self._abort_queue = communication_queues['abort_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            self.status = True
             log.info('Controller started')
 
         except Exception as e:
-            log.error('GPIO problem detected', e)
+            log.error('GPIO problem detected')
+            sys.exit(1)
 
     def exit_gracefully(self, signum, frame):
         log.info('Terminated')
-        exit(0)
+        sys.exit(0)
 
     def do_process_events_from_queue(self):
-
-        if not self.status:
-            return
 
         try:
 
@@ -59,8 +58,8 @@ class AbortController:
 
     def activate_servos(self):
 
-        GPIO.output(17, 1)  # Set GPIO pin value to 1/GPIO.HIGH/True
+        GPIO.output(self.gpio_port, 1)  # Set GPIO pin value to 1/GPIO.HIGH/True
 
     def abort(self):
 
-        GPIO.output(17, 0)  # set GPIO pin value to 0/GPIO.LOW/False
+        GPIO.output(self.gpio_port, 0)  # set GPIO pin value to 0/GPIO.LOW/False

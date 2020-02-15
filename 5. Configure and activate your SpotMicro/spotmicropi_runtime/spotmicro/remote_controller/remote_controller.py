@@ -4,13 +4,13 @@ import struct
 import array
 from fcntl import ioctl
 import signal
+import sys
 from spotmicro.utilities.log import Logger
 
 log = Logger().setup_logger('Remote controller')
 
 
 class RemoteControllerController:
-    status = False
 
     def __init__(self, communication_queues):
 
@@ -35,20 +35,17 @@ class RemoteControllerController:
             self._motion_queue = communication_queues['motion_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            self.status = True
             log.info('Controller started')
 
         except Exception as e:
-            log.error('No Remote Controller detected', e)
+            log.error('No Remote Controller detected')
+            sys.exit(1)
 
     def exit_gracefully(self, signum, frame):
         log.info('Terminated')
-        exit(0)
+        sys.exit(0)
 
     def do_process_events_from_queues(self):
-
-        if not self.status:
-            return
 
         remote_controller_connected_already = False
 
@@ -188,7 +185,7 @@ class RemoteControllerController:
 
                 # Open the joystick device.
                 fn = '/dev/input/js0'
-                log.info(('Opening %s...' % fn))
+                log.debug(('Opening %s...' % fn))
                 self.jsdev = open(fn, 'rb')
 
                 # Get the device name.
@@ -196,7 +193,7 @@ class RemoteControllerController:
                 buf = array.array('B', [0] * 64)
                 ioctl(self.jsdev, 0x80006a13 + (0x10000 * len(buf)), buf)  # JSIOCGNAME(len)
                 js_name = buf.tostring().rstrip(b'\x00').decode('utf-8')
-                log.info(('Device name: %s' % js_name))
+                log.info(('Connected to device: %s' % js_name))
 
                 # Get number of axes and buttons.
                 buf = array.array('B', [0])

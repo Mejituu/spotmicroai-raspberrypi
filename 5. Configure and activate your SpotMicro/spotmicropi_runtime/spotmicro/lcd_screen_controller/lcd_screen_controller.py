@@ -1,4 +1,5 @@
 import signal
+import sys
 from spotmicro.utilities.log import Logger
 from spotmicro.lcd_screen_controller import LCD_16x2_I2C_driver
 
@@ -6,7 +7,7 @@ log = Logger().setup_logger('LCD Screen controller')
 
 
 class LCDScreenController:
-    status = False
+    is_alive = False
 
     def __init__(self, communication_queues):
         try:
@@ -30,22 +31,23 @@ class LCDScreenController:
             self.turn_on()
             self.write_lines()
 
-            self.status = True
+            self.is_alive = True
             log.info('Controller started')
 
         except Exception as e:
-            status = False
+            self.is_alive = False
             log.error('LCD Screen problem detected, skipping module')
 
     def exit_gracefully(self, signum, frame):
         self.clear()
         self.turn_off()
         log.info('Terminated')
-        exit(0)
+        sys.exit(0)
 
     def do_process_events_from_queue(self):
 
-        if not self.status:
+        if not self.is_alive:
+            log.error("SpotMicro can work without lcd_screen, continuing")
             return
 
         try:
