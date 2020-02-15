@@ -1,5 +1,4 @@
 import signal
-import sys
 import RPi.GPIO as GPIO
 import sys
 from spotmicro.utilities.log import Logger
@@ -20,7 +19,7 @@ class AbortController:
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-            self.gpio_port = Config.values['abort_controller']['gpio_port']
+            self.gpio_port = Config().get('abort_controller[0].gpio_port')
 
             # Abort mechanism
             GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD

@@ -78,7 +78,6 @@ def close_controllers_queues(communication_queues):
 
 
 def main():
-    config = Config()
 
     communication_queues = create_controllers_queues()
 
