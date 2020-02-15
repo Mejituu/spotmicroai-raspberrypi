@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 from spotmicro.utilities.log import Logger
 
 log = Logger().setup_logger('Configuration')
@@ -11,9 +10,10 @@ class Config:
     def __init__(self):
 
         try:
-            log.info('Loading configuration...')
+            log.debug('Loading configuration...')
 
             self.load_config()
+            self.list_modules()
 
         except Exception as e:
             log.error('Problem while loading the configuration file', e)
@@ -22,19 +22,20 @@ class Config:
         try:
             with open('config.json') as json_file:
                 self.config = json.load(json_file)
-                for p in self.config['people']:
-                    print('Name: ' + p['name'])
-                    print('Website: ' + p['website'])
-                    print('From: ' + p['from'])
-                    print('')
+
         except Exception as e:
             log.error("Configuration file don't exist, creating a new file with default values", e)
-            self.create_new_configuration()
+            # self.create_new_configuration()
+
+    def list_modules(self):
+        log.info('Detected configuration: ' + ', '.join(self.config.keys()))
+
+    def print_config(self):
+        print(json.dumps(self.config, indent=4, sort_keys=True))
 
     def create_new_configuration(self):
 
         self.config['spotmicro'] = []
-
 
         self.save_config()
 

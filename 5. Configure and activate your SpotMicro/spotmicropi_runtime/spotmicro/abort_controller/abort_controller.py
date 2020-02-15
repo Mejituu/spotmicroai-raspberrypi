@@ -3,29 +3,32 @@ import queue
 import RPi.GPIO as GPIO
 
 from spotmicro.utilities.log import Logger
+from spotmicro.utilities.config import Config
 
 log = Logger().setup_logger('Abort controller')
 
 
 class AbortController:
+    status = False
 
     def __init__(self, communication_queues):
 
         try:
 
-            log.info('Starting controller...')
+            log.debug('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
 
             # Abort mechanism
             GPIO.setmode(GPIO.BCM)  # choose BCM or BOARD
-            GPIO.setup(17, GPIO.OUT)  # set GPIO24 as an output
+            GPIO.setup(17, GPIO.OUT)
 
             self._abort_queue = communication_queues['abort_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            log.info('Started')
+            self.status = True
+            log.info('Controller started')
 
         except Exception as e:
             log.error('GPIO problem detected', e)
@@ -35,6 +38,9 @@ class AbortController:
         exit(0)
 
     def do_process_events_from_queue(self):
+
+        if not self.status:
+            return
 
         try:
 

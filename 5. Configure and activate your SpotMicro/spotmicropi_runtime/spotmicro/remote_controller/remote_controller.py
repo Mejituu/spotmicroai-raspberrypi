@@ -10,12 +10,13 @@ log = Logger().setup_logger('Remote controller')
 
 
 class RemoteControllerController:
+    status = False
 
     def __init__(self, communication_queues):
 
         try:
 
-            log.info('Starting controller...')
+            log.debug('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -34,7 +35,8 @@ class RemoteControllerController:
             self._motion_queue = communication_queues['motion_controller']
             self._lcd_screen_queue = communication_queues['lcd_screen_controller']
 
-            log.info('Started')
+            self.status = True
+            log.info('Controller started')
 
         except Exception as e:
             log.error('No Remote Controller detected', e)
@@ -44,6 +46,9 @@ class RemoteControllerController:
         exit(0)
 
     def do_process_events_from_queues(self):
+
+        if not self.status:
+            return
 
         remote_controller_connected_already = False
 

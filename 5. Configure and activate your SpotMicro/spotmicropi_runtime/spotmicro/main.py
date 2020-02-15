@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+from spotmicro.utilities.log import Logger
+from spotmicro.utilities.config import Config
+
 import multiprocessing
 from multiprocessing.managers import BaseManager
 
 from queue import LifoQueue
 
-from spotmicro.utilities.log import Logger
 from spotmicro.motion_controller.motion_controller import MotionController
 from spotmicro.abort_controller.abort_controller import AbortController
 from spotmicro.lcd_screen_controller.lcd_screen_controller import LCDScreenController
@@ -36,7 +38,7 @@ def process_output_lcd_screen_controller(communication_queues):
 
 
 # create manager that knows how to create and manage LifoQueues
-#class MyManager(BaseManager):
+# class MyManager(BaseManager):
 #    pass
 
 
@@ -51,12 +53,12 @@ def create_controllers_queues():
     # Queues must be 10ish, controller will flood with orders, we use .get(block true) to avoid
     # this we read as we can process
 
-    #MyManager.register('LifoQueue', LifoQueue)
-    #manager = MyManager()
-    #manager.start()
+    # MyManager.register('LifoQueue', LifoQueue)
+    # manager = MyManager()
+    # manager.start()
 
     communication_queues = {'abort_controller': multiprocessing.Queue(10),
-                            #'motion_controller': manager.LifoQueue(),
+                            # 'motion_controller': manager.LifoQueue(),
                             'motion_controller': multiprocessing.Queue(1),
                             'lcd_screen_controller': multiprocessing.Queue(10)}
 
@@ -74,6 +76,8 @@ def close_controllers_queues(communication_queues):
 
 
 def main():
+    config = Config()
+
     communication_queues = create_controllers_queues()
 
     # Start the abort controller
@@ -122,7 +126,7 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        log.info('Terminated because Control+C was press')
+        log.info('Terminated due Control+C was pressed')
 
     else:
         log.info('Normal termination')

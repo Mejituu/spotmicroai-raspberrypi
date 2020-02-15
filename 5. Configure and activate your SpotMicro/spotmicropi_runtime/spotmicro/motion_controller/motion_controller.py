@@ -13,11 +13,12 @@ log = Logger().setup_logger('Motion controller')
 
 
 class MotionController:
+    status = False
 
     def __init__(self, communication_queues):
         try:
 
-            log.info('Starting controller...')
+            log.debug('Starting controller...')
 
             signal.signal(signal.SIGINT, self.exit_gracefully)
             signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -76,7 +77,8 @@ class MotionController:
 
             self._previous_event = {}
 
-            log.info('Started')
+            self.status = True
+            log.info('Controller started')
 
         except Exception as e:
             log.error('No PCA9685 detected', e)
@@ -86,6 +88,9 @@ class MotionController:
         exit(0)
 
     def do_process_events_from_queues(self):
+
+        if not self.status:
+            return
 
         try:
 
