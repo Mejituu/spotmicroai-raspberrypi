@@ -1,5 +1,15 @@
 # Example based from https://github.com/adafruit/Adafruit_CircuitPython_PCA9685/blob/master/examples/pca9685_servo.py
 # Servo library used to simplify: https://github.com/adafruit/Adafruit_CircuitPython_Motor/blob/master/adafruit_motor/servo.py
+
+# python3 -m venv venv --clear
+# source venv/bin/activate
+# curl https://bootstrap.pypa.io/get-pip.py | python
+# pip install --upgrade pip
+# pip install --upgrade setuptools
+# python3 -m pip install smbus
+# python3 -m pip install adafruit-circuitpython-motor
+# python3 -m pip install adafruit-circuitpython-pca9685
+
 import busio
 from board import SCL, SDA
 from adafruit_pca9685 import PCA9685
@@ -19,43 +29,44 @@ pca.frequency = 50
 servo_0 = servo.Servo(pca.channels[0])
 servo_0.set_pulse_width_range(min_pulse=500, max_pulse=2500)
 
-# Move by angle
+try:
+    # Move by angle
+    servo_0.angle = 180
+    time.sleep(2)
 
-servo_0.angle = 180
-time.sleep(2)
+    for i in range(180):
+        servo_0.angle = i
+        time.sleep(0.01)
 
-for i in range(180):
-    servo_0.angle = i
-    time.sleep(0.01)
+    for i in range(180):
+        servo_0.angle = 180 - i
+        time.sleep(0.01)
 
-for i in range(180):
-    servo_0.angle = 180 - i
-    time.sleep(0.01)
+    servo_0.angle = 180
+    time.sleep(3)
 
-servo_0.angle = 180
-time.sleep(3)
+    servo_0.angle = 90
+    time.sleep(3)
 
-servo_0.angle = 90
-time.sleep(3)
+    servo_0.angle = 0
+    time.sleep(3)
 
-servo_0.angle = 0
-time.sleep(3)
+    # Move by fractionally
+    # Pulse width expressed as fraction between 0.0 (`min_pulse`) and 1.0 (`max_pulse`).
+    fraction = 0.0
+    while fraction < 1.0:
+        servo_0.fraction = fraction
+        fraction += 0.01
+        time.sleep(0.01)
 
-# You can also specify the movement fractionally.
-# Pulse width expressed as fraction between 0.0 (`min_pulse`) and 1.0 (`max_pulse`).
-fraction = 0.0
-while fraction < 1.0:
-    servo_0.fraction = fraction
-    fraction += 0.01
-    time.sleep(0.01)
+    servo_0.fraction = 0
+    time.sleep(3)
 
-servo_0.fraction = 0
-time.sleep(3)
+    servo_0.fraction = 0.5
+    time.sleep(3)
 
-servo_0.fraction = 0.5
-time.sleep(3)
+    servo_0.fraction = 1
+    time.sleep(3)
 
-servo_0.fraction = 1
-time.sleep(3)
-
-pca.deinit()
+finally:
+    pca.deinit()

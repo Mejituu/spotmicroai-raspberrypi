@@ -1,6 +1,4 @@
-import time
 import signal
-import queue
 from spotmicro.utilities.log import Logger
 from spotmicro.lcd_screen_controller import LCD_16x2_I2C_driver
 

@@ -1,0 +1,97 @@
+{
+	"motion_controller": [{
+		"pca9685": [{
+			"1": [{
+				"address": "0x40",
+				"reference_clock_speed": "25000000",
+				"frequency": "50"
+			}],
+			"2": [{
+				"address": "0x42",
+				"reference_clock_speed": "25000000",
+				"frequency": "50"
+			}]
+		}],
+
+		"servos": [{
+			"rear_shoulder_left": [{
+				"pca9685": "1",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"rear_leg_left": [{
+				"pca9685": "1",
+				"channel": "2",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"rear_feet_left": [{
+				"pca9685": "1",
+				"channel": "3",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"rear_shoulder_right": [{
+				"pca9685": "1",
+				"channel": "4",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"rear_leg_right": [{
+				"pca9685": "2",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"rear_feet_right": [{
+				"pca9685": "2",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_shoulder_left": [{
+				"pca9685": "1",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_leg_left": [{
+				"pca9685": "1",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_feet_left": [{
+				"pca9685": "1",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_shoulder_right": [{
+				"pca9685": "1",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_leg_right": [{
+				"pca9685": "2",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}],
+			"front_feet_right": [{
+				"pca9685": "2",
+				"channel": "0",
+				"min_pulse": "500",
+				"max_pulse": "2500"
+			}]
+		}]
+	}],
+
+	"lcd_screen_controller": [{
+		"lcd_screen": [{
+			"address": "0x27"
+		}]
+	}]
+}

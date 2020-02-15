@@ -4,7 +4,6 @@ import struct
 import array
 from fcntl import ioctl
 import signal
-import queue
 from spotmicro.utilities.log import Logger
 
 log = Logger().setup_logger('Remote controller')

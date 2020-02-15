@@ -24,12 +24,12 @@ curl https://bootstrap.pypa.io/get-pip.py | python
 pip install --upgrade pip
 pip install --upgrade setuptools
 
+python3 -m pip install smbus
+python3 -m pip install adafruit-circuitpython-motor
+python3 -m pip install adafruit-circuitpython-pca9685
 
 python3 -m pip install RPi.GPIO
-python3 -m pip install smbus
-python3 -m pip install adafruit-pca9685
-python3 -m pip install adafruit-circuitpython-pca9685
-python3 -m pip install adafruit-circuitpython-motor 
+
 python3 -m pip install inputs
 ```
 
