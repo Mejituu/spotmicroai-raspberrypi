@@ -1,4 +1,4 @@
-![Logo](https://gitlab.com/custom_robots/spotmicro/nvidia-jetson-nano/raw/master/docs/assets/logo.png)
+![Logo](https://gitlab.com/custom_robots/spotmicroai/website/raw/master/docs/assets/logo.png)
 
 # SpotMicroAI with RaspberryPi
 
