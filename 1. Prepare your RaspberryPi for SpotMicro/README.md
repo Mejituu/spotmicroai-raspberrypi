@@ -82,6 +82,7 @@ Is time to configure the PINN operating system to boot with VNC and SSH enabled,
 Doing this, we dont need mouse/keyboard/screen connected to our RaspberryPi, not even during the installation. But we can have them of course.
 
 * Open the SD card
+* Make sure in your OS you can see the file extensions
 * Open the file **recovery.cmdline** with a proper text editor like Sublime Text or nano
 * Add the following 2 words to the line present in the file:
   * vncshare
