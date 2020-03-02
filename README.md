@@ -1,5 +1,9 @@
 ![Logo](https://gitlab.com/custom_robots/spotmicroai/website/raw/master/docs/assets/logo.png)
 
+# THIS REPO HAS BEEN DEPRECATED
+
+**USE THE BASIC REPO INSTEAD LOCATED AT https://gitlab.com/custom_robots/spotmicroai/basic**
+
 # SpotMicroAI with RaspberryPi
 
 SpotMicroAI is a custom version of the amazing BostonDynamics Spot robot
